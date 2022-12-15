@@ -1,9 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsEmail } from 'class-validator';
-import {
-  IsNotEmpty,
-  IsString,
-} from 'class-validator/types/decorator/decorators';
+import { IsNotEmpty, IsString } from 'class-validator';
 import { Document, SchemaOptions } from 'mongoose';
 
 const options: SchemaOptions = {
@@ -24,18 +21,18 @@ export class User extends Document {
   })
   @IsString()
   @IsNotEmpty()
-  name: string;
+  username: string;
 
   @Prop({
     required: true,
   })
   @IsString()
   @IsNotEmpty()
-  password: number;
+  password: string;
 
   @Prop()
   @IsString()
   imgUrl: string;
 }
 
-export const CatSchema = SchemaFactory.createForClass(User);
+export const UserSchema = SchemaFactory.createForClass(User);
