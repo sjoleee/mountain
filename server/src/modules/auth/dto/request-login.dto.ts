@@ -1,8 +1,8 @@
 import { User } from 'src/modules/user/schemas/user.schema';
-import { PickType } from '@nestjs/mapped-types';
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { PickType } from '@nestjs/swagger';
 
-export class LoginRequestDto extends PickType(User, [
+export class RequestLoginDto extends PickType(User, [
   'email',
   'password',
 ] as const) {
