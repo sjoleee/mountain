@@ -19,8 +19,17 @@ export class UserRepository {
     const user = await this.userModel.find({});
     return user;
   }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ email });
+    console.log(user.email, user.password);
+    return user;
+  }
+
   async findUserByUsername(username: string): Promise<User | null> {
     const user = await this.userModel.findOne({ username });
+    //패스워드를 숨기는 법 질문
+    // const responseUser = new ResponseUserDto(user);
     return user;
   }
 
@@ -46,5 +55,10 @@ export class UserRepository {
   async existsByUsername(username: string): Promise<boolean> {
     const result = (await this.userModel.exists({ username })) ? true : false;
     return result;
+  }
+
+  async findUserByIdWithoutPassword(id: string): Promise<User | null> {
+    const user = await this.userModel.findById(id).select('-password');
+    return user;
   }
 }
