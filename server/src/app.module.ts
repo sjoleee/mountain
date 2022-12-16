@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 import mongoose from 'mongoose';
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import mongoose from 'mongoose';
       useUnifiedTopology: true,
     }),
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

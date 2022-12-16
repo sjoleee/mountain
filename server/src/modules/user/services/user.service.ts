@@ -3,7 +3,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserRepository } from '../user.repository';
-
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -12,10 +12,12 @@ export class UserService {
     const { email, username, password } = createUserDto;
     await this.existsByEmail(email);
     await this.existsByUsername(username);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await this.userRepository.create({
       email,
       username,
-      password,
+      password: hashedPassword,
     });
     return user;
   }
@@ -30,9 +32,12 @@ export class UserService {
     return user;
   }
 
-  async updateByUsername(username: string, updateUserDto: UpdateUserDto) {
+  async updateByUsername(id: string, updateUserDto: UpdateUserDto) {
+    const { username } = updateUserDto;
+    await this.existsByUsername(username);
+
     const result = await this.userRepository.updateByUsername(
-      username,
+      id,
       updateUserDto,
     );
     return result;
