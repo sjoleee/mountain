@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import hikeLogo from "@/assets/hike_shoes.png";
 import RegisterForm from "@/components/RegisterForm";
-import { LoginFormState } from "../../utils/LoginState";
+import { RegisterFormState } from "../../utils/states/RegisterState";
 import { useRecoilState } from "recoil";
 
 const RegisterWrapper = styled.div`
   width: 100vw;
-  height: 100vh;
   margin: 0 auto;
   background: #f2f2f2;
   display: flex;
@@ -34,9 +33,9 @@ const RegisterLogo = styled.a`
   font-weight: semibold;
   font-display: swap;
   text-align: center;
-  display:flex;
-  justify-content:center;
-  miniLogo
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
 `;
 
 const MiniLogo = styled.img`
@@ -47,15 +46,38 @@ const MiniLogo = styled.img`
 `;
 
 function RegisterPage() {
+  const [registerform, registerSetForm] = useRecoilState(RegisterFormState);
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    registerSetForm((current) => {
+      let newForm = { ...current };
+      newForm[name] = value;
+      return newForm;
+    });
+    //setForm({ ...form, name: value });
+    //console.log(form);
+  };
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(registerform);
+    registerform.password !== registerform.passwordConfirm
+      ? console.log("비밀번호가 틀립니다.")
+      : null;
+  };
+
   return (
     <>
       <RegisterWrapper>
         <RegisterContainer>
           <RegisterLogo>
-            <MiniLogo src={hikeLogo} />
+            <MiniLogo src={hikeLogo} style={{ marginTop: "2px" }} />
             Mountain
           </RegisterLogo>
-          <RegisterForm />
+          <RegisterForm
+            form={registerform}
+            onChange={onChange}
+            onSubmit={onSubmit}
+          />
         </RegisterContainer>
       </RegisterWrapper>
     </>

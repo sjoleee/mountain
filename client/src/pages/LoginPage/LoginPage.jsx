@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import mountainLogo from "@/assets/mountain.png";
 import LoginForm from "@/components/LoginForm.jsx";
-import { LoginFormState } from "../../utils/LoginState";
+import { LoginFormState } from "../../utils/states/LoginState";
 import { useRecoilState } from "recoil";
 
 const LoginWrapper = styled.div`

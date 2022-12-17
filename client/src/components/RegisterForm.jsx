@@ -55,19 +55,105 @@ const ReFormStyledInput = styled.input`
   }
 `;
 
-const RegisterForm = () => {
+const ReFormSelect = styled.select`
+  background: #f2f2f2;
+  font-family: "Pretendard";
+  font-size: 1.4rem;
+  font-weight: 150;
+  font-display: swap;
+  color: rgba(0, 0, 0, 80%);
+  border: 1.5px solid rgba(96, 96, 96, 50%);
+  border-radius: 5px;
+  width: auto;
+  padding-left: 2%;
+  height: 45px;
+  outline: none;
+  margin-bottom: 1rem;
+
+  &:focus {
+    background: white;
+  }
+`;
+
+const RegisterForm = ({ form, onChange, onSubmit }) => {
   return (
     <>
-      <RegisterFormBlock>
+      <RegisterFormBlock onSubmit={onSubmit}>
         <ReFormName>계정 생성</ReFormName>
         <ReFormLabel>이메일 : </ReFormLabel>
-        <ReFormStyledInput placeholder="test@test.com" />
+        <ReFormStyledInput
+          placeholder="test@test.com"
+          type="email"
+          name="email"
+          value={form.email}
+          onChange={onChange}
+        />
         <ReFormLabel> 비밀번호 : </ReFormLabel>
-        <ReFormStyledInput placeholder="******" type="password" />
+        <ReFormStyledInput
+          placeholder="******"
+          type="password"
+          name="password"
+          value={form.password}
+          onChange={onChange}
+        />
         <ReFormLabel> 비밀번호 확인 : </ReFormLabel>
-        <ReFormStyledInput placeholder="******" type="password" />
+        <ReFormStyledInput
+          placeholder="******"
+          type="password"
+          name="passwordConfirm"
+          value={form.passwordConfirm}
+          onChange={onChange}
+        />
         <ReFormLabel> 전화번호 : </ReFormLabel>
-        <ReFormStyledInput placeholder="010-1234-5678" type="text" />
+        <ReFormStyledInput
+          placeholder="010-1234-5678"
+          type="text"
+          name="phoneNumber"
+          value={form.phoneNumber}
+          onChange={onChange}
+        />
+        <ReFormLabel> 지역 : </ReFormLabel>
+        <ReFormSelect name="region" value={form.region} onChange={onChange}>
+          <option>경기도</option>
+          <option>충청도</option>
+          <option>전라도</option>
+          <option>경상도</option>
+          <option>강원도</option>
+          <option>평안도</option>
+          <option>함경도</option>
+          <option>황해도</option>
+        </ReFormSelect>
+        <ReFormLabel> 성별 : </ReFormLabel>
+        <div>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              checked={form.gender === "남자"}
+              onChange={onChange}
+              value="남자"
+            />
+            남자
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              checked={form.gender === "여자"}
+              onChange={onChange}
+              value="여자"
+            />
+            여자
+          </label>
+        </div>
+        <ReFormLabel> 나이 : </ReFormLabel>
+        <ReFormStyledInput
+          placeholder="00"
+          type="number"
+          name="age"
+          value={form.age}
+          onChange={onChange}
+        />
         <Button fullWidth>Create an account</Button>
       </RegisterFormBlock>
     </>
