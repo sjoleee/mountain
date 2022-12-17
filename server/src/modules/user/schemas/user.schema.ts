@@ -1,14 +1,15 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsMongoId } from 'class-validator';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Document, SchemaOptions } from 'mongoose';
+import { Document, ObjectId, SchemaOptions } from 'mongoose';
+import { defaultSchema } from 'src/common/interface/default-schema';
 
 const options: SchemaOptions = {
-  timestamps: true,
+  timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 };
 @Schema(options)
-export class User extends Document {
+export class User extends defaultSchema {
   @ApiProperty({
     example: 'swaggerID@test.com',
     description: 'example email',

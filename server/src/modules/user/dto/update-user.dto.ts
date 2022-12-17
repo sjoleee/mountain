@@ -1,6 +1,6 @@
 import { User } from './../schemas/user.schema';
+import { PickType } from '@nestjs/mapped-types';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { PickType } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PickType(User, [
   'username',

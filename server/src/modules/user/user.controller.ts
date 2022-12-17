@@ -1,11 +1,6 @@
-import { ResponseUserDto } from './dto/user.dto';
-import { RequestLoginDto } from './../auth/dto/request-login.dto';
-import { CurrentUser } from './../../common/decorators/user.decorator';
-import { JwtAuthGuard } from './../auth/jwt/jwt.guard';
 import {
   Controller,
   Get,
-  Post,
   Body,
   Patch,
   Param,
@@ -13,42 +8,18 @@ import {
   UseGuards,
   UnauthorizedException,
 } from '@nestjs/common';
+import { CurrentUser } from './../../common/decorators/user.decorator';
 import { UserService } from './services/user.service';
-import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { AuthService } from '../auth/auth.service';
 import { User } from './schemas/user.schema';
 import { ApiOperation } from '@nestjs/swagger';
-import { ApiResponse } from '@nestjs/swagger/dist';
-import { ResponseLoginDto } from '../auth/dto/response-login.dto';
+import { ApiTags } from '@nestjs/swagger/dist';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+
+@ApiTags('users')
 @Controller('users')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
-
-  @ApiOperation({ summary: '로그인' })
-  @ApiResponse({
-    status: 200,
-    description: '성공',
-    type: ResponseLoginDto,
-  })
-  @Post('login')
-  logIn(@Body() data: RequestLoginDto): Promise<{ token: string }> {
-    return this.authService.jwtLogIn(data);
-  }
-
-  @ApiOperation({ summary: '회원가입' })
-  @ApiResponse({
-    status: 200,
-    description: '성공',
-    type: ResponseUserDto,
-  })
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.signUp(createUserDto);
-  }
+  constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: '유저 리스트 전부 가져오기' })
   @Get()

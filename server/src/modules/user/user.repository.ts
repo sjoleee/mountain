@@ -1,9 +1,10 @@
+import { UserDto } from './dto/user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { CreateUserDto } from './dto/create-user.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './schemas/user.schema';
+import { ResponseUserDto } from './dto/response-user.dto';
 
 @Injectable()
 export class UserRepository {
@@ -11,16 +12,19 @@ export class UserRepository {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async create(user: CreateUserDto): Promise<User> {
-    return await this.userModel.create(user);
+  async create(user: any): Promise<any> {
+    const newUser = await this.userModel.create(user);
+    return newUser;
   }
 
-  async findAll(): Promise<User[]> {
-    const user = await this.userModel.find({});
-    return user;
+  async findAll(): Promise<ResponseUserDto[]> {
+    const users = await this.userModel.find({});
+    return users.map((el) => {
+      return new ResponseUserDto(el);
+    });
   }
 
-  async findUserByEmail(email: string): Promise<User | null> {
+  async findUserByEmail(email: string): Promise<UserDto | null> {
     const user = await this.userModel.findOne({ email });
     return user;
   }
