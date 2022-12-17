@@ -22,6 +22,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ResponseUserDto } from '../user/dto/response-user.dto';
 import { CreateUserDto } from '../user/dto/create-user.dto';
 import { RequestLoginDto } from './dto/request-login.dto';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -72,5 +73,17 @@ export class AuthController {
   @Get('profile')
   async jwtLogIn(@CurrentUser() user: ResponseUserDto) {
     return await this.userService.findOneByUsername(user.username);
+  }
+
+  @Get('google') // 1
+  @UseGuards(GoogleAuthGuard)
+  async googleAuth(@Req() req) {
+    //google login to google/callback
+  }
+
+  @Get('google/callback') // 2
+  @UseGuards(GoogleAuthGuard)
+  googleAuthRedirect(@Req() req) {
+    return this.authService.googleLogin(req);
   }
 }
