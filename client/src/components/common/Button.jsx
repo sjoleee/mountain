@@ -27,6 +27,7 @@ const ButtonStyle = css`
       width: 100%;
       font-size: 1.125rem;
       margin-top: 2rem;
+      margin-bottom: 2rem;
     `}
 `;
 
