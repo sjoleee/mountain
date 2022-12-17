@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Map as KaKaoMap, MapMarker } from "react-kakao-maps-sdk";
-import useGeolocation from "../../hooks/useGeolocation";
-import { CurrentPositionButton, MapLayout } from "./styles";
-import { DEFAULT_POSITION } from "../../constants/map";
+import useGeolocation from "@/hooks/useGeolocation";
+import { CurrentPositionButton, MapLayout } from "@/pages/Map/styles";
+import { DEFAULT_POSITION } from "@/constants/map";
 
 const initialPositionState = {
   level: 5,

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { DEFAULT_POSITION } from "../constants/map";
+import { DEFAULT_POSITION } from "@/constants/map";
 
 const useGeolocation = ({ options, successCallback, clicked }) => {
   const [isLoading, setIsLoading] = useState(true);
