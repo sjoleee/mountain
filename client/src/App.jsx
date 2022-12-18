@@ -1,11 +1,11 @@
-import "./App.css";
-import Map from "@pages/Map";
+import MapPage from "@pages/MapPage";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
-      <Map />
-    </div>
+    <Routes>
+      <Route path="/map" element={<MapPage />} />
+    </Routes>
   );
 }
 

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Map as KaKaoMap, MapMarker } from "react-kakao-maps-sdk";
 import useGeolocation from "@/hooks/useGeolocation";
-import { CurrentPositionButton, MapLayout } from "@/pages/Map/styles";
+import {
+  MyLocationButton,
+  MapLayout,
+  LoadingBox,
+} from "@/pages/MapPage/styles";
 import { DEFAULT_POSITION } from "@/constants/map";
-
-const initialPositionState = {
-  level: 5,
-  center: DEFAULT_POSITION,
-};
 
 const geolocationOptions = {
   timeout: 5000, // 최대 대기 시간
@@ -21,40 +20,35 @@ const mapSize = {
 
 const Map = () => {
   const [clicked, setClicked] = useState(false);
-  const [centerPosition, setCenterPosition] = useState(initialPositionState);
+  const [centerPosition, setCenterPosition] = useState(DEFAULT_POSITION);
   const { isLoading, error, currentPosition } = useGeolocation({
     geolocationOptions,
     clicked,
-    successCallback: (coords) =>
-      setCenterPosition((prevState) => ({ ...prevState, center: coords })),
+    successCallback: (coords) => setCenterPosition(() => coords),
   });
 
   const centerChangeHandler = (map) => {
-    setCenterPosition((prevState) => ({
-      ...prevState,
-      level: map.getLevel(),
-      center: {
-        lat: map.getCenter().getLat(),
-        lng: map.getCenter().getLng(),
-      },
+    setCenterPosition(() => ({
+      lat: map.getCenter().getLat(),
+      lng: map.getCenter().getLng(),
     }));
   };
 
   const myLocationClickHandler = () => setClicked(!clicked);
 
   return (
-    <MapLayout isLoading={isLoading}>
+    <MapLayout>
+      {isLoading && <LoadingBox>로딩중..</LoadingBox>}
       <KaKaoMap
-        center={centerPosition.center}
+        center={centerPosition}
         style={mapSize}
         onCenterChanged={centerChangeHandler}
-        level={centerPosition.level}
         isPanto={true}
       >
         {!isLoading && !error?.message && (
           <MapMarker position={currentPosition}></MapMarker>
         )}
-        <CurrentPositionButton>
+        <MyLocationButton>
           <button
             type="button"
             className="btn-my-location"
@@ -62,7 +56,7 @@ const Map = () => {
           >
             현재 위치
           </button>
-        </CurrentPositionButton>
+        </MyLocationButton>
       </KaKaoMap>
     </MapLayout>
   );
