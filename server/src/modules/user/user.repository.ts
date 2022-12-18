@@ -12,16 +12,14 @@ export class UserRepository {
     @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
-  async create(user: any): Promise<any> {
+  async create(user: any) {
     const newUser = await this.userModel.create(user);
     return newUser;
   }
 
-  async findAll(): Promise<ResponseUserDto[]> {
+  async findAll() {
     const users = await this.userModel.find({});
-    return users.map((el) => {
-      return new ResponseUserDto(el);
-    });
+    return users;
   }
 
   async findUserByEmail(email: string): Promise<UserDto | null> {
@@ -31,8 +29,6 @@ export class UserRepository {
 
   async findUserByUsername(username: string): Promise<User | null> {
     const user = await this.userModel.findOne({ username });
-    //패스워드를 숨기는 법 질문
-    // const responseUser = new ResponseUserDto(user);
     return user;
   }
 

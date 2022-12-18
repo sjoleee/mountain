@@ -1,3 +1,4 @@
+import { UserDto } from './../dto/user.dto';
 import { ResponseUserDto } from './../dto/response-user.dto';
 /* eslint-disable prettier/prettier */
 import {
@@ -19,9 +20,9 @@ export class UserService {
     await this.existsByUsername(username);
 
     const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await this.userRepository.create({
-      email,
-      username,
+      ...createUserDto,
       password: hashedPassword,
     });
     if (!user) {
@@ -33,7 +34,7 @@ export class UserService {
     return { status: 201, message: 'success' };
   }
 
-  async findAll() {
+  async findAll(): Promise<UserDto[]> {
     const userList = await this.userRepository.findAll();
     return userList;
   }
@@ -67,7 +68,13 @@ export class UserService {
 
   async deleteOneByUsername(username: string) {
     const result = await this.userRepository.deleteOneByUsername(username);
-    return result;
+    if (!result) {
+      throw new NotFoundException({
+        status: 404,
+        message: '삭제에 실패했습니다',
+      });
+    }
+    return { status: 200, message: 'success' };
   }
   //존재여부검사 func 모아두기
   async existsByEmail(email: string) {
