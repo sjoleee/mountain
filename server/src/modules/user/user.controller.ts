@@ -1,3 +1,5 @@
+import { ResponseStatusDto } from './../../common/dto/response-status';
+import { ResponseUserDto } from './dto/response-user.dto';
 import {
   Controller,
   Get,
@@ -5,58 +7,60 @@ import {
   Patch,
   Param,
   Delete,
-  UseGuards,
-  UnauthorizedException,
+  Post,
 } from '@nestjs/common';
-import { CurrentUser } from './../../common/decorators/user.decorator';
 import { UserService } from './services/user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
 import { ApiOperation } from '@nestjs/swagger';
-import { ApiTags } from '@nestjs/swagger/dist';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { ApiResponse, ApiTags } from '@nestjs/swagger/dist';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @ApiTags('users')
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @ApiOperation({ summary: '회원가입' })
+  @ApiResponse({
+    status: 200,
+    description: '성공',
+  })
+  @Post()
+  async create(@Body() body: CreateUserDto): Promise<ResponseStatusDto> {
+    const result = await this.userService.signUp(body);
+    return new ResponseStatusDto(result);
+  }
+
   @ApiOperation({ summary: '유저 리스트 전부 가져오기' })
+  @ApiResponse({
+    status: 200,
+    description: '성공',
+  })
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll(): Promise<ResponseUserDto[]> {
+    const users = await this.userService.findAll();
+    return users.map((user) => new ResponseUserDto(user));
   }
 
   @ApiOperation({ summary: '특정 유저 가져오기' })
   @Get(':username')
-  findOne(@Param('username') username: string) {
+  findOne(@Body() body: User, @Param('username') username: string) {
     return this.userService.findOneByUsername(username);
   }
 
   @ApiOperation({ summary: '특정 유저 수정하기' })
-  @UseGuards(JwtAuthGuard)
   @Patch(':username')
   update(
-    @CurrentUser() currentUser: User,
     @Param('username') username: string,
     @Body() updateUserDto: UpdateUserDto,
-  ) {
-    if (currentUser.username !== username) {
-      throw new UnauthorizedException('접근 오류-본인만 접근할 수 있습니다');
-    }
+  ): Promise<ResponseStatusDto> {
     return this.userService.updateByUsername(username, updateUserDto);
   }
 
   @ApiOperation({ summary: '특정 유저 삭제하기' })
-  @UseGuards(JwtAuthGuard)
   @Delete(':username')
-  remove(
-    @CurrentUser() currentUser: User,
-    @Param('username') username: string,
-  ) {
-    if (currentUser.username !== username) {
-      throw new UnauthorizedException('접근 오류-본인만 접근할 수 있습니다');
-    }
+  remove(@Param('username') username: string): Promise<ResponseStatusDto> {
     return this.userService.deleteOneByUsername(username);
   }
 }
