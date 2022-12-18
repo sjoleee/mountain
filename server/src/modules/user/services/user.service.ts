@@ -1,9 +1,14 @@
+import { ResponseUserDto } from './../dto/response-user.dto';
 /* eslint-disable prettier/prettier */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { UserRepository } from '../user.repository';
-
+import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from '../dto/create-user.dto';
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
@@ -12,12 +17,20 @@ export class UserService {
     const { email, username, password } = createUserDto;
     await this.existsByEmail(email);
     await this.existsByUsername(username);
+
+    const hashedPassword = await bcrypt.hash(password, 10);
     const user = await this.userRepository.create({
       email,
       username,
-      password,
+      password: hashedPassword,
     });
-    return user;
+    if (!user) {
+      throw new NotFoundException({
+        status: 404,
+        message: '생성에 실패했습니다 ',
+      });
+    }
+    return { status: 201, message: 'success' };
   }
 
   async findAll() {
@@ -27,15 +40,29 @@ export class UserService {
 
   async findOneByUsername(username: string) {
     const user = await this.userRepository.findUserByUsername(username);
-    return user;
+    return new ResponseUserDto(user);
   }
 
-  async updateByUsername(username: string, updateUserDto: UpdateUserDto) {
+  //password 를 반환해야함(login에서 씀)
+  async findOneByEmail(email: string) {
+    const user = await this.userRepository.findUserByEmail(email);
+    return user;
+  }
+  async updateByUsername(id: string, updateUserDto: UpdateUserDto) {
+    const { username } = updateUserDto;
+    await this.existsByUsername(username);
+
     const result = await this.userRepository.updateByUsername(
-      username,
+      id,
       updateUserDto,
     );
-    return result;
+    if (!result) {
+      throw new NotFoundException({
+        status: 404,
+        message: '업데이트에 실패했습니다',
+      });
+    }
+    return { status: 200, message: 'success' };
   }
 
   async deleteOneByUsername(username: string) {
