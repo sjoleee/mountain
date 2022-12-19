@@ -5,6 +5,7 @@ import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { worker } from "./mocks/worker";
+
 // if (process.env.NODE_ENV === "development") {
 //   worker.start();
 // }
