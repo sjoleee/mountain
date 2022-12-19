@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { testData } from "@/states";
+import { testData } from "@/store";
 import { useRecoilValue } from "recoil";
 import Feed from "@/components/common/Feed";
 

@@ -1,21 +1,28 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { worker } from "./mocks/worker";
+import Loading from "./components/common/Loading";
 
-// if (process.env.NODE_ENV === "development") {
-//   worker.start();
-// }
+const prepare = async () => {
+  if (import.meta.env.DEV) {
+    const { worker } = await import("./mocks/browser");
+    return worker.start();
+  }
+};
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RecoilRoot>
+prepare().then(() => {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
       <BrowserRouter>
-        <App />
+        <RecoilRoot>
+          <Suspense fallback={<Loading />}>
+            <App />
+          </Suspense>
+        </RecoilRoot>
       </BrowserRouter>
-    </RecoilRoot>
-  </React.StrictMode>
-);
+    </React.StrictMode>
+  );
+});

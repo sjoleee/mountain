@@ -397,7 +397,7 @@
 
 "@mswjs/cookies@^0.2.2":
   version "0.2.2"
-  resolved "https://registry.npmjs.org/@mswjs/cookies/-/cookies-0.2.2.tgz"
+  resolved "https://registry.yarnpkg.com/@mswjs/cookies/-/cookies-0.2.2.tgz#b4e207bf6989e5d5427539c2443380a33ebb922b"
   integrity sha512-mlN83YSrcFgk7Dm1Mys40DLssI1KdJji2CMKN8eOlBqsTADYzj2+jWzsANsUTFbxDMWPD5e9bfA1RGqBpS3O1g==
   dependencies:
     "@types/set-cookie-parser" "^2.4.0"
@@ -405,7 +405,7 @@
 
 "@mswjs/interceptors@^0.17.5":
   version "0.17.6"
-  resolved "https://registry.npmjs.org/@mswjs/interceptors/-/interceptors-0.17.6.tgz"
+  resolved "https://registry.yarnpkg.com/@mswjs/interceptors/-/interceptors-0.17.6.tgz#7f7900f4cd26f70d9f698685e4485b2f4101d26a"
   integrity sha512-201pBIWehTURb6q8Gheu4Zhvd3Ox1U4BJq5KiOQsYzkWyfiOG4pwcz5hPZIEryztgrf8/sdwABpvY757xMmfrQ==
   dependencies:
     "@open-draft/until" "^1.0.3"
@@ -440,7 +440,7 @@
 
 "@open-draft/until@^1.0.3":
   version "1.0.3"
-  resolved "https://registry.npmjs.org/@open-draft/until/-/until-1.0.3.tgz"
+  resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
 "@remix-run/router@1.0.5":
@@ -529,7 +529,7 @@
 
 "@xmldom/xmldom@^0.8.3":
   version "0.8.6"
-  resolved "https://registry.npmjs.org/@xmldom/xmldom/-/xmldom-0.8.6.tgz"
+  resolved "https://registry.yarnpkg.com/@xmldom/xmldom/-/xmldom-0.8.6.tgz#8a1524eb5bd5e965c1e3735476f0262469f71440"
   integrity sha512-uRjjusqpoqfmRkTaNuLJ2VohVr67Q5YwDATW3VU7PfzTj6IRaihGrYI7zckGZjxQPBIp63nfvJbM+Yu5ICh0Bg==
 
 "@zxing/text-encoding@0.9.0":
@@ -1908,7 +1908,7 @@ rollup@^3.7.0:
 
 run-async@^2.4.0:
   version "2.4.1"
-  resolved "https://registry.npmjs.org/run-async/-/run-async-2.4.1.tgz"
+  resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
   integrity sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==
 
 run-parallel@^1.1.9:
