@@ -44,19 +44,20 @@ export class UserService {
     return new ResponseUserDto(user);
   }
 
+  async findOneById(id: string) {
+    const user = await this.userRepository.findOneUserById(id);
+    return user;
+  }
   //password 를 반환해야함(login에서 씀)
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findUserByEmail(email);
     return user;
   }
-  async updateByUsername(id: string, updateUserDto: UpdateUserDto) {
+  async updateById(id: string, updateUserDto: UpdateUserDto) {
     const { username } = updateUserDto;
     await this.existsByUsername(username);
 
-    const result = await this.userRepository.updateByUsername(
-      id,
-      updateUserDto,
-    );
+    const result = await this.userRepository.updateById(id, updateUserDto);
     if (!result) {
       throw new NotFoundException({
         status: 404,
@@ -66,8 +67,8 @@ export class UserService {
     return { status: 200, message: 'success' };
   }
 
-  async deleteOneByUsername(username: string) {
-    const result = await this.userRepository.deleteOneByUsername(username);
+  async deleteOneById(username: string) {
+    const result = await this.userRepository.deleteOneById(username);
     if (!result) {
       throw new NotFoundException({
         status: 404,

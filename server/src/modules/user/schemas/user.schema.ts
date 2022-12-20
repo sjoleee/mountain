@@ -1,9 +1,11 @@
+import { Comment } from './../../feed/schemas/commnet.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsIn, IsMongoId, IsNumber } from 'class-validator';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Document, ObjectId, SchemaOptions } from 'mongoose';
 import { defaultSchema } from 'src/common/interface/default-schema';
+import { Comments } from 'src/modules/comments/schemas/comments.schema';
 
 // const LocalCode = { 서울특별시: '00' } as const;
 // type Local = typeof LocalCode[keyof typeof LocalCode];
@@ -33,6 +35,7 @@ type Completed = {
 };
 
 const options: SchemaOptions = {
+  collection: 'users',
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
 };
 @Schema(options)

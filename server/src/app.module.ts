@@ -6,7 +6,9 @@ import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { FeedModule } from './modules/feed/feed.module';
 import mongoose from 'mongoose';
+import { CommentsModule } from './modules/comments/comments.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -18,6 +20,8 @@ import mongoose from 'mongoose';
     }),
     UserModule,
     AuthModule,
+    FeedModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

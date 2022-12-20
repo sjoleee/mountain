@@ -4,6 +4,7 @@ import { UserDto } from './user.dto';
 export class ResponseUserDto extends OmitType(UserDto, ['password'] as const) {
   constructor(user: ResponseUserDto) {
     super();
+    this._id = user._id;
     this.createdAt = user.createdAt;
     this.updatedAt = user.updatedAt;
     this.username = user.username;

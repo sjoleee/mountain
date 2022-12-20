@@ -1,7 +1,7 @@
 import { Prop, Schema } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { Document, SchemaOptions } from 'mongoose';
+import mongoose, { Document, Mongoose, SchemaOptions } from 'mongoose';
 
 const options: SchemaOptions = {
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
@@ -29,4 +29,15 @@ export class defaultSchema extends Document {
   })
   @IsNotEmpty()
   updatedAt: Date;
+
+  // @ApiProperty({
+  //   example: 'ObjectId',
+  //   description: 'mongo id',
+  //   required: true,
+  // })
+  // @Prop({
+  //   required: false,
+  // })
+  // @IsNotEmpty()
+  // _id: mongoose.Schema.Types.ObjectId;
 }

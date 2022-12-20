@@ -1,3 +1,6 @@
+import { defaultDto } from './../../../common/dto/default-dto';
+import { ObjectId, Types } from 'mongoose';
+import { Type } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDate,
@@ -7,6 +10,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Comments } from 'src/modules/comments/schemas/comments.schema';
 
 enum Local {
   서울 = '서울',
@@ -33,24 +37,7 @@ type Completed = {
   cDif: string;
 };
 
-export class UserDto {
-  @IsNotEmpty()
-  @IsDate()
-  @ApiProperty({
-    example: '2022-12-16T09:03:14.120Z',
-    description: 'example createdAt',
-    required: true,
-  })
-  createdAt: Date;
-
-  @IsNotEmpty()
-  @IsDate()
-  @ApiProperty({
-    example: '2022-12-16T09:03:14.120Z',
-    description: 'example updatedAt',
-    required: true,
-  })
-  updatedAt: Date;
+export class UserDto extends defaultDto {
   @ApiProperty({
     example: 'swaggerID@test.com',
     description: '이메일',
@@ -77,9 +64,6 @@ export class UserDto {
   @IsString()
   @IsNotEmpty()
   password: string;
-
-  @IsString()
-  profilePhoto: string;
 
   @ApiProperty({
     example: '010-1111-1111',
@@ -139,7 +123,6 @@ export class UserDto {
     description: '프로필 사진 주소',
     required: true,
   })
-  @IsString()
   profileImg: string;
 
   @IsOptional()
@@ -148,7 +131,6 @@ export class UserDto {
     description: '찜리스트',
     required: false,
   })
-  @IsString()
   choiceList: Array<string>;
 
   @IsOptional()

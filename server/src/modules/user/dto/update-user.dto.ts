@@ -1,16 +1,18 @@
-import { User } from './../schemas/user.schema';
-import { PickType } from '@nestjs/mapped-types';
-import { IsNotEmpty, IsString } from 'class-validator';
-
-export class UpdateUserDto extends PickType(User, [
+import { UserDto } from 'src/modules/user/dto/user.dto';
+import { PartialType, PickType } from '@nestjs/swagger';
+class _UpdateUserDto extends PickType(UserDto, [
   'username',
   'password',
-] as const) {
-  @IsString()
-  @IsNotEmpty()
-  username: string;
-
-  @IsString()
-  @IsNotEmpty()
-  password: string;
-}
+  'profileImg',
+  'local',
+  'phoneNumber',
+  'gender',
+  'tier',
+  'intro',
+  'age',
+  'choiceList',
+  'completedList',
+  'badgeList',
+  'mountainList',
+] as const) {}
+export class UpdateUserDto extends PartialType(_UpdateUserDto) {}
