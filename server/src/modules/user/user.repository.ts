@@ -4,7 +4,6 @@ import { Injectable, Type } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
 import { User } from './schemas/user.schema';
-import { ResponseUserDto } from './dto/response-user.dto';
 
 @Injectable()
 export class UserRepository {

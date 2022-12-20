@@ -1,3 +1,4 @@
+import { User } from './../user/schemas/user.schema';
 import { ResponseFeedDto } from './dto/response-feed.dto';
 import { FeedDto } from './dto/feed.dto';
 import { Injectable } from '@nestjs/common';
@@ -12,6 +13,7 @@ export class FeedRepository {
   constructor(
     @InjectModel(Feed.name) private readonly feedModel: Model<Feed>,
     @InjectModel(Comments.name) private readonly commentsModel: Model<Comments>,
+    @InjectModel(User.name) private readonly userModel: Model<User>,
   ) {}
 
   async createFeed(createFeedDto: CreateFeedDto) {
@@ -29,7 +31,8 @@ export class FeedRepository {
   async findAllWithQuery(filter) {
     const feeds = await this.feedModel
       .find(filter)
-      .populate('comments', '', this.commentsModel);
+      .populate('comments', '', this.commentsModel)
+      .populate('author', '', this.userModel);
     return feeds;
   }
   async findAllById(id: string) {

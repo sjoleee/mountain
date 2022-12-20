@@ -1,3 +1,4 @@
+import { User, UserSchema } from './../user/schemas/user.schema';
 import { Feed, FeedSchema } from './schemas/feed.schema';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -11,6 +12,7 @@ import { Comments, CommentsSchema } from '../comments/schemas/comments.schema';
     MongooseModule.forFeature([
       { name: Feed.name, schema: FeedSchema },
       { name: Comments.name, schema: CommentsSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [FeedController],

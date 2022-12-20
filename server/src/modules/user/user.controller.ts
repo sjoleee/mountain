@@ -61,11 +61,12 @@ export class UserController {
     const users = await this.userService.findAll();
     return users.map((user) => new ResponseUserDto(user));
   }
+
   @ApiOperation({ summary: '특정 유저 가져오기' })
   @Get(':id')
   async findOneById(@Param('id') id: string) {
     console.log(id);
-    return await this.userService.findOneById(id);
+    return new ResponseUserDto(await this.userService.findOneById(id));
   }
 
   @ApiOperation({ summary: '특정 유저 수정하기' })

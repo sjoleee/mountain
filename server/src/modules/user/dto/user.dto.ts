@@ -1,16 +1,12 @@
 import { defaultDto } from './../../../common/dto/default-dto';
-import { ObjectId, Types } from 'mongoose';
-import { Type } from '@nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsDate,
   IsEmail,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Comments } from 'src/modules/comments/schemas/comments.schema';
 
 enum Local {
   서울 = '서울',
