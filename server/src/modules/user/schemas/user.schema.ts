@@ -1,33 +1,15 @@
-import { Comment } from './../../feed/schemas/commnet.schema';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsIn, IsMongoId, IsNumber } from 'class-validator';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Document, ObjectId, SchemaOptions } from 'mongoose';
 import { defaultSchema } from 'src/common/interface/default-schema';
-import { Comments } from 'src/modules/comments/schemas/comments.schema';
+import { Local } from './local.enum';
+import { Tier } from './tier.enum';
 
 // const LocalCode = { 서울특별시: '00' } as const;
 // type Local = typeof LocalCode[keyof typeof LocalCode];
-enum Local {
-  서울 = '서울',
-  경기도 = '경기도',
-  강원도 = '강원도',
-  경상북도 = '경상북도',
-  경상남도 = '경상남도',
-  전라북도 = '전라북도',
-  충청북도 = '충청북도',
-  충청남도 = '충청남도',
-}
-enum Tier {
-  언랭 = '언랭',
-  브론즈 = '브론즈',
-  실버 = '실버',
-  골드 = '골드',
-  플래티넘 = '플래티넘',
-  다이아몬드 = '다이아몬드',
-  엄홍길 = '엄홍길',
-}
+
 type Gender = '남성' | '여성';
 type Completed = {
   cName: string;

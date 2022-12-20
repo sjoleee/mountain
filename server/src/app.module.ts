@@ -1,3 +1,4 @@
+import { ChallengesModule } from './modules/challenges/challenges.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
@@ -22,6 +23,7 @@ import { CommentsModule } from './modules/comments/comments.module';
     AuthModule,
     FeedModule,
     CommentsModule,
+    ChallengesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

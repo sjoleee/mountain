@@ -48,7 +48,7 @@ export class FeedController {
     return new ResponseStatusDto(result);
   }
 
-  @ApiOperation({ summary: '피드 전부 가져오기(댓글까지)' })
+  @ApiOperation({ summary: '피드 전부 가져오기(댓글+유저정보까지)' })
   @ApiQuery({ name: 'author', required: false, type: String })
   @Get()
   async findAll(@Query('author') author: string) {
@@ -79,11 +79,4 @@ export class FeedController {
   remove(@Param('id') id: string) {
     return this.feedService.remove(+id);
   }
-}
-function ApiImplicitQuery(arg0: {
-  name: string;
-  required: boolean;
-  type: StringConstructor;
-}) {
-  throw new Error('Function not implemented.');
 }
