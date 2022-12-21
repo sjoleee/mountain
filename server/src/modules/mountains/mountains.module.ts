@@ -1,3 +1,4 @@
+import { MountainsRepository } from './mountains.repository';
 import { Module } from '@nestjs/common';
 import { MountainsService } from './mountains.service';
 import { MountainsController } from './mountains.controller';
@@ -11,6 +12,7 @@ import { Mountains, MountainsSchema } from './schemas/mountains.schema';
     ]),
   ],
   controllers: [MountainsController],
-  providers: [MountainsService],
+  providers: [MountainsService, MountainsRepository],
+  exports: [MountainsService, MountainsRepository],
 })
 export class MountainsModule {}
