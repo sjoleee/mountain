@@ -1,44 +1,52 @@
+import { ResponseStatusDto } from './../../common/dto/response-status';
 import {
   Controller,
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BadgesService } from './badges.service';
 import { CreateBadgeDto } from './dto/create-badge.dto';
+import { ResponseBadgeDto } from './dto/response-badge.dto copy';
 import { UpdateBadgeDto } from './dto/update-badge.dto';
 
 @ApiTags('badges')
 @Controller('badges')
 export class BadgesController {
   constructor(private readonly badgesService: BadgesService) {}
-
+  @ApiOperation({ summary: '뱃지 추가' })
   @Post()
-  create(@Body() createBadgeDto: CreateBadgeDto) {
-    return this.badgesService.create(createBadgeDto);
+  async create(
+    @Body() createBadgeDto: CreateBadgeDto,
+  ): Promise<ResponseStatusDto> {
+    return await this.badgesService.create(createBadgeDto);
   }
 
+  @ApiOperation({ summary: '뱃지 전부 보기' })
   @Get()
-  findAll() {
-    return this.badgesService.findAll();
+  async findAll(): Promise<ResponseBadgeDto[]> {
+    return await this.badgesService.findAll();
   }
-
+  @ApiOperation({ summary: '한 뱃지 보기' })
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.badgesService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<ResponseBadgeDto> {
+    return await this.badgesService.findOne(id);
   }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBadgeDto: UpdateBadgeDto) {
-    return this.badgesService.update(+id, updateBadgeDto);
+  @ApiOperation({ summary: '뱃지 수정' })
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateBadgeDto: UpdateBadgeDto,
+  ): Promise<ResponseStatusDto> {
+    return await this.badgesService.update(id, updateBadgeDto);
   }
-
+  @ApiOperation({ summary: '뱃지 삭제' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.badgesService.remove(+id);
+  async remove(@Param('id') id: string): Promise<ResponseStatusDto> {
+    return await this.badgesService.remove(id);
   }
 }

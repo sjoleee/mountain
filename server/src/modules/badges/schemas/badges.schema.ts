@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
@@ -22,6 +22,14 @@ export class Badges extends defaultSchema {
   @IsNotEmpty()
   @IsString()
   title: string;
+
+  @Prop({
+    required: false,
+    default: '',
+  })
+  @IsOptional()
+  @IsString()
+  content: string;
 
   @Prop({
     type: Types.ObjectId,
