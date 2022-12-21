@@ -1,19 +1,17 @@
-import { User } from './../user/schemas/user.schema';
-import { ResponseFeedDto } from './dto/response-feed.dto';
-import { FeedDto } from './dto/feed.dto';
-import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Comments } from '../comments/schemas/comments.schema';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './schemas/feed.schema';
+import { Users } from '../users/schemas/users.schema';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FeedRepository {
   constructor(
     @InjectModel(Feed.name) private readonly feedModel: Model<Feed>,
     @InjectModel(Comments.name) private readonly commentsModel: Model<Comments>,
-    @InjectModel(User.name) private readonly userModel: Model<User>,
+    @InjectModel(Users.name) private readonly userModel: Model<Users>,
   ) {}
 
   async createFeed(createFeedDto: CreateFeedDto) {

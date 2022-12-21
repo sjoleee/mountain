@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Types } from 'mongoose';
+import { Local } from 'src/common/enums/local.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
-import { Local } from 'src/modules/user/schemas/local.enum';
 
 const option: SchemaOptions = {
   collection: 'challenges',

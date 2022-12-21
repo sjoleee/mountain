@@ -1,10 +1,10 @@
 import { FeedModule } from './../feed/feed.module';
-import { UserModule } from './../user/user.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CommentsController } from './comments.controller';
 import { CommentsService } from './services/comments.service';
 import { Comments, CommentsSchema } from './schemas/comments.schema';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -12,7 +12,7 @@ import { Comments, CommentsSchema } from './schemas/comments.schema';
       { name: Comments.name, schema: CommentsSchema },
     ]),
     FeedModule,
-    UserModule,
+    UsersModule,
   ],
   controllers: [CommentsController],
   providers: [CommentsService],

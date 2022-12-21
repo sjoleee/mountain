@@ -4,13 +4,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
-  IsMongoId,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
   IsString,
 } from 'class-validator';
-import { Local } from 'src/modules/user/schemas/local.enum';
+import { Local } from 'src/common/enums/local.enum';
 
 export class ChallengeDto extends defaultDto {
   @ApiProperty({

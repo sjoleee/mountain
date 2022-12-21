@@ -1,6 +1,4 @@
-import { UserDto } from './../user/dto/user.dto';
 import { checkPassword } from 'src/utils/check-password';
-import { UserService } from './../user/services/user.service';
 import { CurrentUser } from './../../common/decorators/user.decorator';
 import {
   Body,
@@ -20,16 +18,18 @@ import {
 import { AuthService } from './auth.service';
 import { ResponseLoginDto } from './dto/response-login.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { ResponseUserDto } from '../user/dto/response-user.dto';
 import { RequestLoginDto } from './dto/request-login.dto';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { ResponseUsersDto } from '../users/dto/response-users.dto';
+import { UsersDto } from '../users/dto/users.dto';
+import { UsersService } from '../users/services/users.service';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
-    private readonly userService: UserService,
+    private readonly userService: UsersService,
   ) {}
 
   @ApiOperation({ summary: '로컬 로그인' })
@@ -65,10 +65,10 @@ export class AuthController {
   @ApiBearerAuth('access-token')
   @Get('profile')
   async jwtLogIn(
-    @CurrentUser() currentUser: UserDto,
-  ): Promise<ResponseUserDto> {
+    @CurrentUser() currentUser: UsersDto,
+  ): Promise<ResponseUsersDto> {
     const user = await this.userService.findOneByUsername(currentUser.username);
-    return new ResponseUserDto(user);
+    return new ResponseUsersDto(user);
   }
 
   @Get('google') // 1
