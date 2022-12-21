@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
 const option: SchemaOptions = {
-  collection: 'challenges',
+  collection: 'badges',
   timestamps: true,
 };
 @Schema(option)

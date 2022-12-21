@@ -11,6 +11,7 @@ import mongoose from 'mongoose';
 import { CommentsModule } from './modules/comments/comments.module';
 import { UsersModule } from './modules/users/users.module';
 import { BadgesModule } from './modules/badges/badges.module';
+import { MountainsModule } from './modules/mountains/mountains.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -26,6 +27,7 @@ import { BadgesModule } from './modules/badges/badges.module';
     CommentsModule,
     ChallengesModule,
     BadgesModule,
+    MountainsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
