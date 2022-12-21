@@ -1,4 +1,3 @@
-import { UserDto } from './../user/dto/user.dto';
 import { ResponseStatusDto } from './../../common/dto/response-status';
 import { ResponseFeedDto } from './dto/response-feed.dto';
 import {
@@ -23,8 +22,9 @@ import { UpdateFeedDto } from './dto/update-feed.dto';
 import { FeedService } from './services/feed.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { FeedEnum } from './schemas/feedtype.enum';
 import { Types } from 'mongoose';
+import { UsersDto } from '../users/dto/users.dto';
+import { FeedEnum } from 'src/common/enums/feedtype.enum';
 
 @ApiTags('feeds')
 @Controller('feeds')
@@ -36,7 +36,7 @@ export class FeedController {
   @ApiBearerAuth('access-token')
   @Post()
   async create(
-    @CurrentUser() currentUser: UserDto,
+    @CurrentUser() currentUser: UsersDto,
     @Body() createFeedDto: CreateFeedDto,
   ) {
     const createQuery = {

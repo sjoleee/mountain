@@ -1,8 +1,10 @@
 import { OmitType } from '@nestjs/swagger';
-import { UserDto } from './user.dto';
+import { UsersDto } from './users.dto';
 
-export class ResponseUserDto extends OmitType(UserDto, ['password'] as const) {
-  constructor(user: ResponseUserDto) {
+export class ResponseUsersDto extends OmitType(UsersDto, [
+  'password',
+] as const) {
+  constructor(user: ResponseUsersDto) {
     super();
     this._id = user._id;
     this.createdAt = user.createdAt;

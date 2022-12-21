@@ -5,11 +5,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
-import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { FeedModule } from './modules/feed/feed.module';
 import mongoose from 'mongoose';
 import { CommentsModule } from './modules/comments/comments.module';
+import { UsersModule } from './modules/users/users.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -19,7 +19,7 @@ import { CommentsModule } from './modules/comments/comments.module';
       //최신 mongodb 드라이버 엔진을 사용하도록 설정
       useUnifiedTopology: true,
     }),
-    UserModule,
+    UsersModule,
     AuthModule,
     FeedModule,
     CommentsModule,

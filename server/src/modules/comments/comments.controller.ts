@@ -10,7 +10,7 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { UserDto } from '../user/dto/user.dto';
+import { UsersDto } from '../users/dto/users.dto';
 import { CommentsCreateDto } from './dto/commnents.create.dto';
 import { CommentsService } from './services/comments.service';
 
@@ -36,7 +36,7 @@ export class CommentsController {
   async createComment(
     @Param('id') id: string,
     @Body() body: CommentsCreateDto,
-    @CurrentUser() currentUser: UserDto,
+    @CurrentUser() currentUser: UsersDto,
   ) {
     return this.commentsService.createComment(id, body, currentUser);
   }

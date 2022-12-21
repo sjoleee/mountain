@@ -1,5 +1,4 @@
 import { FeedRepository } from './../../feed/feed.repository';
-import { UserDto } from 'src/modules/user/dto/user.dto';
 import {
   BadRequestException,
   Injectable,
@@ -9,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CommentsCreateDto } from '../dto/commnents.create.dto';
 import { Comments } from '../schemas/comments.schema';
+import { UsersDto } from 'src/modules/users/dto/users.dto';
 
 @Injectable()
 export class CommentsService {
@@ -29,7 +29,7 @@ export class CommentsService {
   async createComment(
     id: string,
     commentData: CommentsCreateDto,
-    user: UserDto,
+    user: UsersDto,
   ) {
     try {
       const { contents } = commentData;

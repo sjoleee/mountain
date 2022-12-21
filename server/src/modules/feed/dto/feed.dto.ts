@@ -1,9 +1,9 @@
-import { FeedEnum } from './../schemas/feedtype.enum';
 import { defaultDto } from './../../../common/dto/default-dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { Comments } from 'src/modules/comments/schemas/comments.schema';
 import { Types } from 'mongoose';
+import { FeedEnum } from 'src/common/enums/feedtype.enum';
 
 export class FeedDto extends defaultDto {
   @ApiProperty({

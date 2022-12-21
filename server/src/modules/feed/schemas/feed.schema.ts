@@ -1,9 +1,9 @@
-import { FeedEnum } from './feedtype.enum';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { defaultSchema } from 'src/common/interface/default-schema';
 import { SchemaOptions, ObjectId, Types } from 'mongoose';
 import { Comments } from 'src/modules/comments/schemas/comments.schema';
+import { FeedEnum } from 'src/common/enums/feedtype.enum';
 const option: SchemaOptions = {
   collection: 'feeds',
   timestamps: true,

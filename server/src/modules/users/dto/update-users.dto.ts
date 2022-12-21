@@ -1,6 +1,6 @@
-import { UserDto } from 'src/modules/user/dto/user.dto';
 import { PartialType, PickType } from '@nestjs/swagger';
-class _UpdateUserDto extends PickType(UserDto, [
+import { UsersDto } from './users.dto';
+class _UpdateUsersDto extends PickType(UsersDto, [
   'username',
   'password',
   'profileImg',
@@ -15,4 +15,4 @@ class _UpdateUserDto extends PickType(UserDto, [
   'badgeList',
   'mountainList',
 ] as const) {}
-export class UpdateUserDto extends PartialType(_UpdateUserDto) {}
+export class UpdateUsersDto extends PartialType(_UpdateUsersDto) {}

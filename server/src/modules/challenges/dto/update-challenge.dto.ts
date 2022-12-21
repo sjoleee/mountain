@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
-import { Local } from 'src/modules/user/schemas/local.enum';
+import { Local } from 'src/common/enums/local.enum';
 
 export class UpdateChallengeDto {
   @ApiProperty({

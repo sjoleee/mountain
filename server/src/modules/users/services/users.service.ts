@@ -1,27 +1,27 @@
-import { UserDto } from './../dto/user.dto';
-import { ResponseUserDto } from './../dto/response-user.dto';
 /* eslint-disable prettier/prettier */
 import {
   Injectable,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UpdateUserDto } from '../dto/update-user.dto';
-import { UserRepository } from '../user.repository';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from '../dto/create-user.dto';
+import { CreateUsersDto } from '../dto/create-users.dto';
+import { ResponseUsersDto } from '../dto/response-users.dto';
+import { UpdateUsersDto } from '../dto/update-users.dto';
+import { UsersDto } from '../dto/users.dto';
+import { UsersRepository } from '../users.repository';
 @Injectable()
-export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+export class UsersService {
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  async signUp(createUserDto: CreateUserDto) {
+  async signUp(createUserDto: CreateUsersDto) {
     const { email, username, password } = createUserDto;
     await this.existsByEmail(email);
     await this.existsByUsername(username);
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await this.userRepository.create({
+    const user = await this.usersRepository.create({
       ...createUserDto,
       password: hashedPassword,
     });
@@ -34,30 +34,30 @@ export class UserService {
     return { status: 201, message: 'success' };
   }
 
-  async findAll(): Promise<UserDto[]> {
-    const userList = await this.userRepository.findAll();
-    return userList;
+  async findAll(): Promise<ResponseUsersDto[]> {
+    const userList = await this.usersRepository.findAll();
+    return userList.map((v) => new ResponseUsersDto(v));
   }
 
-  async findOneByUsername(username: string) {
-    const user = await this.userRepository.findUserByUsername(username);
-    return new ResponseUserDto(user);
+  async findOneByUsername(username: string): Promise<ResponseUsersDto> {
+    const user = await this.usersRepository.findUserByUsername(username);
+    return new ResponseUsersDto(user);
   }
 
   async findOneById(id: string) {
-    const user = await this.userRepository.findOneUserById(id);
+    const user = await this.usersRepository.findOneUserById(id);
     return user;
   }
   //password 를 반환해야함(login에서 씀)
   async findOneByEmail(email: string) {
-    const user = await this.userRepository.findUserByEmail(email);
+    const user = await this.usersRepository.findUserByEmail(email);
     return user;
   }
-  async updateById(id: string, updateUserDto: UpdateUserDto) {
+  async updateById(id: string, updateUserDto: UpdateUsersDto) {
     const { username } = updateUserDto;
     await this.existsByUsername(username);
 
-    const result = await this.userRepository.updateById(id, updateUserDto);
+    const result = await this.usersRepository.updateById(id, updateUserDto);
     if (!result) {
       throw new NotFoundException({
         status: 404,
@@ -68,7 +68,7 @@ export class UserService {
   }
 
   async deleteOneById(username: string) {
-    const result = await this.userRepository.deleteOneById(username);
+    const result = await this.usersRepository.deleteOneById(username);
     if (!result) {
       throw new NotFoundException({
         status: 404,
@@ -79,13 +79,13 @@ export class UserService {
   }
   //존재여부검사 func 모아두기
   async existsByEmail(email: string) {
-    const isEmailExist = await this.userRepository.existsByEmail(email);
+    const isEmailExist = await this.usersRepository.existsByEmail(email);
     if (isEmailExist) {
       throw new UnauthorizedException('해당 이메일이 이미 존재합니다');
     }
   }
   async existsByUsername(username: string) {
-    const isUsernameExist = await this.userRepository.existsByUsername(
+    const isUsernameExist = await this.usersRepository.existsByUsername(
       username,
     );
     if (isUsernameExist) {

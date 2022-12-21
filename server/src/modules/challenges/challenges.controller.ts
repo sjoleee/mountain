@@ -20,9 +20,9 @@ import { ChallengesService } from './challenges.service';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { UserDto } from '../user/dto/user.dto';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
+import { UsersDto } from '../users/dto/users.dto';
 
 @ApiTags('challenges')
 @Controller('challenges')
@@ -34,7 +34,7 @@ export class ChallengesController {
   @ApiBearerAuth('access-token')
   @Post()
   async create(
-    @CurrentUser() currentUser: UserDto,
+    @CurrentUser() currentUser: UsersDto,
     @Body() createChallengeDto: CreateChallengeDto,
   ) {
     return await this.challengesService.create(currentUser, createChallengeDto);

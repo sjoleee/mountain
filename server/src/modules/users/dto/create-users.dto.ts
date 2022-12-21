@@ -1,7 +1,7 @@
-import { UserDto } from './../../user/dto/user.dto';
 import { PickType } from '@nestjs/swagger/dist';
+import { UsersDto } from './users.dto';
 
-export class CreateUserDto extends PickType(UserDto, [
+export class CreateUsersDto extends PickType(UsersDto, [
   'email',
   'username',
   'password',
@@ -13,7 +13,7 @@ export class CreateUserDto extends PickType(UserDto, [
   'age',
   'profileImg',
 ] as const) {
-  constructor(user: UserDto) {
+  constructor(user: UsersDto) {
     super(user);
   }
 }

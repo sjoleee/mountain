@@ -1,5 +1,4 @@
 import { ObjectId, Types } from 'mongoose';
-import { UserDto } from 'src/modules/user/dto/user.dto';
 import { ChallengeDto } from './dto/challenges.dto';
 import { ChallengesRepository } from './challenges.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -7,12 +6,13 @@ import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { ResponseChallengeDto } from './dto/response-challenges.dto';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
+import { UsersDto } from '../users/dto/users.dto';
 
 @Injectable()
 export class ChallengesService {
   constructor(private readonly challengesRepository: ChallengesRepository) {}
   async create(
-    currentUser: UserDto,
+    currentUser: UsersDto,
     createChallengeDto: CreateChallengeDto,
   ): Promise<ResponseStatusDto> {
     const challengeDto = {
