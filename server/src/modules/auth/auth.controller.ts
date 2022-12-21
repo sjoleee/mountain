@@ -51,8 +51,7 @@ export class AuthController {
     if (!compare) {
       throw new NotFoundException('비밀번호가 잘못되었습니다');
     }
-    const result = await this.authService.jwtLogin(user);
-    return new ResponseLoginDto(result);
+    return await this.authService.jwtLogin(user);
   }
 
   @ApiOperation({ summary: '자기정보보기' })

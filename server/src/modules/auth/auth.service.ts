@@ -1,15 +1,18 @@
+import { ResponseUsersDto } from './../users/dto/response-users.dto';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ResponseLoginDto } from './dto/response-login.dto';
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async jwtLogin(user: any) {
+  async jwtLogin(user: ResponseUsersDto): Promise<ResponseLoginDto> {
     const { email, _id } = user;
     const payload = { email, sub: _id };
-    return {
+    return new ResponseLoginDto({
+      id: _id,
       access_token: this.jwtService.sign(payload),
-    };
+    });
   }
 
   googleLogin(req) {
