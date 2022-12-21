@@ -1,3 +1,6 @@
+import { Local } from 'src/common/enums/local.enum';
+import { Gender } from 'src/common/enums/gender.enum';
+import { Tier } from 'src/common/enums/tier.enum';
 import { defaultDto } from './../../../common/dto/default-dto';
 import { ApiProperty } from '@nestjs/swagger';
 import {
@@ -7,9 +10,6 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Gender } from 'src/common/enums/gender.enum';
-import { Tier } from 'src/common/enums/tier.enum';
-import { Local } from 'src/common/enums/local.enum';
 
 type Completed = {
   cName: string;

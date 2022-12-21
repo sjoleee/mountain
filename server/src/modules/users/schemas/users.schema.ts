@@ -8,9 +8,6 @@ import { Local } from 'src/common/enums/local.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
-// const LocalCode = { 서울특별시: '00' } as const;
-// type Local = typeof LocalCode[keyof typeof LocalCode];
-
 type Completed = {
   cName: string;
   cDif: string;
