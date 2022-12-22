@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Types } from 'mongoose';
-import { Local } from 'src/common/enums/local.enum';
+import { Region } from 'src/common/enums/region.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
 const option: SchemaOptions = {
@@ -28,13 +28,19 @@ export class Challenges extends defaultSchema {
     required: true,
   })
   @IsNotEmpty()
-  dueDate: Date;
+  startDate: Date;
 
   @Prop({
     required: true,
   })
   @IsNotEmpty()
-  period: Date;
+  finishDate: Date;
+
+  @Prop({
+    required: true,
+  })
+  @IsNotEmpty()
+  dueDate: Date;
 
   @Prop({
     required: true,
@@ -80,7 +86,7 @@ export class Challenges extends defaultSchema {
     required: true,
   })
   @IsNotEmpty()
-  local: Local;
+  region: Region;
 
   @Prop({
     type: Types.ObjectId,

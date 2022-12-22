@@ -1,4 +1,5 @@
-import { ObjectId, Types } from 'mongoose';
+import { Region } from './../../../common/enums/region.enum';
+import { Types } from 'mongoose';
 import { defaultDto } from './../../../common/dto/default-dto';
 import { ApiProperty } from '@nestjs/swagger';
 import {
@@ -8,18 +9,8 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
-import { Local } from 'src/common/enums/local.enum';
 
 export class ChallengeDto extends defaultDto {
-  @ApiProperty({
-    example: '로고url ',
-    description: '챌린지 로고',
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsString()
-  logo: string;
-
   @ApiProperty({
     example: '챌린지 이름 예시',
     description: '챌린지 이름',
@@ -31,12 +22,30 @@ export class ChallengeDto extends defaultDto {
 
   @ApiProperty({
     example: '2022-12-19T15:50:37.154Z',
-    description: '마감 날짜',
+    description: '시작 날짜',
     required: true,
   })
   @IsNotEmpty()
   @IsDate()
-  dueDate: Date;
+  startDate: Date;
+
+  @ApiProperty({
+    example: '2022-12-19T15:50:37.154Z',
+    description: '끝나는 날짜',
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsDate()
+  finishDate: Date;
+
+  @ApiProperty({
+    example: '로고url ',
+    description: '챌린지 로고',
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsString()
+  logo: string;
 
   @ApiProperty({
     example: '2022-12-19T15:50:37.154Z',
@@ -45,7 +54,7 @@ export class ChallengeDto extends defaultDto {
   })
   @IsNotEmpty()
   @IsDate()
-  period: Date;
+  dueDate: Date;
 
   @ApiProperty({
     example: '10',
@@ -103,8 +112,8 @@ export class ChallengeDto extends defaultDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsEnum(Local)
-  local: Local;
+  @IsEnum(Region)
+  region: Region;
 
   @ApiProperty({
     example: '23923982',

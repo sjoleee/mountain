@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty } from 'class-validator';
+import { IsDate, IsNotEmpty } from 'class-validator';
 import { Types } from 'mongoose';
-import { Local } from 'src/common/enums/local.enum';
+import { Region } from 'src/common/enums/region.enum';
 export class ResponseChallengeDto {
   @ApiProperty({
     example: '63a01bee499bb3ae6c2c37b6',
@@ -44,19 +44,29 @@ export class ResponseChallengeDto {
 
   @ApiProperty({
     example: '2022-12-19T15:50:37.154Z',
+    description: '시작 날짜',
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsDate()
+  startDate: Date;
+
+  @ApiProperty({
+    example: '2022-12-19T15:50:37.154Z',
+    description: '끝나는 날짜',
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsDate()
+  finishDate: Date;
+
+  @ApiProperty({
+    example: '2022-12-19T15:50:37.154Z',
     description: '마감 날짜',
     required: true,
   })
   @IsNotEmpty()
   dueDate: Date;
-
-  @ApiProperty({
-    example: '2022-12-19T15:50:37.154Z',
-    description: '모집 날짜',
-    required: true,
-  })
-  @IsNotEmpty()
-  period: Date;
 
   @ApiProperty({
     example: '10',
@@ -110,7 +120,7 @@ export class ResponseChallengeDto {
     required: true,
   })
   @IsNotEmpty()
-  local: Local;
+  region: Region;
 
   @ApiProperty({
     example: '23923982',
@@ -141,13 +151,14 @@ export class ResponseChallengeDto {
     this.logo = challenge.logo;
     this.name = challenge.name;
     this.dueDate = challenge.dueDate;
-    this.period = challenge.period;
+    this.startDate = challenge.startDate;
+    this.finishDate = challenge.finishDate;
     this.MaximumPeople = challenge.MaximumPeople;
     this.waitingList = challenge.waitingList;
     this.peopleList = challenge.peopleList;
     this.content = challenge.content;
     this.point = challenge.point;
-    this.local = challenge.local;
+    this.region = challenge.region;
     this.organizer = challenge.organizer;
     this.level = challenge.level;
     this.conditions = challenge.conditions;

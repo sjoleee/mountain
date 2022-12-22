@@ -1,4 +1,3 @@
-import { Local } from 'src/common/enums/local.enum';
 import { Gender } from 'src/common/enums/gender.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { defaultDto } from './../../../common/dto/default-dto';
@@ -10,6 +9,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Region } from 'src/common/enums/region.enum';
 
 type Completed = {
   cName: string;
@@ -58,7 +58,7 @@ export class UsersDto extends defaultDto {
     required: true,
   })
   @IsNotEmpty()
-  local: Local;
+  region: Region;
 
   @ApiProperty({
     example: '남성',
