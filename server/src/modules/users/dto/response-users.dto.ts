@@ -12,7 +12,7 @@ export class ResponseUsersDto extends OmitType(UsersDto, [
     this.username = user.username;
     this.email = user.email;
     this.profileImg = user.profileImg;
-    this.local = user.local;
+    this.region = user.region;
     this.phoneNumber = user.phoneNumber;
     this.gender = user.gender;
     this.tier = user.tier;

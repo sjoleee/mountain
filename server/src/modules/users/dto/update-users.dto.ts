@@ -4,7 +4,7 @@ class _UpdateUsersDto extends PickType(UsersDto, [
   'username',
   'password',
   'profileImg',
-  'local',
+  'region',
   'phoneNumber',
   'gender',
   'tier',

@@ -4,7 +4,7 @@ import { IsEmail, IsNumber } from 'class-validator';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { SchemaOptions } from 'mongoose';
 import { Gender } from 'src/common/enums/gender.enum';
-import { Local } from 'src/common/enums/local.enum';
+import { Region } from 'src/common/enums/region.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
@@ -77,7 +77,7 @@ export class Users extends defaultSchema {
   })
   @Prop()
   @IsNotEmpty()
-  local: Local;
+  region: Region;
 
   @ApiProperty({
     example: '남성',

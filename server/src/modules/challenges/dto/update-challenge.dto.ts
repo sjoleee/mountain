@@ -1,7 +1,7 @@
+import { Region } from './../../../common/enums/region.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
-import { Local } from 'src/common/enums/local.enum';
 
 export class UpdateChallengeDto {
   @ApiProperty({
@@ -81,7 +81,7 @@ export class UpdateChallengeDto {
     description: '활동 지역',
   })
   @IsOptional()
-  local?: Local;
+  region?: Region;
 
   @ApiProperty({
     example: '23923982',
