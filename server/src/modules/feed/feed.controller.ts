@@ -1,3 +1,4 @@
+import { FeedDto } from './dto/feed.dto';
 import { ResponseStatusDto } from './../../common/dto/response-status';
 import { ResponseFeedDto } from './dto/response-feed.dto';
 import {
@@ -25,6 +26,9 @@ import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { Types } from 'mongoose';
 import { UsersDto } from '../users/dto/users.dto';
 import { FeedEnum } from 'src/common/enums/feedtype.enum';
+import { PageOptionsDto } from 'src/common/dto/page-options.dto';
+import { PageDto } from 'src/common/dto/page.dto';
+import { FilterFeedOptionsDto } from './dto/filter-feed-options.dto';
 
 @ApiTags('feeds')
 @Controller('feeds')
@@ -39,26 +43,33 @@ export class FeedController {
     @CurrentUser() currentUser: UsersDto,
     @Body() createFeedDto: CreateFeedDto,
   ) {
-    const createQuery = {
-      ...createFeedDto,
-      author: currentUser._id,
-      type: FeedEnum.User,
-    };
-    const result = await this.feedService.createFeed(createQuery);
+    const result = await this.feedService.createFeed(
+      currentUser,
+      createFeedDto,
+    );
     return new ResponseStatusDto(result);
   }
 
+  // @ApiOperation({ summary: '지우기 전 백업용 api(안씀)' })
+  // @ApiQuery({ name: 'author', required: false, type: String })
+  // @Get('/old/all')
+  // async findAll(@Query('author') author: string) {
+  //   if (author) {
+  //     const query = { author: new Types.ObjectId(author) };
+  //     const feeds = await this.feedService.findAllWithQuery(query);
+  //     return feeds.map((feed) => new ResponseFeedDto(feed));
+  //   }
+  //   const feeds = await this.feedService.findAll();
+  //   return feeds.map((feed) => new ResponseFeedDto(feed));
+  // }
+
   @ApiOperation({ summary: '피드 전부 가져오기(댓글+유저정보까지)' })
-  @ApiQuery({ name: 'author', required: false, type: String })
   @Get()
-  async findAll(@Query('author') author: string) {
-    if (author) {
-      const query = { author: new Types.ObjectId(author) };
-      const feeds = await this.feedService.findAllWithQuery(query);
-      return feeds.map((feed) => new ResponseFeedDto(feed));
-    }
-    const feeds = await this.feedService.findAll();
-    return feeds.map((feed) => new ResponseFeedDto(feed));
+  async findPage(
+    @Query() filter: FilterFeedOptionsDto,
+    @Query() pageOptionsDto: PageOptionsDto,
+  ): Promise<PageDto<FeedDto>> {
+    return await this.feedService.findPage(filter, pageOptionsDto);
   }
 
   @ApiOperation({ summary: '해당 피드 가져오기' })
@@ -74,9 +85,9 @@ export class FeedController {
     return this.feedService.update(+id, updateFeedDto);
   }
 
-  @ApiOperation({ summary: '미완성' })
+  @ApiOperation({ summary: 'id로 삭제' })
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.feedService.remove(+id);
+  remove(@Param('id') id: string): Promise<ResponseStatusDto> {
+    return this.feedService.remove(id);
   }
 }

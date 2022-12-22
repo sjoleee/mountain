@@ -17,7 +17,7 @@ export class ChallengesService {
   ): Promise<ResponseStatusDto> {
     const challengeDto = {
       ...createChallengeDto,
-      organizer: currentUser._id,
+      organizer: new Types.ObjectId(currentUser._id),
     };
     const newChallenge = await this.challengesRepository.create(challengeDto);
     if (!newChallenge) {

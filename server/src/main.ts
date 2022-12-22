@@ -10,7 +10,6 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
       transform: true,
     }),
   );
@@ -34,11 +33,21 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
   app.enableCors({
-    origin: process.env.ORIGIN,
-    methods: ['GET', 'POST', 'Put', 'PATCH', 'DELETE', 'OPTIONS'],
+    origin: [
+      process.env.ORIGIN,
+      'http://127.0.0.1:5173',
+      'http://example.com',
+      'http://www.example.com',
+      'https://example.com',
+      'https://www.example.com',
+    ],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
 
+  console.log('first');
+  console.log(process.env.CORS_ORIGIN);
+  console.log(process.env.ORIGIN);
   const PORT = process.env.PORT || 8000;
   await app.listen(PORT);
 }
