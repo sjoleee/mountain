@@ -1,9 +1,10 @@
+import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { ChallengeDto } from './dto/challenges.dto';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { Challenges } from './schemas/challenges.schema';
+import { ChallengeDto } from './dto/challenges.dto';
 
 @Injectable()
 export class ChallengesRepository {
@@ -12,8 +13,8 @@ export class ChallengesRepository {
     private readonly challengesModel: Model<Challenges>,
   ) {}
 
-  async create(challenge: any) {
-    const newChallenge = await this.challengesModel.create(challenge);
+  async create(body: CreateChallengeDto) {
+    const newChallenge = await this.challengesModel.create(body);
     return newChallenge;
   }
 

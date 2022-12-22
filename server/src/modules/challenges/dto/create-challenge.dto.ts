@@ -8,6 +8,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Types } from 'mongoose';
+import { Type } from 'class-transformer';
 export class CreateChallengeDto {
   @ApiProperty({
     example: '챌린지 이름 예시',
@@ -22,8 +24,10 @@ export class CreateChallengeDto {
     example: '2022-12-19T15:50:37.154Z',
     description: '시작 날짜',
     required: true,
+    default: new Date(),
   })
   @IsNotEmpty()
+  @Type(() => Date)
   @IsDate()
   startDate: Date;
 
@@ -33,8 +37,19 @@ export class CreateChallengeDto {
     required: true,
   })
   @IsNotEmpty()
+  @Type(() => Date)
   @IsDate()
   finishDate: Date;
+
+  @ApiProperty({
+    example: '2022-12-19',
+    description: '모집 날짜',
+    required: true,
+  })
+  @IsNotEmpty()
+  @Type(() => Date)
+  @IsDate()
+  dueDate: Date;
 
   @ApiProperty({
     example: '로고url ',
@@ -44,15 +59,6 @@ export class CreateChallengeDto {
   @IsNotEmpty()
   @IsString()
   logo: string;
-
-  @ApiProperty({
-    example: '2022-12-19T15:50:37.154Z',
-    description: '모집 날짜',
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsDate()
-  dueDate: Date;
 
   @ApiProperty({
     example: '10',

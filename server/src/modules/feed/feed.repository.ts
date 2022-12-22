@@ -5,6 +5,8 @@ import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './schemas/feed.schema';
 import { Users } from '../users/schemas/users.schema';
 import { Injectable } from '@nestjs/common';
+import { PageOptionsDto } from 'src/common/dto/page-options.dto';
+import { FilterFeedOptionsDto } from './dto/filter-feed-options.dto';
 
 @Injectable()
 export class FeedRepository {
@@ -16,7 +18,6 @@ export class FeedRepository {
 
   async createFeed(createFeedDto: CreateFeedDto) {
     const newFeed = await this.feedModel.create(createFeedDto);
-    console.log(createFeedDto, newFeed);
     return newFeed;
   }
 
@@ -43,5 +44,25 @@ export class FeedRepository {
       .findOne({ _id: id })
       .populate('comments', '', this.commentsModel);
     return feed;
+  }
+
+  async findPage(filter: FilterFeedOptionsDto, pageOptionsDto: PageOptionsDto) {
+    console.log(filter);
+    return await this.feedModel
+      .find(filter)
+      .sort({ createdAt: pageOptionsDto.order })
+      .skip(pageOptionsDto.skip)
+      .limit(pageOptionsDto.take)
+      .populate('comments', '', this.commentsModel)
+      .populate('author', '', this.userModel);
+  }
+
+  async countDocuments() {
+    return await this.feedModel.countDocuments({});
+  }
+
+  async delete(filter: any) {
+    const result = await this.feedModel.findOneAndDelete(filter).exec();
+    return result;
   }
 }
