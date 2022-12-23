@@ -7,8 +7,10 @@ import {
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
+import { Level } from 'src/common/enums/level.enum';
 
 export class ChallengeDto extends defaultDto {
   @ApiProperty({
@@ -101,6 +103,7 @@ export class ChallengeDto extends defaultDto {
     example: '3',
     description: '챌린지 점수',
     required: true,
+    default: 1,
   })
   @IsNotEmpty()
   @IsNumber()
@@ -127,10 +130,10 @@ export class ChallengeDto extends defaultDto {
     example: '상',
     description: '난이도',
     required: true,
+    default: Level.LOW,
   })
   @IsNotEmpty()
-  @IsString()
-  level: string;
+  level: Level;
 
   @ApiProperty({
     example: '{tier:"실버",local:"제주도"}',

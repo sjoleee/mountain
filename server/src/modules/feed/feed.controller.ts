@@ -11,13 +11,9 @@ import {
   Delete,
   UseGuards,
   Query,
+  Put,
 } from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiQuery,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { UpdateFeedDto } from './dto/update-feed.dto';
 import { FeedService } from './services/feed.service';
@@ -50,18 +46,20 @@ export class FeedController {
     return new ResponseStatusDto(result);
   }
 
-  // @ApiOperation({ summary: '지우기 전 백업용 api(안씀)' })
-  // @ApiQuery({ name: 'author', required: false, type: String })
-  // @Get('/old/all')
-  // async findAll(@Query('author') author: string) {
-  //   if (author) {
-  //     const query = { author: new Types.ObjectId(author) };
-  //     const feeds = await this.feedService.findAllWithQuery(query);
-  //     return feeds.map((feed) => new ResponseFeedDto(feed));
-  //   }
-  //   const feeds = await this.feedService.findAll();
-  //   return feeds.map((feed) => new ResponseFeedDto(feed));
-  // }
+  @ApiOperation({ summary: '현재 로그인되어있는 유저가 피드작성' })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @Post('/challenge')
+  async createChallenge(
+    @CurrentUser() currentUser: UsersDto,
+    @Body() createFeedDto: CreateFeedDto,
+  ) {
+    const result = await this.feedService.createFeed(
+      currentUser,
+      createFeedDto,
+    );
+    return new ResponseStatusDto(result);
+  }
 
   @ApiOperation({ summary: '피드 전부 가져오기(댓글+유저정보까지)' })
   @Get()
@@ -77,6 +75,17 @@ export class FeedController {
   async findOne(@Param('id') id: string) {
     const feed = await this.feedService.findOneById(id);
     return new ResponseFeedDto(feed);
+  }
+
+  @ApiOperation({ summary: '좋아요' })
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('access-token')
+  @Put(':id/like')
+  async updateLike(
+    @CurrentUser() currentUser: UsersDto,
+    @Param('id') id: string,
+  ) {
+    return await this.feedService.updateLike(currentUser, id);
   }
 
   @ApiOperation({ summary: '미완성' })

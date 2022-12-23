@@ -12,6 +12,8 @@ export class ResponseFeedDto extends PickType(FeedDto, [
   'content',
   'likes',
   'comments',
+  'lat',
+  'lng',
 ] as const) {
   constructor(feed: FeedDto) {
     super();
@@ -25,5 +27,7 @@ export class ResponseFeedDto extends PickType(FeedDto, [
     this.content = feed.content;
     this.likes = feed.likes;
     this.comments = feed.comments;
+    this.lat = feed.lat;
+    this.lng = feed.lng;
   }
 }

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { defaultSchema } from 'src/common/interface/default-schema';
 import { SchemaOptions, ObjectId, Types } from 'mongoose';
 import { Comments } from 'src/modules/comments/schemas/comments.schema';
@@ -47,8 +47,24 @@ export class Feed extends defaultSchema {
   @IsNotEmpty()
   content: string;
 
-  @Prop()
-  likes: Array<string>;
+  @Prop({
+    type: Types.ObjectId,
+    required: false,
+    ref: 'users',
+  })
+  likes: Array<Types.ObjectId>;
+
+  @Prop({
+    required: false,
+  })
+  @IsOptional()
+  lat?: string;
+
+  @Prop({
+    required: false,
+  })
+  @IsOptional()
+  lng?: string;
 
   readonly comments: Comments[];
 }

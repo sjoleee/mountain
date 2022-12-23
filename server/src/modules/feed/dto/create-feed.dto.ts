@@ -1,4 +1,4 @@
-import { ApiProperty, PickType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional, PickType } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 export class CreateFeedDto {
   @ApiProperty({
@@ -34,4 +34,18 @@ export class CreateFeedDto {
   })
   @IsNotEmpty()
   content: string;
+
+  @ApiPropertyOptional({
+    example: '23.232323',
+    description: '위도(선택)',
+  })
+  @IsOptional()
+  lat?: string;
+
+  @ApiPropertyOptional({
+    example: '36.232323',
+    description: '경도(선택)',
+  })
+  @IsOptional()
+  lng?: string;
 }
