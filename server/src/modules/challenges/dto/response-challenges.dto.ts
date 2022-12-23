@@ -1,6 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNotEmpty } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
+import { Level } from 'src/common/enums/level.enum';
 import { Region } from 'src/common/enums/region.enum';
 export class ResponseChallengeDto {
   @ApiProperty({
@@ -107,7 +108,7 @@ export class ResponseChallengeDto {
   content: string;
 
   @ApiProperty({
-    example: '3',
+    example: 3,
     description: '챌린지 점수',
     required: true,
   })
@@ -136,7 +137,7 @@ export class ResponseChallengeDto {
     required: true,
   })
   @IsNotEmpty()
-  level: string;
+  level: Level;
 
   @ApiProperty({
     example: '{tier:"실버",local:"제주도"}',
@@ -144,6 +145,7 @@ export class ResponseChallengeDto {
     required: false,
   })
   conditions: Array<string>;
+
   constructor(challenge: ResponseChallengeDto) {
     this._id = challenge._id;
     this.createdAt = challenge.createdAt;

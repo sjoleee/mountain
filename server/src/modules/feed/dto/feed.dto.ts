@@ -57,9 +57,16 @@ export class FeedDto extends defaultDto {
   @ApiProperty({
     example: '["user1","user2"]',
     description: '좋아요한 유저들의 배열',
+    default: [],
   })
-  likes: Array<string>;
+  likes: Array<Types.ObjectId>;
 
   @IsOptional()
   comments?: Comments[];
+
+  @IsOptional()
+  lat?: string;
+
+  @IsOptional()
+  lng?: string;
 }

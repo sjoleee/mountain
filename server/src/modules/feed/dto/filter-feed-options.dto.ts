@@ -14,4 +14,9 @@ export class FilterFeedOptionsDto {
   @IsOptional()
   @IsString()
   readonly tag?: string;
+
+  @ApiPropertyOptional({ description: 'pos(true/false)', default: false })
+  @IsOptional()
+  @IsString()
+  readonly pos?: boolean;
 }

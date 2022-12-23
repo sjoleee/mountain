@@ -49,6 +49,10 @@ export class FeedService {
     if (filterFeed.tag) {
       filter['tag'] = { $in: filterFeed.tag };
     }
+    if (filterFeed.pos) {
+      filter['lat'] = { $exists: true };
+      filter['lng'] = { $exists: true };
+    }
     const [itemCount, feeds] = await Promise.all([
       this.feedRepository.countDocuments(),
       this.feedRepository.findPage(filter, pageOptionsDto),
@@ -66,6 +70,29 @@ export class FeedService {
 
   update(id: number, updateFeedDto: UpdateFeedDto) {
     return `This action updates a #${id} feed`;
+  }
+
+  async updateLike(currentUser: UsersDto, id: string) {
+    const userId = currentUser._id;
+    const feed = await this.feedRepository.findOneById(id);
+    if (!feed) {
+      throw new NotFoundException({
+        status: 404,
+        message: '해당 피드를 찾을 수 없습니다',
+      });
+    }
+    const filter = { _id: id };
+    console.log(feed.likes);
+    console.log(userId);
+    const isLikes = feed.likes.some((like) => like.equals(userId));
+    if (isLikes) {
+      feed.likes = feed.likes.filter((like) => !like.equals(userId));
+      await this.feedRepository.updateById(filter, feed);
+    } else {
+      feed.likes.push(userId);
+      await this.feedRepository.updateById(filter, feed);
+    }
+    return { status: 200, message: 'success' };
   }
 
   async remove(id: string) {

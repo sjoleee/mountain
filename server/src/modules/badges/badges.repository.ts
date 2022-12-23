@@ -1,8 +1,7 @@
-import { Injectable, Type } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { CreateBadgeDto } from './dto/create-badge.dto';
-import { ResponseBadgeDto } from './dto/response-badge.dto copy';
 import { UpdateBadgeDto } from './dto/update-badge.dto';
 import { Badges } from './schemas/badges.schema';
 

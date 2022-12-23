@@ -1,5 +1,6 @@
+import { Level } from './../../../common/enums/level.enum';
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 import { Region } from 'src/common/enums/region.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
@@ -98,9 +99,10 @@ export class Challenges extends defaultSchema {
 
   @Prop({
     required: true,
+    default: Level.HIGH,
   })
   @IsNotEmpty()
-  level: string;
+  level: Level;
 
   @Prop()
   conditions: Array<string>;

@@ -7,6 +7,7 @@ import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { ResponseChallengeDto } from './dto/response-challenges.dto';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
 import { UsersDto } from '../users/dto/users.dto';
+import { Level, levelToPoint } from 'src/common/enums/level.enum';
 
 @Injectable()
 export class ChallengesService {
@@ -18,6 +19,7 @@ export class ChallengesService {
     const challengeDto = {
       ...createChallengeDto,
       organizer: new Types.ObjectId(currentUser._id),
+      point: levelToPoint(createChallengeDto.level),
     };
     const newChallenge = await this.challengesRepository.create(challengeDto);
     if (!newChallenge) {

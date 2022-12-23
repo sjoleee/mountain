@@ -1,5 +1,6 @@
+import { Level } from './../../../common/enums/level.enum';
 import { Region } from './../../../common/enums/region.enum';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
@@ -88,15 +89,6 @@ export class CreateChallengeDto {
   content: string;
 
   @ApiProperty({
-    example: '3',
-    description: '챌린지 점수',
-    required: true,
-  })
-  @IsNotEmpty()
-  @IsNumber()
-  point: number;
-
-  @ApiProperty({
     example: '경상북도',
     description: '활동 지역',
     required: true,
@@ -109,8 +101,9 @@ export class CreateChallengeDto {
     example: '상',
     description: '난이도',
     required: true,
+    default: Level.LOW,
   })
   @IsNotEmpty()
-  @IsString()
-  level: string;
+  @IsEnum(Level)
+  level: Level;
 }
