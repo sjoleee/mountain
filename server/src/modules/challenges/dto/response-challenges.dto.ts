@@ -146,6 +146,11 @@ export class ResponseChallengeDto {
   })
   conditions: Array<string>;
 
+  @IsOptional()
+  approval?: Types.ObjectId;
+
+  @IsOptional()
+  approved: boolean;
   constructor(challenge: ResponseChallengeDto) {
     this._id = challenge._id;
     this.createdAt = challenge.createdAt;
@@ -165,5 +170,7 @@ export class ResponseChallengeDto {
     this.level = challenge.level;
     this.conditions = challenge.conditions;
     this.mountain = challenge.mountain;
+    this.approval = challenge.approval;
+    this.approved = challenge.approved;
   }
 }

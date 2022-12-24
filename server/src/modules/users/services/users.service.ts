@@ -5,7 +5,12 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Types } from 'mongoose';
+import { PageMetaDto } from 'src/common/dto/page-meta.dto';
+import { PageOptionsDto } from 'src/common/dto/page-options.dto';
+import { PageDto } from 'src/common/dto/page.dto';
 import { CreateUsersDto } from '../dto/create-users.dto';
+import { FilterAdminUsersOptionsDto } from '../dto/filter-admin-users-options.dto';
 import { ResponseUsersDto } from '../dto/response-users.dto';
 import { UpdateUsersDto } from '../dto/update-users.dto';
 import { UsersDto } from '../dto/users.dto';
@@ -91,5 +96,19 @@ export class UsersService {
     if (isUsernameExist) {
       throw new UnauthorizedException('해당 이름이 이미 존재합니다');
     }
+  }
+
+  async findPage(
+    filterFeed: FilterAdminUsersOptionsDto,
+    pageOptionsDto: PageOptionsDto,
+  ) {
+    const filter = {};
+
+    const [itemCount, feeds] = await Promise.all([
+      this.usersRepository.countDocuments(filter),
+      this.usersRepository.findPage(filter, pageOptionsDto),
+    ]);
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageDto(feeds, pageMetaDto);
   }
 }

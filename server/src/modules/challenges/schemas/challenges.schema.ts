@@ -106,5 +106,19 @@ export class Challenges extends defaultSchema {
 
   @Prop()
   conditions: Array<string>;
+
+  @Prop({
+    type: Types.ObjectId,
+    required: false,
+    ref: 'feeds',
+  })
+  @IsOptional()
+  approval?: Types.ObjectId;
+
+  @Prop({
+    required: false,
+  })
+  @IsOptional()
+  approved: boolean;
 }
 export const ChallengesSchema = SchemaFactory.createForClass(Challenges);

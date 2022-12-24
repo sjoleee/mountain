@@ -1,6 +1,8 @@
 import { Injectable, Type } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { PageOptionsDto } from 'src/common/dto/page-options.dto';
+import { FilterAdminUsersOptionsDto } from './dto/filter-admin-users-options.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersDto } from './dto/users.dto';
 import { Users } from './schemas/users.schema';
@@ -62,5 +64,22 @@ export class UsersRepository {
   ): Promise<Users | null> {
     const user = await this.usersModel.findById(id).select('-password');
     return user;
+  }
+
+  async countDocuments(filter) {
+    const users = await this.usersModel.find(filter);
+    return users.length;
+  }
+
+  async findPage(
+    filter: FilterAdminUsersOptionsDto,
+    pageOptionsDto: PageOptionsDto,
+  ) {
+    console.log(filter);
+    return await this.usersModel
+      .find(filter)
+      .sort({ createdAt: pageOptionsDto.order })
+      .skip(pageOptionsDto.skip)
+      .limit(pageOptionsDto.take);
   }
 }
