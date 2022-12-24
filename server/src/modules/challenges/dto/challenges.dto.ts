@@ -141,4 +141,20 @@ export class ChallengeDto extends defaultDto {
     required: false,
   })
   conditions: Array<string>;
+
+  @ApiProperty({
+    example: 'feedId',
+    description: '챌린지 피드를 제출하고나서 담기는 피드 ID',
+    required: false,
+  })
+  @IsOptional()
+  approval?: Types.ObjectId;
+
+  @ApiProperty({
+    example: 'false',
+    description: '챌린지가 승인됐는지 확인',
+    required: false,
+  })
+  @IsOptional()
+  approved: boolean;
 }

@@ -1,5 +1,5 @@
 import { Region } from './../../../common/enums/region.enum';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 
@@ -105,4 +105,12 @@ export class UpdateChallengeDto {
   })
   @IsOptional()
   conditions?: Array<string>;
+
+  @ApiPropertyOptional({
+    example: 'feedId',
+    description: '챌린지 피드를 제출하고나서 담기는 피드 ID',
+    required: false,
+  })
+  @IsOptional()
+  approval?: Types.ObjectId;
 }
