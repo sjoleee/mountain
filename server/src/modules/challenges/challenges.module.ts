@@ -4,6 +4,7 @@ import { ChallengesController } from './challenges.controller';
 import { ChallengesRepository } from './challenges.repository';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Challenges, ChallengesSchema } from './schemas/challenges.schema';
+import { AdminChallengesController } from './admin.challenges.controller';
 
 @Module({
   imports: [
@@ -11,7 +12,7 @@ import { Challenges, ChallengesSchema } from './schemas/challenges.schema';
       { name: Challenges.name, schema: ChallengesSchema },
     ]),
   ],
-  controllers: [ChallengesController],
+  controllers: [ChallengesController, AdminChallengesController],
   providers: [ChallengesService, ChallengesRepository],
   exports: [ChallengesService, ChallengesRepository],
 })

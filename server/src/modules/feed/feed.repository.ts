@@ -47,18 +47,18 @@ export class FeedRepository {
   }
 
   async findPage(filter: FilterFeedOptionsDto, pageOptionsDto: PageOptionsDto) {
-    console.log(filter);
     return await this.feedModel
       .find(filter)
+      .populate('comments', '', this.commentsModel)
+      .populate('author', '', this.userModel)
       .sort({ createdAt: pageOptionsDto.order })
       .skip(pageOptionsDto.skip)
-      .limit(pageOptionsDto.take)
-      .populate('comments', '', this.commentsModel)
-      .populate('author', '', this.userModel);
+      .limit(pageOptionsDto.take);
   }
 
-  async countDocuments() {
-    return await this.feedModel.countDocuments({});
+  async countDocuments(filter: any) {
+    const feeds = await this.feedModel.find(filter);
+    return feeds.length;
   }
 
   async updateById(filter: any, body: any) {

@@ -1,3 +1,4 @@
+import { ChallengesRepository } from './../../challenges/challenges.repository';
 import { PageDto } from './../../../common/dto/page.dto';
 import { FeedRepository } from './../feed.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
@@ -10,10 +11,14 @@ import { removeEmpty } from 'src/utils/clean-object';
 import { Types } from 'mongoose';
 import { UsersDto } from 'src/modules/users/dto/users.dto';
 import { FeedEnum } from 'src/common/enums/feedtype.enum';
+import { FilterAdminFeedOptionsDto } from '../dto/filter-admin-feed-options.dto';
 
 @Injectable()
 export class FeedService {
-  constructor(private readonly feedRepository: FeedRepository) {}
+  constructor(
+    private readonly feedRepository: FeedRepository,
+    private readonly challengesRepository: ChallengesRepository,
+  ) {}
 
   async createFeed(currentUser: UsersDto, createFeedDto: CreateFeedDto) {
     const createField = {
@@ -30,7 +35,29 @@ export class FeedService {
     }
     return { status: 201, message: 'success' };
   }
-
+  async createChallengeFeed(
+    id: string,
+    currentUser: UsersDto,
+    createFeedDto: CreateFeedDto,
+  ) {
+    const createField = {
+      ...createFeedDto,
+      author: currentUser._id,
+      type: FeedEnum.Challenge,
+    };
+    const newFeed = await this.feedRepository.createFeed(createField);
+    if (!newFeed) {
+      throw new NotFoundException({
+        status: 404,
+        message: '생성에 실패했습니다 ',
+      });
+    }
+    const body = {
+      approval: newFeed._id,
+    };
+    await this.challengesRepository.updateById(id, body);
+    return { status: 201, message: 'success' };
+  }
   async findAll() {
     return await this.feedRepository.findAll();
   }
@@ -54,7 +81,25 @@ export class FeedService {
       filter['lng'] = { $exists: true };
     }
     const [itemCount, feeds] = await Promise.all([
-      this.feedRepository.countDocuments(),
+      this.feedRepository.countDocuments(filter),
+      this.feedRepository.findPage(filter, pageOptionsDto),
+    ]);
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageDto(feeds, pageMetaDto);
+  }
+
+  async findPageAdmin(
+    filterFeed: FilterAdminFeedOptionsDto,
+    pageOptionsDto: PageOptionsDto,
+  ) {
+    const filter = {};
+
+    if (filterFeed.type) {
+      filter['type'] = filterFeed.type;
+    }
+
+    const [itemCount, feeds] = await Promise.all([
+      this.feedRepository.countDocuments(filter),
       this.feedRepository.findPage(filter, pageOptionsDto),
     ]);
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });

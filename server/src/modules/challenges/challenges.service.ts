@@ -8,6 +8,10 @@ import { ResponseChallengeDto } from './dto/response-challenges.dto';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
 import { UsersDto } from '../users/dto/users.dto';
 import { Level, levelToPoint } from 'src/common/enums/level.enum';
+import { PageOptionsDto } from 'src/common/dto/page-options.dto';
+import { FilterAdminChallengesOptionsDto } from './dto/filter-admin-challenges-options.dto';
+import { PageMetaDto } from 'src/common/dto/page-meta.dto';
+import { PageDto } from 'src/common/dto/page.dto';
 
 @Injectable()
 export class ChallengesService {
@@ -70,5 +74,30 @@ export class ChallengesService {
       });
     }
     return { status: 200, message: 'success' };
+  }
+
+  async updateApprove(id: string): Promise<ResponseStatusDto> {
+    const result = await this.challengesRepository.updateApprove(id);
+    if (!result) {
+      throw new NotFoundException({
+        status: 404,
+        message: '업데이트에 실패했습니다',
+      });
+    }
+    return { status: 200, message: 'success' };
+  }
+
+  async findPageAdmin(
+    filterFeed: FilterAdminChallengesOptionsDto,
+    pageOptionsDto: PageOptionsDto,
+  ) {
+    const filter = {};
+
+    const [itemCount, feeds] = await Promise.all([
+      this.challengesRepository.countDocuments(filter),
+      this.challengesRepository.findPage(filter, pageOptionsDto),
+    ]);
+    const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
+    return new PageDto(feeds, pageMetaDto);
   }
 }

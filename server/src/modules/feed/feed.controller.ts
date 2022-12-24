@@ -46,15 +46,17 @@ export class FeedController {
     return new ResponseStatusDto(result);
   }
 
-  @ApiOperation({ summary: '현재 로그인되어있는 유저가 피드작성' })
+  @ApiOperation({ summary: '현재 로그인되어있는 유저가 챌린지피드작성' })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
-  @Post('/challenge')
+  @Post('/challenge/:id')
   async createChallenge(
+    @Param('id') id: string,
     @CurrentUser() currentUser: UsersDto,
     @Body() createFeedDto: CreateFeedDto,
   ) {
-    const result = await this.feedService.createFeed(
+    const result = await this.feedService.createChallengeFeed(
+      id,
       currentUser,
       createFeedDto,
     );
