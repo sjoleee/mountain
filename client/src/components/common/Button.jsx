@@ -5,8 +5,8 @@ const ButtonStyle = css`
   border: none;
   border-radius: 4px;
   font-family: "Pretendard";
-  font-size: 3rem;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: semibold;
   font-display: swap;
   padding: 0.25rem 1rem;
   color: white;
@@ -28,6 +28,23 @@ const ButtonStyle = css`
       font-size: 1.125rem;
       margin-top: 2rem;
       margin-bottom: 2rem;
+    `}
+  ${(props) =>
+    props.level3 &&
+    css`
+      margin-right: 1rem;
+      background: #199872;
+    `}
+  ${(props) =>
+    props.level2 &&
+    css`
+      margin-right: 1rem;
+    `}
+  ${(props) =>
+    props.level1 &&
+    css`
+      margin-right: 1rem;
+      background: #91ecd1;
     `}
 `;
 

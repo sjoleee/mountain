@@ -3,20 +3,7 @@ import { useNavigate } from "react-router-dom";
 import hikeLogo from "@/assets/hike_shoes.png";
 import Button from "../../components/common/Button";
 import axios from "axios";
-import {
-  RegisterWrapper,
-  RegisterContainer,
-  RegisterLogo,
-  MiniLogo,
-  RegisterFormBlock,
-  ReFormName,
-  ReFormLabel,
-  ReFormStyledInput,
-  ReFormSelect,
-  ReFormStateLabel,
-  ReFormImageContainer,
-  ReFormProfile,
-} from "@/pages/RegisterPage/styles.jsx";
+import * as ar from "@/pages/RegisterPage/styles.js";
 
 function RegisterPage() {
   const [registerform, registerSetForm] = useState({
@@ -25,9 +12,10 @@ function RegisterPage() {
     passwordConfirm: "",
     phoneNumber: "",
     region: "경기도",
-    gender: "남자",
+    gender: "남성",
     age: 0,
-    image:
+    username: "",
+    profileImg:
       "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
   });
 
@@ -51,10 +39,24 @@ function RegisterPage() {
     e.preventDefault();
     console.log(registerform);
 
-    axios.post("/register", registerform).then((response) => {
-      console.log(response.data);
-    });
-    navigate("/login");
+    axios
+      .post("http://localhost:8000/users", {
+        email: registerform.email,
+        username: registerform.username,
+        password: registerform.password,
+        phoneNumber: registerform.phoneNumber,
+        region: registerform.region,
+        gender: registerform.gender,
+        age: Number(registerform.age),
+        profileImg:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
+      })
+      .then((response) => {
+        if (response.data.status === 201) {
+          navigate("/login");
+        }
+        console.log(response.data);
+      });
   };
 
   const onChangeEmail = (e) => {
@@ -77,7 +79,7 @@ function RegisterPage() {
   };
   const onChangePassword = (e) => {
     const passwordRegex =
-      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,14}$/;
     const currentPassword = e.target.value;
     registerSetForm((current) => {
       let newForm = { ...current };
@@ -125,23 +127,23 @@ function RegisterPage() {
       //setImage(resultImage);
       registerSetForm((current) => {
         let newForm = { ...current };
-        newForm["image"] = resultImage;
+        newForm["profileImg"] = resultImage;
         return newForm;
       });
     };
   };
   return (
     <>
-      <RegisterWrapper>
-        <RegisterContainer>
-          <RegisterLogo>
-            <MiniLogo src={hikeLogo} style={{ marginTop: "2px" }} />
+      <ar.RegisterWrapper>
+        <ar.RegisterContainer>
+          <ar.RegisterLogo>
+            <ar.MiniLogo src={hikeLogo} style={{ marginTop: "2px" }} />
             Mountain
-          </RegisterLogo>
-          <RegisterFormBlock onSubmit={onSubmit}>
-            <ReFormName>계정 생성</ReFormName>
-            <ReFormLabel>이메일 : </ReFormLabel>
-            <ReFormStyledInput
+          </ar.RegisterLogo>
+          <ar.RegisterFormBlock onSubmit={onSubmit}>
+            <ar.ReFormName>계정 생성</ar.ReFormName>
+            <ar.ReFormLabel>이메일 : </ar.ReFormLabel>
+            <ar.ReFormStyledInput
               placeholder="test@test.com"
               type="email"
               name="email"
@@ -149,17 +151,17 @@ function RegisterPage() {
               onChange={onChangeEmail}
             />
             {isEmail === false ? (
-              <ReFormStateLabel style={{ color: "#FF4A4A" }}>
+              <ar.ReFormStateLabel style={{ color: "#FF4A4A" }}>
                 {emailMsg}
-              </ReFormStateLabel>
+              </ar.ReFormStateLabel>
             ) : (
-              <ReFormStateLabel style={{ color: "#20C997" }}>
+              <ar.ReFormStateLabel style={{ color: "#20C997" }}>
                 {emailMsg}
-              </ReFormStateLabel>
+              </ar.ReFormStateLabel>
             )}
 
-            <ReFormLabel> 비밀번호 : </ReFormLabel>
-            <ReFormStyledInput
+            <ar.ReFormLabel> 비밀번호 : </ar.ReFormLabel>
+            <ar.ReFormStyledInput
               placeholder="******"
               type="password"
               name="password"
@@ -167,16 +169,16 @@ function RegisterPage() {
               onChange={onChangePassword}
             />
             {isPassword === false ? (
-              <ReFormStateLabel style={{ color: "#FF4A4A" }}>
+              <ar.ReFormStateLabel style={{ color: "#FF4A4A" }}>
                 {passwordMsg}
-              </ReFormStateLabel>
+              </ar.ReFormStateLabel>
             ) : (
-              <ReFormStateLabel style={{ color: "#20C997" }}>
+              <ar.ReFormStateLabel style={{ color: "#20C997" }}>
                 {passwordMsg}
-              </ReFormStateLabel>
+              </ar.ReFormStateLabel>
             )}
-            <ReFormLabel> 비밀번호 확인 : </ReFormLabel>
-            <ReFormStyledInput
+            <ar.ReFormLabel> 비밀번호 확인 : </ar.ReFormLabel>
+            <ar.ReFormStyledInput
               placeholder="******"
               type="password"
               name="passwordConfirm"
@@ -184,46 +186,55 @@ function RegisterPage() {
               onChange={onChangePasswordConfirm}
             />
             {isPasswordConfirm === false ? (
-              <ReFormStateLabel style={{ color: "#FF4A4A" }}>
+              <ar.ReFormStateLabel style={{ color: "#FF4A4A" }}>
                 {passwordConfirmMsg}
-              </ReFormStateLabel>
+              </ar.ReFormStateLabel>
             ) : (
-              <ReFormStateLabel style={{ color: "#20C997" }}>
+              <ar.ReFormStateLabel style={{ color: "#20C997" }}>
                 {passwordConfirmMsg}
-              </ReFormStateLabel>
+              </ar.ReFormStateLabel>
             )}
-            <ReFormLabel> 전화번호 : </ReFormLabel>
-            <ReFormStyledInput
+            <ar.ReFormLabel> 유저네임 : </ar.ReFormLabel>
+            <ar.ReFormStyledInput
+              placeholder="김철수"
+              type="text"
+              name="username"
+              value={registerform.username}
+              onChange={onChange}
+            />
+            <ar.ReFormLabel> 전화번호 : </ar.ReFormLabel>
+            <ar.ReFormStyledInput
               placeholder="010-1234-5678"
               type="text"
               name="phoneNumber"
               value={registerform.phoneNumber}
               onChange={onChange}
             />
-            <ReFormLabel> 지역 : </ReFormLabel>
-            <ReFormSelect
+            <ar.ReFormLabel> 지역 : </ar.ReFormLabel>
+            <ar.ReFormSelect
               name="region"
               value={registerform.region}
               onChange={onChange}
             >
               <option>경기도</option>
-              <option>충청도</option>
-              <option>전라도</option>
-              <option>경상도</option>
               <option>강원도</option>
-              <option>평안도</option>
-              <option>함경도</option>
-              <option>황해도</option>
-            </ReFormSelect>
-            <ReFormLabel> 성별 : </ReFormLabel>
+              <option>경상북도</option>
+              <option>경상남도</option>
+              <option>전라북도</option>
+              <option>전라남도</option>
+              <option>충청북도</option>
+              <option>충청남도</option>
+              <option>제주도</option>
+            </ar.ReFormSelect>
+            <ar.ReFormLabel> 성별 : </ar.ReFormLabel>
             <div>
               <label>
                 <input
                   type="radio"
                   name="gender"
-                  checked={registerform.gender === "남자"}
+                  checked={registerform.gender === "남성"}
                   onChange={onChange}
-                  value="남자"
+                  value="남성"
                 />
                 남자
               </label>
@@ -231,25 +242,25 @@ function RegisterPage() {
                 <input
                   type="radio"
                   name="gender"
-                  checked={registerform.gender === "여자"}
+                  checked={registerform.gender === "여성"}
                   onChange={onChange}
-                  value="여자"
+                  value="여성"
                 />
                 여자
               </label>
             </div>
-            <ReFormLabel> 나이 : </ReFormLabel>
-            <ReFormStyledInput
+            <ar.ReFormLabel> 나이 : </ar.ReFormLabel>
+            <ar.ReFormStyledInput
               placeholder="00"
               type="number"
               name="age"
               value={registerform.age}
               onChange={onChange}
             />
-            <ReFormLabel> 프로필 : </ReFormLabel>
-            <ReFormImageContainer>
-              <ReFormProfile
-                src={registerform.image}
+            <ar.ReFormLabel> 프로필 : </ar.ReFormLabel>
+            <ar.ReFormImageContainer>
+              <ar.ReFormProfile
+                src={registerform.profileImg}
                 onClick={() => {
                   fileInput.current.click();
                 }}
@@ -262,13 +273,13 @@ function RegisterPage() {
                 onChange={onChangeImage}
                 ref={fileInput}
               />
-            </ReFormImageContainer>
+            </ar.ReFormImageContainer>
             <Button fullWidth type="submit">
               Create an account
             </Button>
-          </RegisterFormBlock>
-        </RegisterContainer>
-      </RegisterWrapper>
+          </ar.RegisterFormBlock>
+        </ar.RegisterContainer>
+      </ar.RegisterWrapper>
     </>
   );
 }

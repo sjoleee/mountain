@@ -1,0 +1,67 @@
+import styled from "styled-components";
+
+export const ChallengeCard = styled.div`
+  width: 440px;
+  height: 200px;
+  margin-bottom: 2rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  border-radius: 15px;
+  font-family: "Pretendard";
+  font-size: 1.3rem;
+  font-weight: semibold;
+  font-display: swap;
+`;
+
+export const CardWrap = styled.div`
+  width: 100%;
+  height: 130px;
+  position: relative;
+`;
+export const CardImage = styled.img`
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: 15px 15px 0 0;
+  opacity: 0.6;
+`;
+
+export const CardTitle = styled.div`
+  width: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+export const CardInfoContainer = styled.div`
+  width: 100%;
+  height: 70px;
+  border: 1px solid black;
+  border-radius: 0 0 15px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+`;
+
+export const CardInfoWrap = styled.div`
+  width: 200px;
+  height: auto;
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+`;
+
+export const CardSubInfoWrap = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 0.7rem;
+`;
+export const CardTimer = styled.div`
+  width: 170px;
+  height: auto;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+`;
