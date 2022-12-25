@@ -141,7 +141,11 @@ function ChallnegeWriteForm({
             <Cwf.CwFormLabel>참여 조건</Cwf.CwFormLabel>
           </Cwf.CwLabelContainer>
           <Cwf.CwInputContinaer>
-            <Cwf.CwFormSelect name="tier" value={form.tier} onChange={onChange}>
+            <Cwf.CwFormSelect
+              name="conditions"
+              value={form.conditions}
+              onChange={onChange}
+            >
               <option>브론즈</option>
               <option>실버</option>
               <option>골드</option>

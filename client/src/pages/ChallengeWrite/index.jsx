@@ -19,7 +19,7 @@ function ChallengeWritePage() {
     MaximumPeople: 0,
     mountain: "북한산",
     content: "",
-    tier: "브론즈",
+    conditions: "브론즈",
     region: "경기도",
     level: "",
     hashtag: [],
@@ -64,6 +64,7 @@ function ChallengeWritePage() {
     const { data } = await axios.post(url, formData, configOfUpload);
     console.log(data);
     const challForm = JSON.stringify({
+      conditions: form.conditions,
       name: form.name,
       startDate: form.startDate,
       finishDate: form.finishDate,

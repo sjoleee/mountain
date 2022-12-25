@@ -35,28 +35,44 @@ function RegisterPage() {
       return newForm;
     });
   };
-  const onSubmit = (e) => {
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     console.log(registerform);
-
-    axios
-      .post("http://localhost:8000/users", {
-        email: registerform.email,
-        username: registerform.username,
-        password: registerform.password,
-        phoneNumber: registerform.phoneNumber,
-        region: registerform.region,
-        gender: registerform.gender,
-        age: Number(registerform.age),
-        profileImg:
-          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
-      })
-      .then((response) => {
-        if (response.data.status === 201) {
-          navigate("/login");
-        }
-        console.log(response.data);
-      });
+    const response = await axios.post("http://localhost:8000/users", {
+      email: registerform.email,
+      username: registerform.username,
+      password: registerform.password,
+      phoneNumber: registerform.phoneNumber,
+      region: registerform.region,
+      gender: registerform.gender,
+      age: Number(registerform.age),
+      profileImg: registerform.profileImg,
+    });
+    console.log(response);
+    if (response.status === 201) {
+      navigate("/login");
+    } else {
+      alert("회원가입에 실패했습니다.");
+      return;
+    }
+    // axios
+    //   .post("http://localhost:8000/users", {
+    //     email: registerform.email,
+    //     username: registerform.username,
+    //     password: registerform.password,
+    //     phoneNumber: registerform.phoneNumber,
+    //     region: registerform.region,
+    //     gender: registerform.gender,
+    //     age: Number(registerform.age),
+    //     profileImg: registerform.profileImg,
+    //   })
+    //   .then((response) => {
+    //     if (response.data.status === 201) {
+    //       navigate("/login");
+    //     }
+    //     console.log(response.data);
+    //   });
   };
 
   const onChangeEmail = (e) => {
@@ -122,12 +138,22 @@ function RegisterPage() {
       return;
     }
 
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
       const resultImage = reader.result;
       //setImage(resultImage);
+      const url = `https://api.cloudinary.com/v1_1/dvcffh3la/image/upload/`;
+      const formData = new FormData();
+      formData.append("api_key", 932114331387218);
+      formData.append("upload_preset", "aah1a0oh");
+      formData.append("file", resultImage);
+      const configOfUpload = {
+        header: { "Content-Type": "multipart/form-data" },
+      };
+      const { data } = await axios.post(url, formData, configOfUpload);
+      console.log(data);
       registerSetForm((current) => {
         let newForm = { ...current };
-        newForm["profileImg"] = resultImage;
+        newForm["profileImg"] = data.url;
         return newForm;
       });
     };
@@ -269,7 +295,7 @@ function RegisterPage() {
                 type="file"
                 style={{ display: "none" }}
                 accept="image/jpg,impge/png,image/jpeg"
-                name="profile_img"
+                name="profileImg"
                 onChange={onChangeImage}
                 ref={fileInput}
               />

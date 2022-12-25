@@ -115,6 +115,20 @@ export const CBInfocontent = styled.div`
   border: 1px solid black;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  font-family: "Pretendard";
+  font-size: 1.3rem;
+  font-weight: 500;
+`;
+export const CBInfocontent2 = styled.div`
+  width: 60%;
+  height: 100%;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  font-family: "Pretendard";
+  font-size: 1.3rem;
+  font-weight: 500;
 `;
 
 export const CBLeaderContainer = styled.div`
@@ -218,4 +232,20 @@ export const ButtonContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-itmes: center;
+`;
+
+export const BackImg = styled.img`
+  width: 30px;
+  height: 30px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  transition: 0.7s;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:active {
+    top: 18px;
+  }
 `;

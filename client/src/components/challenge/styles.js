@@ -58,7 +58,7 @@ export const CardSubInfoWrap = styled.div`
   margin-top: 0.7rem;
 `;
 export const CardTimer = styled.div`
-  width: 170px;
+  width: 180px;
   height: auto;
   margin-right: 1rem;
   display: flex;

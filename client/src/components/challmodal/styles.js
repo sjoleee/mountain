@@ -14,8 +14,8 @@ export const Wrapper = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  width: 700px;
-  height: 500px;
+  width: 800px;
+  height: 400px;
   background: white;
   border: 1px solid black;
   border-radius: 10px;
@@ -49,10 +49,41 @@ export const Title = styled.div`
 
 export const MemberContainer = styled.div`
   width: 100%;
-  height: 300px;
+  height: 250px;
   margin-top: 50px;
   border: 1px solid black;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  flex-wrap: no-wrap;
+  overflow: auto;
+`;
+
+export const CardContainer = styled.div`
+  width: 200px;
+  height: 200px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+`;
+export const ButtonContainer = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+
+export const AgreeButton = styled.button`
+  width: 100%;
+  height: 20px;
+  border: 1px solid black;
+  cursor: pointer;
+`;
+
+export const DisAgreeButton = styled.button`
+  width: 100%;
+  height: 20px;
+  border: 1px solid black;
+  cursor: pointer;
 `;

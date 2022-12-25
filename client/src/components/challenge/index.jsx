@@ -37,7 +37,7 @@ const Challenge = ({ data }) => {
         <Card.CardInfoWrap>
           <Card.CardSubInfoWrap>
             <div>{data.region}</div>
-            <div>/골드 이상</div>
+            <div>/{data.conditions} 이상</div>
           </Card.CardSubInfoWrap>
           <div>난이도: {data.level}</div>
         </Card.CardInfoWrap>
@@ -46,7 +46,7 @@ const Challenge = ({ data }) => {
             src={timer}
             style={{ width: "20px", height: "20px", marginRight: "1rem" }}
           />
-          {time}
+          <span style={{ color: "red" }}>{time}</span>
         </Card.CardTimer>
       </Card.CardInfoContainer>
     </Card.ChallengeCard>

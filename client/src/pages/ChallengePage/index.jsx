@@ -9,7 +9,8 @@ import rank4 from "@/assets/ranking/ranking4.png";
 import rank5 from "@/assets/ranking/ranking5.png";
 import rank6 from "@/assets/ranking/ranking6.png";
 import Challenge from "@/components/challenge";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
+import { userIdState } from "@/store/userState";
 import axios from "axios";
 // import { userIdState } from "../../store/userState";
 
@@ -17,7 +18,7 @@ function ChallengePage() {
   const navigate = useNavigate();
   const [clist, setClist] = useState([]);
   const [listLoad, setListLoad] = useState(false);
-
+  const [user, setUser] = useRecoilState(userIdState);
   const onButtonClick = (e) => {
     console.log(e.target.name, e.target.value);
   };
@@ -25,65 +26,96 @@ function ChallengePage() {
     e.preventDefault();
     navigate("/challenge_write");
   };
+
+  const onLogoutButton = (e) => {
+    e.preventDefault();
+    setUser("");
+    localStorage.removeItem("access_token");
+    navigate("/login");
+  };
   useEffect(() => {
     setListLoad(false);
     axios
-      .get("http://localhost:8000/challenges")
+      .get("http://localhost:8000/challenges?order=desc&page=1&take=20")
       .then((response) => {
         return response.data;
       })
       .then((data) => {
-        setClist(data);
+        console.log(data);
+        setClist(data.data);
       });
   }, []);
   useEffect(() => {
     if (clist) {
-      console.log(clist);
+      //console.log(clist);
       setListLoad(true);
     }
   }, [clist]);
   return (
     <Ch.ChallengePageBox>
       <Ch.ChallengefilterBox>
-        <Ch.ChallengeLevelBox>
-          <Ch.ChallengeMenu>난이도</Ch.ChallengeMenu>
-          <Button level3 onClick={onButtonClick} name="level3" value="상">
-            상
-          </Button>
-          <Button level2>중</Button>
-          <Button level1>하</Button>
-        </Ch.ChallengeLevelBox>
-        <Ch.ChallengeConditionBox>
-          <Ch.ChallengeMenu>참여 조건</Ch.ChallengeMenu>
-          <Ch.ChallengeRankingBox>
-            <Ch.RankingImage src={rank1} />
-            <Ch.RankingImage src={rank2} />
-            <Ch.RankingImage src={rank3} />
-            <Ch.RankingImage src={rank4} />
-            <Ch.RankingImage src={rank5} />
-            <Ch.RankingImage src={rank6} />
-          </Ch.ChallengeRankingBox>
-        </Ch.ChallengeConditionBox>
-        <Ch.ChallengeRegionBox>
-          <Ch.ChallengeMenu>지역</Ch.ChallengeMenu>
-          <Ch.ChanllengeRegionSelect>
-            <option>경기도</option>
-            <option>충청도</option>
-            <option>전라도</option>
-            <option>경상도</option>
-            <option>강원도</option>
-            <option>평안도</option>
-            <option>함경도</option>
-            <option>황해도</option>
-          </Ch.ChanllengeRegionSelect>
-        </Ch.ChallengeRegionBox>
+        <Ch.RegionBox>
+          <Ch.FilterTitleBox>지역별 산행</Ch.FilterTitleBox>
+          <Ch.FilterContentBox>
+            <Ch.FilterContents>
+              <Ch.FilterContent>
+                <Ch.FilterText>경기도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>경상북도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>경상남도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>전라북도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>전라남도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>충청북도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>충청남도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>강원도</Ch.FilterText>
+              </Ch.FilterContent>
+              <Ch.FilterContent>
+                <Ch.FilterText>제주도</Ch.FilterText>
+              </Ch.FilterContent>
+            </Ch.FilterContents>
+          </Ch.FilterContentBox>
+        </Ch.RegionBox>
+        <Ch.LevelBox>
+          <Ch.FilterTitleBox>난이도별 산행</Ch.FilterTitleBox>
+          <Ch.FilterContentBox>
+            <Ch.FilterTierContents>
+              <Ch.TierContent></Ch.TierContent>
+              <Ch.TierContent></Ch.TierContent>
+              <Ch.TierContent></Ch.TierContent>
+              <Ch.TierContent></Ch.TierContent>
+              <Ch.TierContent></Ch.TierContent>
+              <Ch.TierContent></Ch.TierContent>
+            </Ch.FilterTierContents>
+          </Ch.FilterContentBox>
+        </Ch.LevelBox>
+        <Ch.TierBox>
+          <Ch.FilterTitleBox>계급별 산행</Ch.FilterTitleBox>
+        </Ch.TierBox>
       </Ch.ChallengefilterBox>
       <Ch.ChallengeListContainer>
         {clist.map((chall) => (
           <Challenge data={chall} />
         ))}
       </Ch.ChallengeListContainer>
-      <Ch.addButton onClick={onPageButton}>+</Ch.addButton>
+      <Ch.addButton onClick={onPageButton}>
+        <Ch.addLogoSpan>+</Ch.addLogoSpan>
+      </Ch.addButton>
+      {user !== "" ? (
+        <Ch.logoutButton onClick={onLogoutButton}>로그아웃</Ch.logoutButton>
+      ) : null}
     </Ch.ChallengePageBox>
   );
 }
