@@ -42,6 +42,7 @@ export const RightButton = styled.button`
   height: 44px;
   border: hidden;
   border-radius: 7px;
+  background-color: #20c997;
 `;
 
 export const ModalWrapper = styled.div`

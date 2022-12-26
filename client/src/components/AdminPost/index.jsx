@@ -54,6 +54,16 @@ const AdminPost = ({
     setIsApproveModalOpen((prev) => !prev);
   };
 
+  const dateConverter = (date) => {
+    const year = date.slice(0, 4);
+    const month = date.slice(5, 7);
+    const day = date.slice(8, 10);
+    const hour = date.slice(11, 13);
+    const minute = date.slice(14, 16);
+
+    return `${year}년 ${month}월 ${day}일 ${hour}시 ${minute}분`;
+  };
+
   const { mutate } = useMutation(
     ({ id }) => {
       if (isDeleteModalOpen) return deleteAdminData(id);
@@ -93,16 +103,23 @@ const AdminPost = ({
         />
       ) : null}
       <S.Cell>{_id}</S.Cell>
-      {name && <S.Cell>{name}</S.Cell>}
-      {title && <S.Cell>{title}</S.Cell>}
-      {username && <S.Cell>{username}</S.Cell>}
-      <S.Cell>{createdAt}</S.Cell>
-      {validateTab.isChallenges ? (
-        <button onClick={onApproveClick} disabled={approved}>
-          승인
-        </button>
-      ) : null}
-      <button onClick={onDeleteClick}>삭제</button>
+      {name && <S.Cell isTitle>{name}</S.Cell>}
+      {title && <S.Cell isTitle>{title}</S.Cell>}
+      {username && <S.Cell isTitle>{username}</S.Cell>}
+      <S.Cell>{dateConverter(createdAt)}</S.Cell>
+      <S.ButtonContainer>
+        {validateTab.isChallenges ? (
+          <S.Button
+            onClick={onApproveClick}
+            disabled={approved}
+            isApproved={approved}
+          >
+            {approved ? "승인완료" : "승인"}
+          </S.Button>
+        ) : null}
+
+        <S.Button onClick={onDeleteClick}>삭제</S.Button>
+      </S.ButtonContainer>
     </S.Container>
   );
 };

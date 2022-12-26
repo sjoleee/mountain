@@ -66,6 +66,7 @@ const AdminPage = () => {
             setCurrentPage(1);
             setSearchParams({ tab: TAB.CHALLENGES, page: 1 });
           }}
+          isSelected={validateTab.isChallenges}
         >
           챌린지
         </S.Tab>
@@ -74,6 +75,7 @@ const AdminPage = () => {
             setCurrentPage(1);
             setSearchParams({ tab: TAB.FEEDS, page: 1 });
           }}
+          isSelected={validateTab.isFeeds}
         >
           피드
         </S.Tab>
@@ -82,6 +84,7 @@ const AdminPage = () => {
             setCurrentPage(1);
             setSearchParams({ tab: TAB.USERS, page: 1 });
           }}
+          isSelected={validateTab.isUsers}
         >
           유저
         </S.Tab>
@@ -91,7 +94,7 @@ const AdminPage = () => {
           <AdminPost key={post._id} validateTab={validateTab} {...post} />
         ))}
         <S.PageController>
-          <button
+          <S.Button
             disabled={!data?.meta.hasPreviousPage}
             onClick={() => {
               setCurrentPage((prev) => prev - 1);
@@ -102,9 +105,9 @@ const AdminPage = () => {
             }}
           >
             이전
-          </button>
+          </S.Button>
           <span>Page {currentPage}</span>
-          <button
+          <S.Button
             disabled={!data?.meta.hasNextPage}
             onClick={() => {
               setCurrentPage((prev) => prev + 1);
@@ -115,7 +118,7 @@ const AdminPage = () => {
             }}
           >
             다음
-          </button>
+          </S.Button>
         </S.PageController>
       </S.Board>
     </S.Container>
