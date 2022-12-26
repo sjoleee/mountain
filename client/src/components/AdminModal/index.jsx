@@ -3,7 +3,6 @@ import React from "react";
 import * as S from "./styles";
 
 const AdminModal = ({
-  className,
   onClose,
   maskClosable,
   visible,
@@ -26,7 +25,6 @@ const AdminModal = ({
     <>
       <S.ModalOverlay visible={visible} />
       <S.ModalWrapper
-        className={className}
         onClick={maskClosable ? onMaskClick : null}
         tabIndex={-1}
         visible={visible}

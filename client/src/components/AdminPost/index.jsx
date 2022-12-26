@@ -6,8 +6,17 @@ import AdminModal from "../AdminModal";
 import * as S from "./styles";
 import { useSearchParams } from "react-router-dom";
 
-const AdminPost = ({ _id, name, title, username, createdAt }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const AdminPost = ({
+  _id,
+  name,
+  title,
+  username,
+  createdAt,
+  validateTab,
+  approved,
+}) => {
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
@@ -24,13 +33,31 @@ const AdminPost = ({ _id, name, title, username, createdAt }) => {
     }
   };
 
+  const putChallangeData = async (id) => {
+    try {
+      const response = await axios({
+        method: "put",
+        url: `http://localhost:8000/admin/challenges/${id}/approve`,
+        headers: { contentType: "application/json" },
+      });
+      return response.data;
+    } catch (error) {
+      console.dir(error);
+    }
+  };
+
   const onDeleteClick = () => {
-    setIsModalOpen((prev) => !prev);
+    setIsDeleteModalOpen((prev) => !prev);
+  };
+
+  const onApproveClick = () => {
+    setIsApproveModalOpen((prev) => !prev);
   };
 
   const { mutate } = useMutation(
     ({ id }) => {
-      return deleteAdminData(id);
+      if (isDeleteModalOpen) return deleteAdminData(id);
+      if (isApproveModalOpen) return putChallangeData(id);
     },
     {
       onSuccess: () => {
@@ -41,15 +68,16 @@ const AdminPost = ({ _id, name, title, username, createdAt }) => {
 
   return (
     <S.Container>
-      {isModalOpen ? (
+      {isDeleteModalOpen || isApproveModalOpen ? (
         <AdminModal
-          className="req_modal"
-          visible={isModalOpen}
+          visible={isDeleteModalOpen || isApproveModalOpen}
           maskClosable={true}
-          onClose={onDeleteClick}
-          text="삭제"
-          subText="정녕 삭제하시렵니까?"
-          buttonText="삭제하기"
+          onClose={isDeleteModalOpen ? onDeleteClick : onApproveClick}
+          text={isDeleteModalOpen ? "삭제" : "승인"}
+          subText={
+            isDeleteModalOpen ? "정녕 삭제하시렵니까?" : "정녕 승인하시렵니까?"
+          }
+          buttonText={isDeleteModalOpen ? "삭제하기" : "승인하기"}
           buttonOnClick={() => {
             mutate(
               {
@@ -57,7 +85,7 @@ const AdminPost = ({ _id, name, title, username, createdAt }) => {
               },
               {
                 onSettled: () => {
-                  onDeleteClick();
+                  isDeleteModalOpen ? onDeleteClick() : onApproveClick();
                 },
               }
             );
@@ -69,6 +97,11 @@ const AdminPost = ({ _id, name, title, username, createdAt }) => {
       {title && <S.Cell>{title}</S.Cell>}
       {username && <S.Cell>{username}</S.Cell>}
       <S.Cell>{createdAt}</S.Cell>
+      {validateTab.isChallenges ? (
+        <button onClick={onApproveClick} disabled={approved}>
+          승인
+        </button>
+      ) : null}
       <button onClick={onDeleteClick}>삭제</button>
     </S.Container>
   );

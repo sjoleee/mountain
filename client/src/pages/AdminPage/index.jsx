@@ -21,6 +21,12 @@ const AdminPage = () => {
     }
   });
 
+  const validateTab = {
+    isChallenges: searchParams.get("tab") === TAB.CHALLENGES,
+    isFeeds: searchParams.get("tab") === TAB.FEEDS,
+    isUsers: searchParams.get("tab") === TAB.USERS,
+  };
+
   const getAdminData = async (page) => {
     try {
       const response = await axios({
@@ -43,6 +49,7 @@ const AdminPage = () => {
       staleTime: 2000,
     }
   );
+
   console.log(data);
 
   useEffect(() => {
@@ -81,7 +88,7 @@ const AdminPage = () => {
       </S.TabContainer>
       <S.Board>
         {data?.data.map((post) => (
-          <AdminPost key={post._id} {...post} />
+          <AdminPost key={post._id} validateTab={validateTab} {...post} />
         ))}
         <S.PageController>
           <button
