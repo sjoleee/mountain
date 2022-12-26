@@ -80,9 +80,15 @@ export class FeedService {
       filter['lat'] = { $exists: true };
       filter['lng'] = { $exists: true };
     }
+    const sort = {};
+    if (filterFeed.like) {
+      sort['likes'] = 'desc';
+    } else if (pageOptionsDto.order) {
+      sort['createdAt'] = pageOptionsDto.order;
+    }
     const [itemCount, feeds] = await Promise.all([
       this.feedRepository.countDocuments(filter),
-      this.feedRepository.findPage(filter, pageOptionsDto),
+      this.feedRepository.findPage(filter, sort, pageOptionsDto),
     ]);
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
     return new PageDto(feeds, pageMetaDto);
@@ -100,7 +106,7 @@ export class FeedService {
 
     const [itemCount, feeds] = await Promise.all([
       this.feedRepository.countDocuments(filter),
-      this.feedRepository.findPage(filter, pageOptionsDto),
+      this.feedRepository.findPageAdmin(filter, pageOptionsDto),
     ]);
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
     return new PageDto(feeds, pageMetaDto);
@@ -117,7 +123,7 @@ export class FeedService {
     return `This action updates a #${id} feed`;
   }
 
-  async updateLike(currentUser: UsersDto, id: string) {
+  async updateLike(id: string, currentUser: UsersDto) {
     const userId = currentUser._id;
     const feed = await this.feedRepository.findOneById(id);
     if (!feed) {
@@ -127,17 +133,16 @@ export class FeedService {
       });
     }
     const filter = { _id: id };
-    console.log(feed.likes);
-    console.log(userId);
     const isLikes = feed.likes.some((like) => like.equals(userId));
     if (isLikes) {
       feed.likes = feed.likes.filter((like) => !like.equals(userId));
       await this.feedRepository.updateById(filter, feed);
+      return { status: 200, message: 'dislike' };
     } else {
       feed.likes.push(userId);
       await this.feedRepository.updateById(filter, feed);
+      return { status: 200, message: 'like' };
     }
-    return { status: 200, message: 'success' };
   }
 
   async remove(id: string) {

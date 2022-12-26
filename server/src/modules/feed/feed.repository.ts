@@ -46,7 +46,23 @@ export class FeedRepository {
     return feed;
   }
 
-  async findPage(filter: FilterFeedOptionsDto, pageOptionsDto: PageOptionsDto) {
+  async findPage(
+    filter: FilterFeedOptionsDto,
+    sort,
+    pageOptionsDto: PageOptionsDto,
+  ) {
+    return await this.feedModel
+      .find(filter)
+      .populate('comments', '', this.commentsModel)
+      .populate('author', '', this.userModel)
+      .sort(sort)
+      .skip(pageOptionsDto.skip)
+      .limit(pageOptionsDto.take);
+  }
+  async findPageAdmin(
+    filter: FilterFeedOptionsDto,
+    pageOptionsDto: PageOptionsDto,
+  ) {
     return await this.feedModel
       .find(filter)
       .populate('comments', '', this.commentsModel)
@@ -62,7 +78,6 @@ export class FeedRepository {
   }
 
   async updateById(filter: any, body: any) {
-    console.log(await this.feedModel.findOne(filter));
     const result = await this.feedModel.findOneAndUpdate(filter, body).exec();
     return result;
   }

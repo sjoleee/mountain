@@ -22,5 +22,6 @@ export class ResponseUsersDto extends OmitType(UsersDto, [
     this.completedList = user.completedList;
     this.badgeList = user.badgeList;
     this.mountainList = user.mountainList;
+    this.point = user.point;
   }
 }

@@ -94,8 +94,22 @@ export class Users extends defaultSchema {
     description: '티어',
     required: true,
   })
-  @Prop()
+  @Prop({
+    required: true,
+    default: Tier.브론즈,
+  })
   tier: Tier;
+
+  @ApiProperty({
+    example: '0',
+    description: '점수',
+    required: true,
+  })
+  @Prop({
+    required: true,
+    default: 0,
+  })
+  point: number;
 
   @ApiProperty({
     example: '반갑습니다',

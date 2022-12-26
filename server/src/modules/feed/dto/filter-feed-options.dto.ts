@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsArray } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsOptional, IsString, IsArray, IsBoolean } from 'class-validator';
 
 export class FilterFeedOptionsDto {
   @ApiPropertyOptional({
@@ -17,6 +18,16 @@ export class FilterFeedOptionsDto {
 
   @ApiPropertyOptional({ description: 'pos(true/false)', default: false })
   @IsOptional()
-  @IsString()
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean()
   readonly pos?: boolean;
+
+  @ApiPropertyOptional({
+    description: 'like순으로 정렬할지(true/false)',
+    default: false,
+  })
+  @IsOptional()
+  @Transform(({ value }) => value === 'true')
+  @IsBoolean()
+  readonly like?: boolean;
 }

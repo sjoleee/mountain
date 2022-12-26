@@ -7,10 +7,12 @@ import { Challenges } from './schemas/challenges.schema';
 import { ChallengeDto } from './dto/challenges.dto';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { FilterAdminChallengesOptionsDto } from './dto/filter-admin-challenges-options.dto';
+import { Users } from '../users/schemas/users.schema';
 
 @Injectable()
 export class ChallengesRepository {
   constructor(
+    @InjectModel(Users.name) private readonly userModel: Model<Users>,
     @InjectModel(Challenges.name)
     private readonly challengesModel: Model<Challenges>,
   ) {}
@@ -29,7 +31,11 @@ export class ChallengesRepository {
     return challenges;
   }
   async findOneById(id: string): Promise<ChallengeDto | null> {
-    const challenge = await this.challengesModel.findOne({ _id: id });
+    const challenge = await this.challengesModel
+      .findOne({ _id: id })
+      .populate('organizer', '', this.userModel)
+      .populate('waitingList', '', this.userModel)
+      .populate('peopleList', '', this.userModel);
     return challenge;
   }
   async updateById(id: string | Types.ObjectId, body: UpdateChallengeDto) {
@@ -66,5 +72,12 @@ export class ChallengesRepository {
       .sort({ createdAt: pageOptionsDto.order })
       .skip(pageOptionsDto.skip)
       .limit(pageOptionsDto.take);
+  }
+
+  async apply(id: string, body) {
+    const result = await this.challengesModel
+      .findOneAndUpdate({ _id: id }, body)
+      .exec();
+    return result;
   }
 }

@@ -1,3 +1,4 @@
+import { Tier } from 'src/common/enums/tier.enum';
 import { Level } from './../../../common/enums/level.enum';
 import { Prop, Schema, SchemaFactory, SchemaOptions } from '@nestjs/mongoose';
 import { IsNotEmpty, IsString, IsOptional } from 'class-validator';
@@ -104,8 +105,12 @@ export class Challenges extends defaultSchema {
   @IsNotEmpty()
   level: Level;
 
-  @Prop()
-  conditions: Array<string>;
+  @Prop({
+    required: true,
+    default: Tier.브론즈,
+  })
+  @IsNotEmpty()
+  conditions: Tier;
 
   @Prop({
     type: Types.ObjectId,
@@ -120,5 +125,11 @@ export class Challenges extends defaultSchema {
   })
   @IsOptional()
   approved: boolean;
+
+  @Prop({
+    required: false,
+  })
+  @IsOptional()
+  tag: Array<string>;
 }
 export const ChallengesSchema = SchemaFactory.createForClass(Challenges);

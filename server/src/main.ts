@@ -41,7 +41,7 @@ async function bootstrap() {
       'https://example.com',
       'https://www.example.com',
     ],
-    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
 

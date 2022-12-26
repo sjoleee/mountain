@@ -14,5 +14,6 @@ class _UpdateUsersDto extends PickType(UsersDto, [
   'completedList',
   'badgeList',
   'mountainList',
+  'point',
 ] as const) {}
 export class UpdateUsersDto extends PartialType(_UpdateUsersDto) {}

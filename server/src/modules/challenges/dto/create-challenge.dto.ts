@@ -11,6 +11,7 @@ import {
 } from 'class-validator';
 import { Types } from 'mongoose';
 import { Type } from 'class-transformer';
+import { Tier } from 'src/common/enums/tier.enum';
 export class CreateChallengeDto {
   @ApiProperty({
     example: '챌린지 이름 예시',
@@ -106,4 +107,14 @@ export class CreateChallengeDto {
   @IsNotEmpty()
   @IsEnum(Level)
   level: Level;
+
+  @ApiProperty({
+    example: '브론즈',
+    description: '티어',
+    required: false,
+    default: Tier.브론즈,
+  })
+  @IsOptional()
+  @IsEnum(Tier)
+  conditions?: Tier;
 }

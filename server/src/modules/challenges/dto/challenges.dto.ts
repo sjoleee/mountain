@@ -11,6 +11,7 @@ import {
   IsString,
 } from 'class-validator';
 import { Level } from 'src/common/enums/level.enum';
+import { Tier } from 'src/common/enums/tier.enum';
 
 export class ChallengeDto extends defaultDto {
   @ApiProperty({
@@ -136,11 +137,12 @@ export class ChallengeDto extends defaultDto {
   level: Level;
 
   @ApiProperty({
-    example: '{tier:"실버",local:"제주도"}',
-    description: '조건 - 나중에 수정 예정 실버이상, 제주도만',
-    required: false,
+    example: '브론즈',
+    description: '티어조건 ',
+    required: true,
+    default: Tier.브론즈,
   })
-  conditions: Array<string>;
+  conditions: Tier;
 
   @ApiProperty({
     example: 'feedId',
@@ -157,4 +159,12 @@ export class ChallengeDto extends defaultDto {
   })
   @IsOptional()
   approved: boolean;
+
+  @ApiProperty({
+    example: '["태그1","태그2"]',
+    description: '챌린지 태그',
+    required: false,
+  })
+  @IsOptional()
+  tag: Array<string>;
 }
