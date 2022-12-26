@@ -192,7 +192,7 @@ export const realFeeds = [
   },
 ];
 
-const template = {
+export const template = {
   id: 13,
   type: "일반",
   title: "제목1",

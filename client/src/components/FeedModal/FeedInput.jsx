@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
+import FeedTags from "../common/Tags";
 import * as S from "./styles";
 
 const FeedInput = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
-    tags: [],
+    tag: [],
   });
-  const [tags, setTags] = useState([]);
 
   const handleChange = ({ target }) => {
     setFormData((prev) => ({
@@ -34,7 +34,8 @@ const FeedInput = ({ onSubmit }) => {
         />
       </S.TextBoxContainer>
       <S.TagContainer>
-        <S.TagInput name="tags" placeholder="태그를 입력하세요" />
+        {/* <S.TagInput name="tags" placeholder="태그를 입력하세요" /> */}
+        <FeedTags formData={formData} setFormData={setFormData} />
       </S.TagContainer>
       <S.BtnContainer>
         <S.SubmitBtn onClick={onSubmit(formData)}>게시하기</S.SubmitBtn>

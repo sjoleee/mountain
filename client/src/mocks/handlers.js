@@ -1,11 +1,13 @@
 import { rest } from "msw";
-import { addImg } from "./mockdata";
+import { addImg, template } from "./mockdata";
 
 const user = [];
 const checkuser = {
   userEmail: "test@test.com",
   password: "1234",
 };
+
+const feeds = [...addImg];
 
 export const handlers = [
   rest.get("/login", (req, res, ctx) => {
@@ -27,6 +29,14 @@ export const handlers = [
     return res(ctx.status(201));
   }),
   rest.get("/feed-data", (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(addImg));
+    return res(ctx.status(200), ctx.json(feeds));
+  }),
+  rest.post("/feed-data", (req, res, ctx) => {
+    const newFeed = {
+      ...template,
+      ...req.body,
+    };
+    feeds.unshift(newFeed);
+    return res(ctx.status(201));
   }),
 ];

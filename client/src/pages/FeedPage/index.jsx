@@ -1,30 +1,30 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
-
 import * as S from "./styles";
-import Feed from "@/components/common/Feed";
-import FeedModal, { Portal } from "@/components/common/FeedModal";
+import Feed from "@/components/FeedCard";
+import FeedModal, { Portal } from "@/components/FeedModal";
 import { useIntersect } from "@/hooks/useIntersect";
+import { useRecoilState } from "recoil";
+import { ModalOn } from "@/store";
 
 const FeedPage = () => {
   const [feeds, setFeeds] = useState([]);
-  const [modalOn, setModalOn] = useState(false);
+  const [modalOn, setModalOn] = useRecoilState(ModalOn);
   const [loading, setLoading] = useState(true);
 
   const handleModal = () => {
     setModalOn(!modalOn);
   };
-
   const ref = useIntersect(
     async (entry, observer) => {
-      // observer.unobserve(entry.target);
-      // if (hasNextPage && !isFetching) {
-      // fetchNextPage();
-      // }
+      observer.unobserve(entry.target);
       if (!loading) {
         setLoading(true);
         console.log("fetch");
-        setLoading(false);
+        axios.get("/feed-data").then((res) => {
+          setFeeds((prev) => [...prev, ...res.data]);
+          setLoading(false);
+        });
       }
     },
     { threshold: 0.1 }
@@ -34,18 +34,21 @@ const FeedPage = () => {
     setLoading(false);
   };
 
+  const getData = async () => {
+    const response = await axios.get("/feed-data");
+    setFeeds(response.data);
+  };
+
   useEffect(() => {
-    const getData = async () => {
-      const response = await axios.get("/feed-data");
-      setFeeds(response.data);
-    };
     getData();
   }, []);
 
   return (
     <>
       <S.GlobalStyle />
-      <Portal>{modalOn && <FeedModal onClick={handleModal} />}</Portal>
+      <Portal>
+        {modalOn && <FeedModal onClick={handleModal} getData={getData} />}
+      </Portal>
       <S.SearchBarContainer>
         <S.PostButtonContainer>
           <S.PostButtonSpan className="mas">게시글 작성</S.PostButtonSpan>
@@ -66,7 +69,6 @@ const FeedPage = () => {
               onLoad={i === feeds.length - 1 ? handleLoad : null}
             />
           ))}
-          {/*intersectionObserver 이용해서 무한스크롤 구현 */}
           {!loading && <div ref={ref} style={{ height: 0 }}></div>}
         </S.FeedContainer>
       </S.PageLayout>

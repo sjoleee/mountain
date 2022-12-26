@@ -32,6 +32,7 @@ export const PageLayout = styled.div`
   display: flex;
   flex-direction: column;
   padding: 50px;
+  /* background-color: rgb(15, 17, 31); */
 `;
 
 export const SearchBarContainer = styled.div`

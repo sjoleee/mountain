@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import * as S from "./styles";
-import Upload from "@/assets/upload.svg";
 import axios from "axios";
 import ImageUpload from "./ImageUpload";
 import FeedInput from "./feedInput";
+import { RecoilRoot } from "recoil";
+import useGeolocation from "@/hooks/useGeolocation";
+
+import * as S from "./styles";
+import Upload from "@/assets/upload.svg";
 
 export const Portal = ({ children }) => {
   const $modal = document.getElementById("modal");
   return ReactDOM.createPortal(children, $modal);
 };
 
-const FeedModal = ({ onClick }) => {
+const FeedModal = ({ onClick, getData }) => {
+  const { isLoading, error, currentPosition, getPosition } = useGeolocation(
+    {
+      enableHighAccuracy: false,
+      maximumAge: 0,
+      timeout: Infinity,
+    },
+    (coor) => console.log(coor)
+  );
   const [isImg, setIsImg] = useState(false);
-  const [imgFile, setImgFile] = useState(null);
-  const [imgURL, setImgURL] = useState("");
+  const [imgURL, setImgURL] = useState({
+    file: {},
+    thumbnail: "",
+    type: "",
+  });
 
   const handleImgUpload = ({ target }) => {
     const imageFile = target.files;
@@ -22,7 +36,7 @@ const FeedModal = ({ onClick }) => {
       const imgUrl = URL.createObjectURL(imageFile[0]);
       console.log(imgUrl);
       console.log(imageFile[0]);
-      setImgFile({
+      setImgURL({
         file: imageFile[0],
         thumbnail: imgUrl,
         type: imageFile[0].type,
@@ -52,11 +66,24 @@ const FeedModal = ({ onClick }) => {
   };
 
   const handleSubmit = (feedData) => (e) => {
+    const { title, content } = feedData;
+    if (imgURL.thumbnail.trim().length === 0)
+      return alert("이미지를 올려주세요.");
+    if (title.trim().length === 0) return alert("제목을 입력해주세요");
+    if (content.trim().length === 0) return alert("내용을 입력해주세요");
+
+    const { lat, lng } = currentPosition;
     const feedForm = {
       ...feedData,
-      feedImg: imgFile.thumbnail,
+      feedImg: imgURL.thumbnail,
+      lat,
+      lng,
     };
-    axios.post("/api", feedForm);
+
+    axios.post("/feed-data", feedForm).then(() => {
+      getData();
+    });
+
     onClick();
   };
 
@@ -68,7 +95,7 @@ const FeedModal = ({ onClick }) => {
           onChange={handleImgUpload}
           isImg={isImg}
           uploadImg={Upload}
-          imgFile={imgFile}
+          imgFile={imgURL}
         />
         <S.FeedInfoContainer>
           <FeedInput onSubmit={handleSubmit} />

@@ -86,62 +86,7 @@ export const FeedInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-
   flex: 1;
-`;
-
-export const FeedInfoTopContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 40%;
-`;
-
-export const UserProfileContainer = styled.div`
-  display: flex;
-  height: 20px;
-  width: 100%;
-  margin-top: 20px;
-  margin-left: 20px;
-`;
-
-export const UserProfileImg = styled.img`
-  height: 100%;
-  width: 30px;
-  margin-right: 15px;
-`;
-
-export const UserName = styled.p`
-  font-size: 12px;
-  flex: 1;
-`;
-
-export const ExitBtn = styled.button`
-  border: none;
-  outline: none;
-  background: none;
-  font-size: 27px;
-  font-weight: bold;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-`;
-
-export const FeedTitle = styled.h2`
-  font-size: 15px;
-  margin-left: 20px;
-  margin-top: 25px;
-`;
-
-export const FeedCommentContainer = styled.div`
-  flex: 1;
-`;
-
-export const FeedCommentSubject = styled.p`
-  margin-left: 20px;
-  font-size: 25px;
-  font-weight: bold;
 `;
 
 export const TitleInputContainer = styled.div`
@@ -204,4 +149,16 @@ export const SubmitBtn = styled.button`
   border: 1px solid gray;
   border-radius: 15px;
   font-weight: bold;
+`;
+
+export const ExitBtn = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 27px;
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
 `;
