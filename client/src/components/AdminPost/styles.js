@@ -11,6 +11,7 @@ export const Cell = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 250px;
   width: ${({ isTitle }) => (isTitle ? "100%" : "250px")};
   border-left: ${({ isTitle }) => (isTitle ? "1px solid lightGray" : null)};
   border-right: ${({ isTitle }) => (isTitle ? "1px solid lightGray" : null)};
