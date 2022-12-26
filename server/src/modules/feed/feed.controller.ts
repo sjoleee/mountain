@@ -49,7 +49,7 @@ export class FeedController {
   @ApiOperation({ summary: '현재 로그인되어있는 유저가 챌린지피드작성' })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
-  @Post('/challenge/:id')
+  @Post('/challenges/:id')
   async createChallenge(
     @Param('id') id: string,
     @CurrentUser() currentUser: UsersDto,
