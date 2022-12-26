@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 import AdminModal from "../AdminModal";
-
 import * as S from "./styles";
-
-import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 
 const AdminPost = ({ _id, name, title, username, createdAt }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const queryClient = useQueryClient();
 
   const deleteAdminData = async (id) => {
@@ -57,7 +57,7 @@ const AdminPost = ({ _id, name, title, username, createdAt }) => {
               },
               {
                 onSettled: () => {
-                  console.log("asdf");
+                  onDeleteClick();
                 },
               }
             );
