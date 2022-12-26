@@ -3,6 +3,7 @@ import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 import { Level } from 'src/common/enums/level.enum';
 import { Region } from 'src/common/enums/region.enum';
+import { Tier } from 'src/common/enums/tier.enum';
 export class ResponseChallengeDto {
   @ApiProperty({
     example: '63a01bee499bb3ae6c2c37b6',
@@ -140,17 +141,27 @@ export class ResponseChallengeDto {
   level: Level;
 
   @ApiProperty({
-    example: '{tier:"실버",local:"제주도"}',
-    description: '조건 - 나중에 수정 예정 실버이상, 제주도만',
-    required: false,
+    example: '브론즈',
+    description: '티어조건 ',
+    required: true,
+    default: '브론즈',
   })
-  conditions: Array<string>;
+  conditions: Tier;
 
   @IsOptional()
   approval?: Types.ObjectId;
 
   @IsOptional()
   approved: boolean;
+
+  @ApiProperty({
+    example: '["태그1","태그2"]',
+    description: '챌린지 태그',
+    required: false,
+  })
+  @IsOptional()
+  tag: Array<string>;
+
   constructor(challenge: ResponseChallengeDto) {
     this._id = challenge._id;
     this.createdAt = challenge.createdAt;
@@ -172,5 +183,6 @@ export class ResponseChallengeDto {
     this.mountain = challenge.mountain;
     this.approval = challenge.approval;
     this.approved = challenge.approved;
+    this.tag = challenge.tag;
   }
 }

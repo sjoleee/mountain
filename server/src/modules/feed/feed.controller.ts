@@ -87,7 +87,7 @@ export class FeedController {
     @CurrentUser() currentUser: UsersDto,
     @Param('id') id: string,
   ) {
-    return await this.feedService.updateLike(currentUser, id);
+    return await this.feedService.updateLike(id, currentUser);
   }
 
   @ApiOperation({ summary: '미완성' })

@@ -48,9 +48,10 @@ export class Feed extends defaultSchema {
   content: string;
 
   @Prop({
-    type: Types.ObjectId,
-    required: false,
+    type: Array<Types.ObjectId>,
+    required: true,
     ref: 'users',
+    default: [],
   })
   likes: Array<Types.ObjectId>;
 

@@ -9,6 +9,7 @@ import { Types } from 'mongoose';
 import { PageMetaDto } from 'src/common/dto/page-meta.dto';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PageDto } from 'src/common/dto/page.dto';
+import { pointToTier } from 'src/common/enums/tier.enum';
 import { CreateUsersDto } from '../dto/create-users.dto';
 import { FilterAdminUsersOptionsDto } from '../dto/filter-admin-users-options.dto';
 import { ResponseUsersDto } from '../dto/response-users.dto';
@@ -110,5 +111,31 @@ export class UsersService {
     ]);
     const pageMetaDto = new PageMetaDto({ itemCount, pageOptionsDto });
     return new PageDto(feeds, pageMetaDto);
+  }
+
+  async addPoint(userId, point: number) {
+    const user = await this.usersRepository.findOneUserById(userId);
+    if (!user) {
+      throw new NotFoundException({
+        status: 404,
+        message: '유저를 찾을 수 없습니다',
+      });
+    }
+    const newBody = { point: user.point + point };
+    const result = await this.usersRepository.updateById(userId, newBody);
+    await this.advancement(userId);
+    return result;
+  }
+
+  async advancement(userId) {
+    const user = await this.usersRepository.findOneUserById(userId);
+    if (!user) {
+      throw new NotFoundException({
+        status: 404,
+        message: '유저를 찾을 수 없습니다',
+      });
+    }
+    const newBody = { tier: pointToTier(user.point) };
+    return await this.usersRepository.updateById(userId, newBody);
   }
 }

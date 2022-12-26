@@ -97,15 +97,6 @@ export class UpdateChallengeDto {
   @IsOptional()
   level?: string;
 
-  @ApiProperty({
-    example: '{tier:"실버",local:"제주도"}',
-    description: '조건 - 나중에 수정 예정 실버이상, 제주도만',
-    required: false,
-    default: [],
-  })
-  @IsOptional()
-  conditions?: Array<string>;
-
   @ApiPropertyOptional({
     example: 'feedId',
     description: '챌린지 피드를 제출하고나서 담기는 피드 ID',

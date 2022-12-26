@@ -74,8 +74,16 @@ export class UsersDto extends defaultDto {
     example: '골드',
     description: '티어',
     required: true,
+    default: Tier.브론즈,
   })
   tier: Tier;
+
+  @ApiProperty({
+    example: '0',
+    description: '점수',
+    required: true,
+  })
+  point: number;
 
   @IsOptional()
   @ApiProperty({
