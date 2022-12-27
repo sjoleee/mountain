@@ -22,6 +22,10 @@ export class UsersRepository {
     const users = await this.usersModel.find({});
     return users;
   }
+  async findByFilter(filter: any) {
+    const users = await this.usersModel.find(filter);
+    return users;
+  }
 
   async findOneUserById(id: string): Promise<UsersDto | null> {
     const user = await this.usersModel.findOne({ _id: id });

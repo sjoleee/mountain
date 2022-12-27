@@ -10,11 +10,8 @@ import {
   IsString,
 } from 'class-validator';
 import { Region } from 'src/common/enums/region.enum';
-
-type Completed = {
-  cName: string;
-  cDif: string;
-};
+import { Role } from 'src/common/enums/role.enum';
+import { Types } from 'mongoose';
 
 export class UsersDto extends defaultDto {
   @ApiProperty({
@@ -35,7 +32,7 @@ export class UsersDto extends defaultDto {
   username: string;
 
   @ApiProperty({
-    example: '1234',
+    example: '12341234a!',
     description: '비밀번호',
     required: true,
   })
@@ -85,14 +82,14 @@ export class UsersDto extends defaultDto {
   })
   point: number;
 
-  @IsOptional()
   @ApiProperty({
     example: '반갑습니다',
     description: '자기소개',
     required: true,
   })
+  @IsOptional()
   @IsString()
-  intro: string;
+  intro?: string;
 
   @IsOptional()
   @ApiProperty({
@@ -125,8 +122,7 @@ export class UsersDto extends defaultDto {
     description: '챌린지 완료 리스트',
     required: false,
   })
-  @IsString()
-  completedList: Array<Completed>;
+  completedList: Array<Types.ObjectId>;
 
   @IsOptional()
   @ApiProperty({
@@ -137,12 +133,19 @@ export class UsersDto extends defaultDto {
   @IsString()
   badgeList: Array<string>;
 
-  @IsOptional()
   @ApiProperty({
     example: '[산1,산2]',
     description: '완료한 산 리스트',
-    required: false,
+    required: true,
   })
-  @IsString()
-  mountainList: Array<string>;
+  @IsNotEmpty()
+  mountainList: Array<Types.ObjectId>;
+
+  @ApiProperty({
+    example: 'user',
+    description: '권한',
+    required: true,
+    default: Role.User,
+  })
+  roles: Role[];
 }
