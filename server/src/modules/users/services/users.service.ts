@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Types } from 'mongoose';
 import { PageMetaDto } from 'src/common/dto/page-meta.dto';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PageDto } from 'src/common/dto/page.dto';
@@ -14,7 +13,6 @@ import { CreateUsersDto } from '../dto/create-users.dto';
 import { FilterAdminUsersOptionsDto } from '../dto/filter-admin-users-options.dto';
 import { ResponseUsersDto } from '../dto/response-users.dto';
 import { UpdateUsersDto } from '../dto/update-users.dto';
-import { UsersDto } from '../dto/users.dto';
 import { UsersRepository } from '../users.repository';
 @Injectable()
 export class UsersService {

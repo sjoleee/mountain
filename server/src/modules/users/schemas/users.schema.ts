@@ -5,6 +5,7 @@ import { IsNotEmpty, IsString } from 'class-validator';
 import { SchemaOptions } from 'mongoose';
 import { Gender } from 'src/common/enums/gender.enum';
 import { Region } from 'src/common/enums/region.enum';
+import { Role } from 'src/common/enums/role.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
@@ -45,7 +46,7 @@ export class Users extends defaultSchema {
   username: string;
 
   @ApiProperty({
-    example: '1234',
+    example: '12341234a!',
     description: '비밀번호',
     required: true,
   })
@@ -173,6 +174,18 @@ export class Users extends defaultSchema {
   @Prop()
   @IsString()
   mountainList: Array<string>;
+
+  @ApiProperty({
+    example: 'user',
+    description: '권한',
+    required: true,
+    default: Role.User,
+  })
+  @Prop({
+    required: true,
+    default: Role.User,
+  })
+  roles: Role[];
 }
 
 export const UsersSchema = SchemaFactory.createForClass(Users);

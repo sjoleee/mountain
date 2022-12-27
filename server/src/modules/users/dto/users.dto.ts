@@ -10,6 +10,7 @@ import {
   IsString,
 } from 'class-validator';
 import { Region } from 'src/common/enums/region.enum';
+import { Role } from 'src/common/enums/role.enum';
 
 type Completed = {
   cName: string;
@@ -145,4 +146,12 @@ export class UsersDto extends defaultDto {
   })
   @IsString()
   mountainList: Array<string>;
+
+  @ApiProperty({
+    example: 'user',
+    description: '권한',
+    required: true,
+    default: Role.User,
+  })
+  roles: Role[];
 }

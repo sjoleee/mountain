@@ -6,13 +6,14 @@ import { ResponseLoginDto } from './dto/response-login.dto';
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
-  async jwtLogin(user: ResponseUsersDto): Promise<ResponseLoginDto> {
-    const { email, _id } = user;
+  async jwtLogin(user: ResponseUsersDto) {
+    const { email, _id, roles } = user;
     const payload = { email, sub: _id };
-    return new ResponseLoginDto({
+    return {
       id: _id,
       access_token: this.jwtService.sign(payload),
-    });
+      roles: roles,
+    };
   }
 
   googleLogin(req) {
