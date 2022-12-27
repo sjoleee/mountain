@@ -1,9 +1,9 @@
 import React, { useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import { ModalOn } from "@/store";
 import * as S from "./styles";
-import { Portal } from "../FeedModal";
+import { Portal } from "../FeedUploadModal";
 import FeedInfo from "./FeedInfo";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Feed = ({
   id,
@@ -15,38 +15,15 @@ const Feed = ({
   onLoad,
   comment,
   tag,
+  likes,
+  onClick,
 }) => {
   const containerRef = useRef();
-  const [modalOn, setModalOn] = useRecoilState(ModalOn);
-  const [cardOn, setCardOn] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <>
-      {cardOn && (
-        <Portal>
-          <S.CardDetailContainer>
-            <S.CloseContainer onClick={() => setCardOn(false)} />
-            <S.CardDetail>
-              <S.ImgContainer>
-                <S.FeedImg src={feedImg} />
-              </S.ImgContainer>
-              <S.FeedInfoContainer>
-                <FeedInfo
-                  profileImg={profileImg}
-                  author={author}
-                  content={content}
-                  comments={comment}
-                  tags={tag}
-                />
-              </S.FeedInfoContainer>
-            </S.CardDetail>
-          </S.CardDetailContainer>
-        </Portal>
-      )}
-      <S.FeedCardContainer
-        ref={containerRef}
-        onClick={() => setCardOn(!cardOn)}
-      >
+      <S.FeedCardContainer ref={containerRef} onClick={() => onClick(id)}>
         <S.FeedCardImg
           src={feedImg}
           alt="피드 사진"

@@ -77,35 +77,6 @@ export const ProfileUserName = styled.p`
   flex: 1;
 `;
 
-export const CardDetailContainer = styled.div`
-  display: grid;
-  place-items: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  background-color: rgba(128, 128, 128, 0.6);
-  z-index: 15;
-`;
-
-export const CloseContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 5;
-`;
-
-export const CardDetail = styled.div`
-  display: flex;
-  width: 45%;
-  height: 600px;
-  background-color: white;
-  z-index: 10;
-`;
-
 export const ImgContainer = styled.div`
   height: 100%;
   width: 56%;
@@ -215,4 +186,63 @@ export const UserIdSpan = styled.span`
   font-weight: bold;
   margin-right: 10px;
   font-size: 13px;
+`;
+
+export const CommentInputWrapper = styled.div`
+  height: 30px;
+`;
+
+export const CommentInputForm = styled.form`
+  display: flex;
+  height: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(82, 82, 82, 0.217);
+`;
+
+export const CommentInput = styled.input`
+  flex: 3;
+  border: none;
+  outline: none;
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+`;
+
+export const CommentInputBtn = styled.button`
+  flex: 1;
+  border: none;
+  border-left: 1px solid rgba(82, 82, 82, 0.217);
+  font-weight: bold;
+  transition: background-color 500ms;
+
+  &:hover {
+    cursor: pointer;
+    background-color: gray;
+  }
+`;
+
+export const LikesWrapper = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 30px;
+  right: 30px;
+`;
+
+export const LikesBtn = styled.button`
+  position: relative;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  background-color: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  margin-right: 10px;
+`;
+
+export const LikesCount = styled.span`
+  color: red;
 `;

@@ -150,3 +150,32 @@ export const GlobalStyle = createGlobalStyle`
     /* background-color: rgba(0, 99, 210,.6); */
   }
 `;
+
+export const CardDetailContainer = styled.div`
+  display: grid;
+  place-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.75);
+  z-index: 15;
+`;
+
+export const CloseContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+`;
+
+export const CardDetail = styled.div`
+  display: flex;
+  width: 45%;
+  height: 600px;
+  background-color: white;
+  z-index: 10;
+`;

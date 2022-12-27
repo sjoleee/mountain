@@ -3,17 +3,20 @@ export const realFeeds = [
     id: 1,
     type: "일반",
     title: "제목1",
-    tag: [],
+    tag: [
+      { id: 1, tag: "한혜진" },
+      { id: 2, tag: "북한산" },
+    ],
     profileImg: "프로필사진1",
     author: "유저1",
     feedImg:
       "http://sports.chosun.com/news/html/2022/02/03/2022020401000132600008641.jpg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 2,
@@ -26,10 +29,10 @@ export const realFeeds = [
       "https://cdnweb01.wikitree.co.kr/webdata/editor/202212/16/img_20221216143136_432b492b.webp",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [1, 3, 4, 5, 6],
   },
   {
     id: 3,
@@ -42,10 +45,10 @@ export const realFeeds = [
       "http://sports.chosun.com/news/html/2022/08/31/2022083101002218600137911.jpg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 4,
@@ -58,10 +61,10 @@ export const realFeeds = [
       "https://cdn.imweb.me/upload/S2021011502a2f4eeeb339/85a4a4dd3fc71.jpeg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 5,
@@ -74,10 +77,10 @@ export const realFeeds = [
       "https://user-images.githubusercontent.com/83552466/208909483-b9ced6b4-546a-4782-b915-d003203acaa8.png",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 6,
@@ -90,10 +93,10 @@ export const realFeeds = [
       "https://t3.daumcdn.net/thumb/R720x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/Rdr/image/OmoZ8HNRAvwLfI6LPXBhSFfhO7g.jpg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 7,
@@ -106,10 +109,10 @@ export const realFeeds = [
       "https://img.sbs.co.kr/newsnet/etv/upload/2014/01/02/30000345575_700.jpg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 8,
@@ -122,10 +125,10 @@ export const realFeeds = [
       "https://img.tvreportcdn.de/cms-content/uploads/2022/09/29/6dff0012-a1bf-425c-8ea2-53d83a7bcbf1.jpg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 9,
@@ -138,10 +141,10 @@ export const realFeeds = [
       "https://cdnweb01.wikitree.co.kr/webdata/editor/202212/16/img_20221216142839_b5f6d698.webp",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 10,
@@ -153,10 +156,10 @@ export const realFeeds = [
     feedImg: "img/img12.webp",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 11,
@@ -169,10 +172,10 @@ export const realFeeds = [
       "https://blog.kakaocdn.net/dn/yUEdd/btrvhODJ1rS/USrDIZLuRGtjjKvOWINZHk/img.jpg",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
-    likes: 0,
+    likes: [],
   },
   {
     id: 12,
@@ -185,8 +188,8 @@ export const realFeeds = [
       "https://cdn.discordapp.com/attachments/1050693266573639730/1055103581696557118/image.png",
     content: "본문 입니다.",
     comment: [
-      { id: 1, username: "user1", content: "좋아요~!" },
-      { id: 2, username: "user2", content: "멋져요~!" },
+      { id: 1, username: "user1", contents: "좋아요~!" },
+      { id: 2, username: "user2", contents: "멋져요~!" },
     ],
     likes: [],
   },
@@ -202,10 +205,10 @@ export const template = {
   feedImg: "",
   content: "본문 입니다.",
   comment: [
-    { id: 1, username: "user1", content: "좋아요~!" },
-    { id: 2, username: "user2", content: "멋져요~!" },
+    { id: 1, username: "user1", contents: "좋아요~!" },
+    { id: 2, username: "user2", contents: "멋져요~!" },
   ],
-  likes: 0,
+  likes: [],
 };
 
 let iden = 13;

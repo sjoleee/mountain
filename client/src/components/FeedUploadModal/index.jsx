@@ -13,8 +13,9 @@ export const Portal = ({ children }) => {
   const $modal = document.getElementById("modal");
   return ReactDOM.createPortal(children, $modal);
 };
+let tmpId = 24;
 
-const FeedModal = ({ onClick, getData }) => {
+const FeedModal = ({ onClick, getData, setFeeds }) => {
   const { isLoading, error, currentPosition, getPosition } = useGeolocation(
     {
       enableHighAccuracy: false,
@@ -76,9 +77,12 @@ const FeedModal = ({ onClick, getData }) => {
     const feedForm = {
       ...feedData,
       feedImg: imgURL.thumbnail,
+      comments: [],
       lat,
       lng,
+      id: tmpId,
     };
+    tmpId += 1;
 
     axios.post("/feed-data", feedForm).then(() => {
       getData();
