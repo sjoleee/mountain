@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 
 export class ResponseLoginDto {
   @ApiProperty({
@@ -7,7 +8,15 @@ export class ResponseLoginDto {
     required: true,
   })
   access_token: string;
+
+  @ApiProperty({
+    example: '639e9fdd4908b2bdeccfe54f',
+    description: 'user id',
+    required: true,
+  })
+  id: Types.ObjectId;
   constructor(responseLoginDto: ResponseLoginDto) {
+    this.id = responseLoginDto.id;
     this.access_token = responseLoginDto.access_token;
   }
 }
