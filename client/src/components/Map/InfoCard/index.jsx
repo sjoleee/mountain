@@ -3,7 +3,7 @@ import * as S from "@components/Map/InfoCard/styles";
 import closeIcon from "@assets/close_Icon.png";
 
 const InfoCard = ({
-  selectedMarker: { mntiname, mntihigh, mntiadd },
+  selectedMountain: { mntiname, mntihigh, mntiadd },
   handleInfoCardClose,
 }) => {
   return (

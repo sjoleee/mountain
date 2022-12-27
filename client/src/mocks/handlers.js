@@ -100,6 +100,42 @@ const mountains = [
     mntidetails: "아차산 상세 정보",
     mntihigh: 600,
     position: { lat: 37.56684449678786, lng: 127.10274196113546 },
+    visitors: [
+      {
+        id: "1",
+        img: "https://t1.daumcdn.net/cfile/tistory/99CD68345C51B61F0C",
+      },
+      {
+        id: "",
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpkwO_Q0zGHUr7bBP3OW-mBzwNqWAQh9vjYQ&usqp=CAU",
+      },
+      {
+        id: 3,
+        img: "https://mblogthumb-phinf.pstatic.net/MjAyMTAzMDhfMTYw/MDAxNjE1MTg3MDkzNjk2.iIFjd26yUcvv3YvVbWuVFtG_isF5e0fiwNR96rjPk0cg.zCDWpUAwP-WvSxHYsjOhRZ9OCCZ457t858bAI4hbpBUg.JPEG.aksen244/6756faf2-74ac-4e89-a2da-292f15ec2aff.jpg?type=w800",
+      },
+      {
+        id: 4,
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBzevuY4_Zd51k9JttCMmuGvhb10KWyzikyA&usqp=CAU",
+      },
+      {
+        id: 5,
+        img: "https://assets-resized.carat-api.im/publication/automated-social-filter/www.instagram.com/ar/706404580707875.jpg",
+      },
+      {
+        id: 6,
+        img: "https://blog.kakaocdn.net/dn/bj4oa7/btqLJWFLMgd/wu4GV8PKbXdICuyW0me0zk/img.jpg",
+      },
+    ],
+    posts: [
+      {
+        id: "1",
+        img: "https://xcrew.kr/crew/files/xcrewxn/766/154644/gallery_image2/%EB%93%B1%EC%82%B0.jpg",
+      },
+      {
+        id: "2",
+        img: "https://xcrew.kr/crew/files/xcrewxn/766/154644/gallery_image2/%EB%93%B1%EC%82%B0.jpg",
+      },
+    ],
   },
   {
     id: "11471124",

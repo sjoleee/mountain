@@ -11,6 +11,8 @@ import InfoCard from "@components/Map/InfoCard";
 import MountainSearchBar from "@components/MountainSearchBar";
 import SearchList from "@components/Map/SearchList";
 import Spinner from "../common/Spinner";
+import SideBar from "@components/SideBar";
+
 import useGeolocation from "@hooks/useGeolocation";
 import mntnMarkerIcon from "@assets/mntn_marker.png";
 import searchedMntnMarkerIcon from "@assets/searched_mntn_marker.png";
@@ -89,7 +91,7 @@ const Maps = () => {
   const [nearbyMountainList, setNearbyMountainList] = useState([]);
   const [nearbyPostList, setNearbyPostList] = useState([]);
   const [searchedMountainList, setSearchedMountainList] = useState([]);
-  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [selectedMarker, setSelectedMarker] = useState();
   const [isSearchListOverlayOpen, setIsSearchListOverlayOpen] = useState(false);
 
   const { isLoading, error, currentPosition } = useGeolocation({
@@ -101,11 +103,6 @@ const Maps = () => {
   });
 
   const handleMyLocBtnClick = () => setIsMyLocBtnClicked((prev) => !prev);
-  const handleInfoCardClose = () => setSelectedMarker(null);
-  const handleSearchResultClose = () => {
-    setIsSearchListOverlayOpen(false);
-    setSearchedMountainList(null);
-  };
 
   const setSelectedMarkerAndFocus = (marker) => {
     axios.get(`/mountains/${marker.id}`).then(({ data }) => {
@@ -130,6 +127,15 @@ const Maps = () => {
     const response = await searchPlaces(searchInput);
     setSearchedMountainList(response);
     setIsSearchListOverlayOpen(true);
+  };
+
+  const handleSearchResultClose = () => {
+    setSearchedMountainList();
+    setIsSearchListOverlayOpen(false);
+  };
+
+  const handleInfoCardClose = () => {
+    setSelectedMarker();
   };
 
   const displayMountainMarkers = (places) => {
@@ -271,7 +277,7 @@ const Maps = () => {
           xAnchor={0.45}
         >
           <InfoCard
-            selectedMarker={selectedMarker}
+            selectedMountain={selectedMarker}
             handleInfoCardClose={handleInfoCardClose}
           />
         </CustomOverlayMap>
@@ -285,6 +291,7 @@ const Maps = () => {
         handleSearchResultClose={handleSearchResultClose}
       />
 
+      <SideBar selectedMountain={selectedMarker} />
       <MountainSearchBar handleSearchSubmit={handleSearchSubmit} />
       <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
       <MyLocationButton handleMyLocBtnClick={handleMyLocBtnClick} />
