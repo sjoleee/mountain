@@ -1,3 +1,4 @@
+import { MountainsRepository } from './../mountains/mountains.repository';
 import { Challenges } from './schemas/challenges.schema';
 import { UsersService } from './../users/services/users.service';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
