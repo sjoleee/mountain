@@ -12,6 +12,8 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { UsersModule } from './modules/users/users.module';
 import { BadgesModule } from './modules/badges/badges.module';
 import { MountainsModule } from './modules/mountains/mountains.module';
+import { RolesGuard } from './common/guard/roles.guard';
+import { APP_GUARD } from '@nestjs/core';
 @Module({
   imports: [
     ConfigModule.forRoot(),
