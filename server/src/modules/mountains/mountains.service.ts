@@ -1,3 +1,4 @@
+import { UsersRepository } from 'src/modules/users/users.repository';
 import { FeedRepository } from './../feed/feed.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
@@ -12,6 +13,7 @@ export class MountainsService {
   constructor(
     private readonly mountainsRepository: MountainsRepository,
     private readonly feedRepository: FeedRepository,
+    private readonly usersRepository: UsersRepository,
   ) {}
 
   async create(
@@ -80,6 +82,9 @@ export class MountainsService {
       });
     }
     //2. 산갔다온 유저정보
+    const userFilter = { mountainList: [new Types.ObjectId(mountain._id)] };
+    const users = await this.usersRepository.findByFilter(userFilter);
+
     //3. 해시태그된 피드
     const feedFilter = {};
     feedFilter['tag'] = { $in: mountain.mntiname };
@@ -90,7 +95,7 @@ export class MountainsService {
       feedSort,
       feedPageOption,
     );
-    return { mountain, feeds };
+    return { mountain, users, feeds };
   }
 
   async getByPos({ swLat, swLng, neLat, neLng }) {

@@ -23,9 +23,7 @@ export class MountainsRepository {
     return mountains;
   }
   async findOne(filter: any) {
-    const mountain = await this.mountainsModel
-      .findOne(filter)
-      .populate('completedList', '', this.userModel);
+    const mountain = await this.mountainsModel.findOne(filter);
     return mountain;
   }
   async update(filter: any, body: UpdateMountainDto) {

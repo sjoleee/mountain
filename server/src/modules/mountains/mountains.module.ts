@@ -6,6 +6,7 @@ import { MountainsController } from './mountains.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Mountains, MountainsSchema } from './schemas/mountains.schema';
 import { Users, UsersSchema } from '../users/schemas/users.schema';
+import { UsersModule } from '../users/users.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { Users, UsersSchema } from '../users/schemas/users.schema';
       { name: Users.name, schema: UsersSchema },
     ]),
     FeedModule,
+    UsersModule,
   ],
   controllers: [MountainsController],
   providers: [MountainsService, MountainsRepository],

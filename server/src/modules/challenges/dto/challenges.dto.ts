@@ -81,8 +81,7 @@ export class ChallengeDto extends defaultDto {
     required: true,
   })
   @IsNotEmpty()
-  @IsString()
-  mountain: string;
+  mountain: Types.ObjectId;
 
   @ApiProperty({
     example: '[1231223123,818123213]',

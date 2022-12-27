@@ -91,7 +91,7 @@ export class ResponseChallengeDto {
     required: true,
   })
   @IsNotEmpty()
-  mountain: string;
+  mountain: Types.ObjectId;
 
   @ApiProperty({
     example: '[1231223123,818123213]',

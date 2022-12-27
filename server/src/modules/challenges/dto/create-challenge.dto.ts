@@ -4,6 +4,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
+  IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -72,13 +73,13 @@ export class CreateChallengeDto {
   MaximumPeople: number;
 
   @ApiProperty({
-    example: '129392932',
+    example: '63a2edcb4c969ab0705775f8',
     description: '산 아이디(일단 string 산module구현시 수정',
     required: true,
   })
   @IsNotEmpty()
-  @IsString()
-  mountain: string;
+  @IsMongoId()
+  mountain: Types.ObjectId;
 
   @ApiProperty({
     example: '우리 챌린지는 이러한 활동을 합니다',

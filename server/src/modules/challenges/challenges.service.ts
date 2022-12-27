@@ -32,6 +32,7 @@ export class ChallengesService {
     const challengeDto = {
       ...createChallengeDto,
       organizer: new Types.ObjectId(currentUser._id),
+      peopleList: [new Types.ObjectId(currentUser._id)],
       point: levelToPoint(createChallengeDto.level),
     };
     const newChallenge = await this.challengesRepository.create(challengeDto);
@@ -93,9 +94,11 @@ export class ChallengesService {
         message: '업데이트에 실패했습니다',
       });
     }
-    challenge.peopleList.forEach((peopleId) => {
-      this.usersService.addPoint(peopleId, challenge.point);
-    });
+    for (const peopleId of challenge.peopleList) {
+      await this.usersService.addPoint(peopleId, challenge.point);
+      await this.usersService.addMountain(peopleId, challenge.mountain);
+      await this.usersService.addChallenge(peopleId, challenge._id);
+    }
     const result = await this.challengesRepository.updateApprove(id);
     if (!result) {
       throw new NotFoundException({
