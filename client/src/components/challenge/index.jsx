@@ -16,7 +16,7 @@ const Challenge = ({ data }) => {
     const diffMin = Math.floor((diff / (1000 * 60)) % 60);
     const diffSec = Math.floor((diff / 1000) % 60);
 
-    const diffText = `${diffDay}일 ${diffHour}시간 ${diffMin}분 ${diffSec}초`;
+    const diffText = `${diffDay}일  ${diffHour} : ${diffMin} : ${diffSec}`;
     setTime(diffText);
   }, 1000);
 

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ChallengeWriteWrapper = styled.div`
+export const ChallengeUpdateWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   margin: 0 auto;

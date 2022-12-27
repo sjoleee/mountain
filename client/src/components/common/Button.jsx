@@ -12,11 +12,12 @@ const ButtonStyle = css`
   color: white;
   outline: none;
   cursor: pointer;
-
+  transition: all 0.3s;
   background: #20c997;
   &:hover {
     background: white;
     color: #20c997;
+    border: 2px solid #20c997;
   }
 
   ${(props) =>

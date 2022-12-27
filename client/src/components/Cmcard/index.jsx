@@ -18,7 +18,7 @@ function CmCard({ data }) {
           </cm.CardInfoContent>
         </cm.CardInfoContainer>
         <cm.CardIntro>
-          <cm.CardIntroText>안녕하세요</cm.CardIntroText>
+          <cm.CardIntroText>{data.intro}</cm.CardIntroText>
         </cm.CardIntro>
       </cm.CardContainer>
     );

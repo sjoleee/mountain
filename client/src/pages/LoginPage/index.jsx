@@ -3,8 +3,6 @@ import mountainLogo from "@/assets/mountain.png";
 import * as al from "@/pages/LoginPage/styles.js";
 import Button from "../../components/common/Button";
 import axios from "axios";
-import { useRecoilState } from "recoil";
-import { userIdState } from "@/store/userState";
 import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
@@ -14,7 +12,6 @@ function LoginPage() {
     password: "",
   });
 
-  const [user, setUser] = useRecoilState(userIdState);
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -23,9 +20,7 @@ function LoginPage() {
       return newForm;
     });
   };
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(form);
@@ -34,8 +29,9 @@ function LoginPage() {
     if (response.status === 201) {
       const userid = response.data.id;
       localStorage.setItem("access_token", response.data["access_token"]);
+      localStorage.setItem("userId", userid);
+      localStorage.setItem("userRole", response.data.roles);
       //console.log(userid);
-      setUser(userid);
       navigate("/challenge");
     }
   };

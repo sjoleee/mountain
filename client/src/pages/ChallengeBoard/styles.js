@@ -22,13 +22,11 @@ export const CBContainer = styled.div`
 export const CBFirst = styled.div`
   width: 45%;
   height: 100%;
-  border: 1px solid black;
 `;
 
 export const CBSecond = styled.div`
   width: 45%;
   height: 100%;
-  border: 1px solid black;
 `;
 
 export const CBTitleContainer = styled.div`
@@ -91,14 +89,12 @@ export const CBInfoContainer = styled.div`
 export const CBInfoLine = styled.div`
   width: 100%;
   height: 40px;
-  border: 1px solid black;
   display: flex;
 `;
 
 export const CBInfotitle = styled.div`
   width: 25%;
   height: 100%;
-  border: 1px solid black;
   display: flex;
   align-items: center;
   font-family: "Pretendard";
@@ -112,7 +108,6 @@ export const CBInfoh3 = styled.span`
 export const CBInfocontent = styled.div`
   width: 60%;
   height: 100%;
-  border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -123,7 +118,7 @@ export const CBInfocontent = styled.div`
 export const CBInfocontent2 = styled.div`
   width: 60%;
   height: 100%;
-  border: 1px solid black;
+
   display: flex;
   align-items: center;
   font-family: "Pretendard";
@@ -178,7 +173,6 @@ export const LevelContainer = styled.div`
   width: 100%;
   height: 50px;
   margin: 1rem 0;
-  border: 1px solid black;
   display: flex;
   align-items: center;
 `;

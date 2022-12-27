@@ -9,6 +9,7 @@ function ChallnegeWriteForm({
   onSubmitClick,
   onHashtagKey,
   onChangeImage,
+  isUpdate,
 }) {
   return (
     <Cwf.CwriteForm>
@@ -212,9 +213,13 @@ function ChallnegeWriteForm({
           </Cwf.CwInputContinaer>
         </Cwf.CwBasicContainer>
         <Cwf.submitPosition>
-          <Button type="button" onClick={onSubmitClick}>
-            등록하기
-          </Button>
+          {isUpdate ? (
+            <Button type="button">수정하기</Button>
+          ) : (
+            <Button type="button" onClick={onSubmitClick}>
+              등록하기
+            </Button>
+          )}
         </Cwf.submitPosition>
       </Cwf.CwriteSecond>
     </Cwf.CwriteForm>

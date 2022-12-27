@@ -22,7 +22,7 @@ function ChallengeBoardPage() {
   const [isData, setIsData] = useState(false);
   const [isWait, setIsWait] = useState(false);
   // 로그인한 유저를 확인하는 전역 상태변수
-  const user = useRecoilValue(userIdState);
+  const user = localStorage.getItem("userId");
   const [wlist, setWlist] = useRecoilState(waitingListState);
   const [plist, setPlist] = useRecoilState(peopleListState);
   const navigate = useNavigate();
@@ -102,6 +102,10 @@ function ChallengeBoardPage() {
     navigate(-1);
   };
 
+  const onUpdateClick = () => {
+    navigate(`/challenge/${challengeId}/update`);
+  };
+
   return (
     <>
       <cp.BoardContainer>
@@ -163,7 +167,7 @@ function ChallengeBoardPage() {
           <cp.CBSecond>
             {isOrganizer ? (
               <cp.ButtonContainer>
-                <Button>수정</Button>
+                <Button onClick={onUpdateClick}>수정</Button>
                 <Button onClick={onPartyButton}>참여</Button>
                 <Button>제출</Button>
               </cp.ButtonContainer>

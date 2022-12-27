@@ -12,41 +12,44 @@ export const ChallengePageBox = styled.div`
 
 export const ChallengefilterBox = styled.div`
   display: block;
-  width: 60%;
+  width: 70%;
   height: 250px;
-  border: 1px solid black;
+  border: 1px solid #bdbdbd;
   display: flex;
   justify-content: center;
+  box-shadow: 2px 2px 2px 2px #bdbdbd;
 `;
 
 export const RegionBox = styled.div`
-  width: 33%;
+  width: 29%;
   height: 100%;
-  border: 1px solid black;
+  border-right: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
 `;
 
 export const TierBox = styled.div`
-  width: 33%;
+  width: 29%;
   height: 100%;
-  border: 1px solid black;
+  border-right: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
 `;
 
 export const LevelBox = styled.div`
-  width: 33%;
+  width: 29%;
   height: 100%;
-  border: 1px solid black;
+  border-right: 1px solid #e0e0e0;
   display: flex;
   flex-direction: column;
 `;
-
+export const selectBox = styled.div`
+  width: 13%;
+  height: 100%;
+`;
 export const FilterTitleBox = styled.div`
   width: 100%;
   height: 33%;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,7 +61,6 @@ export const FilterTitleBox = styled.div`
 export const FilterContentBox = styled.div`
   width: 100%;
   height: 67%;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -68,7 +70,7 @@ export const FilterContents = styled.div`
   width: 80%;
   height: auto;
   display: flex;
-  border: 1px solid black;
+  justify-content: center;
   flex-directions: row;
   flex-wrap: wrap;
   font-family: "Pretendard";
@@ -84,23 +86,30 @@ export const FilterContent = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 0.5rem;
-  border-radius: 5px;
-  pointer: cursor;
+  border-radius: 2px;
+  transition: 0.4s;
   &:hover {
     color: #20c997;
-    border: 3px solid rgba(32, 201, 151, 0.5);
+  }
+  &.backLevel {
+    box-shadow: 0px 3px 0px 0px #9e9e9e;
+    background: #eeeeee;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    margin-left: 2px;
+    margin-right: 3px;
   }
 `;
 
 export const FilterText = styled.label`
-  pointer: cursor;
+  cursor: pointer;
+  user-select: none;
 `;
 
 export const FilterTierContents = styled.div`
   width: 80%;
   height: auto;
   display: flex;
-  border: 1px solid black;
   flex-directions: row;
   flex-wrap: wrap;
   font-family: "Pretendard";
@@ -113,18 +122,99 @@ export const FilterTierContents = styled.div`
 export const TierContent = styled.div`
   width: 32%;
   height: 70px;
-  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
+export const TierContentContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  transition: 0.4s;
+  &.backLevel {
+    box-shadow: 0px 3px 0px 0px #9e9e9e;
+    background: #eeeeee;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    margin-left: 2px;
+    margin-right: 3px;
+  }
+`;
+
+export const TierImg = styled.div`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+export const TierName = styled.div`
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const LevelContent = styled.div`
+  width: 32%;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+`;
+export const LevelContentContainer = styled.div`
+  width: 50px;
+  height: 60px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  transition: 0.4s;
+
+  &.backLevel {
+    box-shadow: 0px 3px 0px 0px #9e9e9e;
+    background: #eeeeee;
+    margin-top: 5px;
+    margin-bottom: 1px;
+    margin-left: 2px;
+    margin-right: 3px;
+  }
+`;
+
+export const LevelImg = styled.div`
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const Limg = styled.img`
+  width: 40px;
+  height: 40px;
+`;
+export const LevelName = styled.label`
+  width: 100%;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+`;
+
 export const ChallengeListContainer = styled.div`
   height: 500px;
   width: 60%;
-  margin-top: 5%;
+  margin-top: 2%;
   display: flex;
   flex-wrap: wrap;
   overflow: scroll;
   overflow-x: hidden;
   &::-webkit-scrollbar {
-    background: black;
     width: 10px;
   }
   &::-webkit-scrollbar-thumb {
@@ -139,64 +229,6 @@ export const ChallengeListContainer = styled.div`
     box-shadow: inset 0px 0px 5px white;
   }
 `;
-// export const ChallengeLevelBox = styled.div`
-//   width: 30%;
-//   height: auto;
-//   padding-top: 1rem;
-// `;
-// export const ChallengeConditionBox = styled.div`
-//   width: 30%;
-//   height: auto;
-//   padding-top: 1rem;
-//   display: flex;
-//   flex-direction: rows;
-// `;
-// export const ChallengeRankingBox = styled.div`
-//   width: 50%;
-//   height: auto;
-//   display: flex;
-//   flex-wrap: wrap;
-//   justify-content: space-around;
-// `;
-
-// export const RankingImage = styled.img`
-//   width: 30px;
-//   height: 30px;
-//   margin-right: 5px;
-// `;
-
-// export const ChallengeRegionBox = styled.div`
-//   width: 30%;
-//   height: auto;
-//   padding-top: 1rem;
-// `;
-
-// export const ChallengeMenu = styled.span`
-//   font-family: "Pretendard";
-//   font-size: 1.2rem;
-//   font-weight: bold;
-//   font-display: swap;
-//   padding-right: 1rem;
-// `;
-
-// export const ChanllengeRegionSelect = styled.select`
-//   background: #e0e0e0;
-//   font-family: "Pretendard";
-//   font-size: 1.4rem;
-//   font-weight: semibold;
-//   font-display: swap;
-//   color: rgba(0, 0, 0, 80%);
-//   border: 2px solid rgba(96, 96, 96, 50%);
-//   border-radius: 5px;
-//   width: 120px;
-//   padding-left: 5%;
-//   height: auto;
-//   outline: none;
-
-//   &:focus {
-//     background: white;
-//   }
-// `;
 
 export const addButton = styled.div`
   width: 50px;
@@ -234,7 +266,7 @@ export const logoutButton = styled.button`
   border-radius: 10px;
   display: flex;
   border: none;
-  pointer: cursor;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
 `;
@@ -246,4 +278,100 @@ export const addLogoSpan = styled.span`
   font-display: swap;
   padding-bottom: 0.3rem;
   padding-left: 0.05rem;
+  cursor: pointer;
+`;
+
+export const selectRegionBox = styled.div`
+  margin-top: 5px;
+  width: 100%;
+  height: 25%;
+`;
+export const selectTitle = styled.div`
+  width: 100%;
+  height: 60%;
+  border-bottom: 2px solid #bdbdbd;
+  display: flex;
+  align-items: center;
+  font-family: "Pretendard";
+  font-size: 1.2rem;
+  font-weight: 400;
+`;
+
+export const selectContent = styled.div`
+  width: 100%;
+  height: 40%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: "Pretendard";
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin-top: 2px;
+`;
+export const titleSpan = styled.span`
+  padding-left: 0.7rem;
+`;
+export const contentSpan = styled.span`
+  padding-right: 0.7rem;
+`;
+export const selectTierBox = styled.div`
+  margin-top: 5px;
+  width: 100%;
+  height: 20%;
+`;
+export const selectLevelBox = styled.div`
+  margin-top: 5px;
+  width: 100%;
+  height: 20%;
+`;
+
+export const selectButtonBox = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  top: 30px;
+  display: flex;
+  justify-content: flex-end;
+`;
+export const buttonDiv = styled.div`
+  width: auto;
+  height: auto;
+  padding-right: 10px;
+`;
+export const sButtonImg = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-left: 3px;
+  padding-bottom: 1px;
+`;
+export const sButtonlabel = styled.label`
+  margin-left: 5px;
+  cursor: pointer;
+`;
+
+export const selectButton = styled.button`
+  width: 32px;
+  height: 30px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s;
+  cursor: pointer;
+  & > img {
+    transform: translateX(2px);
+  }
+  & > label {
+    opacity: 0;
+    width: 0;
+  }
+  &:hover {
+    width: 90px;
+    & > label {
+      transition: 1s;
+      width: auto;
+      opacity: 1;
+    }
+  }
 `;

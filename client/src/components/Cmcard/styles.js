@@ -5,6 +5,7 @@ export const CardContainer = styled.div`
   height: 150px;
   border: 1px solid gray;
   border-radius: 10px;
+  margin-left: 2rem;
 `;
 
 export const CardInfoContainer = styled.div`
@@ -18,7 +19,7 @@ export const CardInfoContainer = styled.div`
 export const CardInfoImg = styled.div`
   width: 35%;
   height: 100%;
-  border: 1px solid black;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,7 +28,6 @@ export const CardInfoImg = styled.div`
 export const CardInfoContent = styled.div`
   width: 65%;
   height: 100%;
-  border: 1px solid black;
 `;
 export const CardImage = styled.img`
   width: 50px;
@@ -62,6 +62,8 @@ export const Cardname = styled.div`
   font-display: swap;
   display: flex;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 export const CardBadge = styled.div`
   width: 100%;
@@ -73,7 +75,6 @@ export const CardBadge = styled.div`
 export const CardIntro = styled.div`
   width: 100%;
   height: 60px;
-  border: 1px solid black;
 `;
 
 export const CardIntroText = styled.span`

@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
-import * as CW from "./styles";
+import * as CU from "./styles";
 import ChallnegeWriteForm from "@/components/challwrite";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Back from "@/assets/challenge/previous.png";
 
-function ChallengeWritePage() {
-  // const [token,setToken]=useState("");
-  // useEffect(() => {
-  //   setToken(`Bearer ${localStorage.getItem("access_token")}`)
-  //   console.log(localStorage.getItem("access_token"));
-  // }, []);
+function ChallengeUpdate() {
   const [form, setForm] = useState({
     name: "",
     startDate: new Date(), // 직점 참가하는 챌린지 시작 날짜
@@ -27,6 +21,7 @@ function ChallengeWritePage() {
     tag: "",
     image: null,
   });
+  const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -138,19 +133,25 @@ function ChallengeWritePage() {
   const onBackClick = () => {
     navigate(-1);
   };
+  useEffect(() => {
+    setIsUpdate(true);
+  }, []);
   return (
-    <CW.ChallengeWriteWrapper>
-      <CW.BackImg src={Back} onClick={onBackClick}></CW.BackImg>
-      <ChallnegeWriteForm
-        form={form}
-        onChange={onChange}
-        onClick={onClick}
-        onSubmitClick={onSubmitClick}
-        onHashtagKey={onHashtagKey}
-        onChangeImage={onChangeImage}
-      />
-    </CW.ChallengeWriteWrapper>
+    <>
+      <CU.ChallengeUpdateWrapper>
+        <CU.BackImg src={Back} onClick={onBackClick} />
+        <ChallnegeWriteForm
+          form={form}
+          onChange={onChange}
+          onClick={onClick}
+          onSubmitClick={onSubmitClick}
+          onHashtagKey={onHashtagKey}
+          onChangeImage={onChangeImage}
+          isUpdate={isUpdate}
+        />
+      </CU.ChallengeUpdateWrapper>
+    </>
   );
 }
 
-export default ChallengeWritePage;
+export default ChallengeUpdate;
