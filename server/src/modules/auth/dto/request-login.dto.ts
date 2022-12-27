@@ -1,8 +1,8 @@
-import { UserDto } from './../../user/dto/user.dto';
 import { IsEmail, IsNotEmpty, IsString, Max, Min } from 'class-validator';
 import { PickType } from '@nestjs/swagger';
+import { UsersDto } from 'src/modules/users/dto/users.dto';
 
-export class RequestLoginDto extends PickType(UserDto, [
+export class RequestLoginDto extends PickType(UsersDto, [
   'email',
   'password',
 ] as const) {
