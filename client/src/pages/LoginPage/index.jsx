@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import mountainLogo from "@/assets/mountain.png";
-import {
-  LoginWrapper,
-  LoginContainer,
-  LogoContainer,
-  LoginFormContainer,
-  Logo,
-  LoginFormBlock,
-  LoginH1,
-  StyledHr,
-  StyledInput,
-} from "@/pages/LoginPage/styles.jsx";
+import * as al from "@/pages/LoginPage/styles.js";
 import Button from "../../components/common/Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
-    userEmail: "",
+    email: "",
     password: "",
   });
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -26,42 +19,45 @@ function LoginPage() {
       newForm[name] = value;
       return newForm;
     });
-    //setForm({ ...form, name: value });
-    //console.log(form);
   };
-  const onSubmit = (e) => {
+
+  const onSubmit = async (e) => {
     e.preventDefault();
     console.log(form);
-    axios
-      .post("http://localhost:8000/auth/login", form)
-      .then(function (response) {
-        //console.log(response.data);
-        setCookie("access_token", response.data["access-token"]);
-      });
+    const response = await axios.post("http://localhost:8000/auth/login", form);
+    console.log(response);
+    if (response.status === 201) {
+      const userid = response.data.id;
+      localStorage.setItem("access_token", response.data["access_token"]);
+      localStorage.setItem("userId", userid);
+      localStorage.setItem("userRole", response.data.roles);
+      //console.log(userid);
+      navigate("/challenge");
+    }
   };
 
   useEffect(() => {
-    setForm({ userEmail: "", password: "" });
+    setForm({ email: "", password: "" });
   }, []);
 
   return (
     <>
-      <LoginWrapper>
-        <LoginContainer>
-          <LogoContainer>
-            <Logo src={mountainLogo} />
-          </LogoContainer>
-          <LoginFormContainer>
-            <LoginFormBlock onSubmit={onSubmit}>
-              <LoginH1>LOGIN</LoginH1>
-              <StyledHr />
-              <StyledInput
-                name="userEmail"
+      <al.LoginWrapper>
+        <al.LoginContainer>
+          <al.LogoContainer>
+            <al.Logo src={mountainLogo} />
+          </al.LogoContainer>
+          <al.LoginFormContainer>
+            <al.LoginFormBlock onSubmit={onSubmit}>
+              <al.LoginH1>LOGIN</al.LoginH1>
+              <al.StyledHr />
+              <al.StyledInput
+                name="email"
                 placeholder="example@example.com"
-                value={form.userEmail}
+                value={form.email}
                 onChange={onChange}
               />
-              <StyledInput
+              <al.StyledInput
                 name="password"
                 placeholder="password"
                 type="password"
@@ -73,14 +69,14 @@ function LoginPage() {
               </Button>
               <span>
                 Don't have an account?{" "}
-                <a href="#" style={{ color: "red" }}>
+                <a href="/register" style={{ color: "red" }}>
                   Regsiter
                 </a>
               </span>
-            </LoginFormBlock>
-          </LoginFormContainer>
-        </LoginContainer>
-      </LoginWrapper>
+            </al.LoginFormBlock>
+          </al.LoginFormContainer>
+        </al.LoginContainer>
+      </al.LoginWrapper>
     </>
   );
 }

@@ -5,7 +5,13 @@ const checkuser = {
   userEmail: "test@test.com",
   password: "1234",
 };
+const challenge = [];
 export const handlers = [
+  rest.post("/challenge/write", (req, res, ctx) => {
+    challenge.push(req.body);
+    console.log(challenge);
+    return res(ctx.status(201));
+  }),
   rest.get("/login", (req, res, ctx) => {
     const body = req.body;
     if (checkuser.userEmail === body.userEmail) {
