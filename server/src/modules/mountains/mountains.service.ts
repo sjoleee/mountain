@@ -76,10 +76,8 @@ export class MountainsService {
     const mountainFilter = { mntiid: id };
     const mountain = await this.mountainsRepository.findOne(mountainFilter);
     if (!mountain) {
-      throw new NotFoundException({
-        status: 404,
-        message: '해당 산을 찾을 수 없습니다',
-      });
+      console.log('산이 없습니다.');
+      return { mountain: [], users: [], feeds: [] };
     }
     //2. 산갔다온 유저정보
     const userFilter = { mountainList: [new Types.ObjectId(mountain._id)] };

@@ -160,7 +160,7 @@ export class ResponseChallengeDto {
     required: false,
   })
   @IsOptional()
-  tag: Array<string>;
+  hashtag: Array<string>;
 
   constructor(challenge: ResponseChallengeDto) {
     this._id = challenge._id;
@@ -183,6 +183,6 @@ export class ResponseChallengeDto {
     this.mountain = challenge.mountain;
     this.approval = challenge.approval;
     this.approved = challenge.approved;
-    this.tag = challenge.tag;
+    this.hashtag = challenge.hashtag;
   }
 }

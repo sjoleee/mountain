@@ -165,5 +165,5 @@ export class ChallengeDto extends defaultDto {
     required: false,
   })
   @IsOptional()
-  tag: Array<string>;
+  hashtag: Array<string>;
 }
