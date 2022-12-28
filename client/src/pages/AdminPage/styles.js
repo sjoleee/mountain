@@ -4,7 +4,7 @@ export const Container = styled.div`
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  padding: 40px 64px;
+  padding: 40px 240px;
 `;
 
 export const TabContainer = styled.div`
@@ -52,4 +52,35 @@ export const Button = styled.button`
   &:disabled {
     background-color: lightGray;
   }
+`;
+
+export const BoardTitleContainer = styled.div`
+  display: flex;
+  width: 100%;
+
+  height: 24px;
+`;
+
+export const BoardTitle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: ${({ isButton, isChallenges }) => {
+    if (isButton && isChallenges) {
+      return "100px";
+    }
+    if (isButton && !isChallenges) {
+      return "20px";
+    }
+    return "250px";
+  }};
+  width: ${({ isTitle, isButton }) =>
+    isTitle ? "100%" : isButton ? "60px" : "250px"};
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border: 1px solid white;
+  background-color: #20c997;
+  padding: 0 16px;
+  white-space: nowrap;
 `;

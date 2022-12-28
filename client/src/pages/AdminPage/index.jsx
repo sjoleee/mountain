@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import * as S from "./styles";
 import axios from "axios";
 import AdminPost from "../../components/AdminPost";
+import { getAdminData } from "../../apis";
 
 export const TAB = {
   CHALLENGES: "challenges",
@@ -27,30 +28,13 @@ const AdminPage = () => {
     isUsers: searchParams.get("tab") === TAB.USERS,
   };
 
-  const getAdminData = async (page) => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: `http://localhost:8000/admin/${searchParams.get("tab")}`,
-        params: { order: "desc", page: page, take: 10 },
-        headers: { contentType: "application/json" },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.dir(error);
-    }
-  };
-
   const { data, isLoading, isError } = useQuery(
     ["posts", searchParams.get("tab"), currentPage],
-    () => getAdminData(currentPage),
+    () => getAdminData(searchParams.get("tab"), currentPage),
     {
       staleTime: 2000,
     }
   );
-
-  console.log(data);
 
   useEffect(() => {
     if (!searchParams.get("tab") && !searchParams.get("page"))
@@ -90,6 +74,14 @@ const AdminPage = () => {
         </S.Tab>
       </S.TabContainer>
       <S.Board>
+        <S.BoardTitleContainer>
+          <S.BoardTitle>ID</S.BoardTitle>
+          <S.BoardTitle isTitle>이름</S.BoardTitle>
+          <S.BoardTitle>생성일자</S.BoardTitle>
+          <S.BoardTitle isButton isChallenges={validateTab.isChallenges}>
+            편집
+          </S.BoardTitle>
+        </S.BoardTitleContainer>
         {data?.data.map((post) => (
           <AdminPost key={post._id} validateTab={validateTab} {...post} />
         ))}
