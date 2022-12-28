@@ -1,3 +1,5 @@
+import { ObjectId, Types } from 'mongoose';
+import { BadgesRepository } from './../../badges/badges.repository';
 /* eslint-disable prettier/prettier */
 import {
   Injectable,
@@ -16,7 +18,10 @@ import { UpdateUsersDto } from '../dto/update-users.dto';
 import { UsersRepository } from '../users.repository';
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly badgesRepository: BadgesRepository,
+  ) {}
 
   async signUp(createUserDto: CreateUsersDto) {
     const { email, username, password } = createUserDto;
@@ -137,6 +142,31 @@ export class UsersService {
     );
     if (!isMountain) {
       user.mountainList.push(mountainId);
+      await this.usersRepository.updateById(userId, user);
+      return { status: 200, message: '추가되었습니다' };
+    }
+  }
+
+  async addBadge(userId, mountainId) {
+    const user = await this.usersRepository.findOneUserById(userId);
+    if (!user) {
+      throw new NotFoundException({
+        status: 404,
+        message: '유저를 찾을 수 없습니다',
+      });
+    }
+    const filter = { mountain: mountainId };
+    const badge = await this.badgesRepository.findOne(filter);
+    if (!badge) {
+      throw new NotFoundException({
+        status: 404,
+        message: '뱃지를 찾을 수 없습니다',
+      });
+    }
+    const badgeId = badge._id;
+    const isBadge = user.badgeList.some((list) => list.equals(badgeId));
+    if (!isBadge) {
+      user.badgeList.push(badgeId);
       await this.usersRepository.updateById(userId, user);
       return { status: 200, message: '추가되었습니다' };
     }

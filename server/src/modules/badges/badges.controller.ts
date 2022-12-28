@@ -36,6 +36,13 @@ export class BadgesController {
   async findOne(@Param('id') id: string): Promise<ResponseBadgeDto> {
     return await this.badgesService.findOne(id);
   }
+
+  @ApiOperation({ summary: '산 id 에 대한 뱃지 보기' })
+  @Get('/mountains/:id')
+  async findOneByMountain(@Param('id') id: string): Promise<ResponseBadgeDto> {
+    return await this.badgesService.findOneByMountain(id);
+  }
+
   @ApiOperation({ summary: '뱃지 수정' })
   @Put(':id')
   async update(
