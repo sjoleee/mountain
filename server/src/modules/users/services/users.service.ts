@@ -124,6 +124,41 @@ export class UsersService {
     await this.advancement(userId);
     return result;
   }
+  async addMountain(userId, mountainId) {
+    const user = await this.usersRepository.findOneUserById(userId);
+    if (!user) {
+      throw new NotFoundException({
+        status: 404,
+        message: '유저를 찾을 수 없습니다',
+      });
+    }
+    const isMountain = user.mountainList.some((list) =>
+      list.equals(mountainId),
+    );
+    if (!isMountain) {
+      user.mountainList.push(mountainId);
+      await this.usersRepository.updateById(userId, user);
+      return { status: 200, message: '추가되었습니다' };
+    }
+  }
+
+  async addChallenge(userId, challengeId) {
+    const user = await this.usersRepository.findOneUserById(userId);
+    if (!user) {
+      throw new NotFoundException({
+        status: 404,
+        message: '유저를 찾을 수 없습니다',
+      });
+    }
+    const isChallenge = user.completedList.some((list) =>
+      list.equals(challengeId),
+    );
+    if (!isChallenge) {
+      user.completedList.push(challengeId);
+      await this.usersRepository.updateById(userId, user);
+      return { status: 200, message: '추가되었습니다' };
+    }
+  }
 
   async advancement(userId) {
     const user = await this.usersRepository.findOneUserById(userId);

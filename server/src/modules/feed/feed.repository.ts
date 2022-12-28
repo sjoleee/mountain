@@ -72,6 +72,12 @@ export class FeedRepository {
       .limit(pageOptionsDto.take);
   }
 
+  async findPageKakao(filter: FilterFeedOptionsDto, sort, pageOptionsDto: any) {
+    return await this.feedModel
+      .find(filter)
+      .sort(sort)
+      .limit(pageOptionsDto.take);
+  }
   async countDocuments(filter: any) {
     const feeds = await this.feedModel.find(filter);
     return feeds.length;
@@ -84,5 +90,9 @@ export class FeedRepository {
   async delete(filter: any) {
     const result = await this.feedModel.findOneAndDelete(filter).exec();
     return result;
+  }
+
+  async findByFilter(filter: any, sort: any) {
+    return await this.feedModel.find(filter).sort(sort);
   }
 }

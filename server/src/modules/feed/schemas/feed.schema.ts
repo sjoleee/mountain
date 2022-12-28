@@ -59,13 +59,13 @@ export class Feed extends defaultSchema {
     required: false,
   })
   @IsOptional()
-  lat?: string;
+  lat?: number;
 
   @Prop({
     required: false,
   })
   @IsOptional()
-  lng?: string;
+  lng?: number;
 
   readonly comments: Comments[];
 }

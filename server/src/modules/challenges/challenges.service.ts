@@ -1,3 +1,4 @@
+import { MountainsRepository } from './../mountains/mountains.repository';
 import { Challenges } from './schemas/challenges.schema';
 import { UsersService } from './../users/services/users.service';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
@@ -92,9 +93,12 @@ export class ChallengesService {
         message: '업데이트에 실패했습니다',
       });
     }
-    challenge.peopleList.forEach((peopleId) => {
-      this.usersService.addPoint(peopleId, challenge.point);
-    });
+    challenge.peopleList.push(challenge.organizer);
+    for (const peopleId of challenge.peopleList) {
+      await this.usersService.addPoint(peopleId, challenge.point);
+      await this.usersService.addMountain(peopleId, challenge.mountain);
+      await this.usersService.addChallenge(peopleId, challenge._id);
+    }
     const result = await this.challengesRepository.updateApprove(id);
     if (!result) {
       throw new NotFoundException({
