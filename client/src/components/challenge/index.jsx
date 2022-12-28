@@ -4,7 +4,7 @@ import timer from "@/assets/challenge/timer.png";
 import { Link } from "react-router-dom";
 
 const Challenge = ({ data }) => {
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState("00일 00 : 00 : 00");
 
   setInterval(() => {
     const maxTime = new Date(data.dueDate);

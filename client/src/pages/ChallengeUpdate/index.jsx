@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import * as CU from "./styles";
 import ChallnegeWriteForm from "@/components/challwrite";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Back from "@/assets/challenge/previous.png";
+import axios from "axios";
 
 function ChallengeUpdate() {
   const [form, setForm] = useState({
@@ -23,6 +24,7 @@ function ChallengeUpdate() {
   });
   const [isUpdate, setIsUpdate] = useState(false);
   const navigate = useNavigate();
+  const { challengeId } = useParams();
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -134,6 +136,22 @@ function ChallengeUpdate() {
     navigate(-1);
   };
   useEffect(() => {
+    axios
+      .get(`http://localhost:8000/challenges/${challengeId}`)
+      .then((response) => {
+        console.log(response);
+        return response.data;
+      })
+      .then((data) => {
+        let newData = {
+          ...data,
+          startDate: String(data.startDate).substring(0, 10),
+          finishDate: String(data.finishDate).substring(0, 10),
+          dueDate: String(data.dueDate).substring(0, 10),
+        };
+        console.log(newData);
+        setForm(newData);
+      });
     setIsUpdate(true);
   }, []);
   return (

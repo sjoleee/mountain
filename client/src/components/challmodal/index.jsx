@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as cm from "./styles";
 import cancel from "@/assets/challenge/cancel.png";
-import CmCard from "../Cmcard";
+import CmCard from "../challengeMember";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { waitingListState } from "@/store/waitingList";
