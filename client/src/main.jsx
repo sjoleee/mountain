@@ -18,9 +18,7 @@ prepare().then(() => {
     <React.StrictMode>
       <BrowserRouter>
         <RecoilRoot>
-          <Suspense fallback={<Loading />}>
-            <App />
-          </Suspense>
+          <App />
         </RecoilRoot>
       </BrowserRouter>
     </React.StrictMode>

@@ -55,6 +55,7 @@ export class ChallengesService {
 
   async findOneById(id: string): Promise<ResponseChallengeDto> {
     const challenge = await this.challengesRepository.findOneById(id);
+    console.log(challenge);
     return new ResponseChallengeDto(challenge);
   }
 
@@ -94,9 +95,11 @@ export class ChallengesService {
         message: '업데이트에 실패했습니다',
       });
     }
+    challenge.peopleList.push(challenge.organizer);
     for (const peopleId of challenge.peopleList) {
       await this.usersService.addPoint(peopleId, challenge.point);
       await this.usersService.addMountain(peopleId, challenge.mountain);
+      await this.usersService.addBadge(peopleId, challenge.mountain);
       await this.usersService.addChallenge(peopleId, challenge._id);
     }
     const result = await this.challengesRepository.updateApprove(id);
