@@ -18,12 +18,12 @@ import mntnMarkerIcon from "@assets/mntn_marker.png";
 import searchedMntnMarkerIcon from "@assets/searched_mntn_marker.png";
 import myLocationIcon from "@assets/my_location.png";
 import * as S from "@components/Map/styles";
-import axios from "axios";
 import {
   DEFAULT_POSITION,
   TOUR_SPOT_CODE,
   MAX_MARKERS_NUM_DISPLAY_SCREEN,
 } from "@constants/map";
+import { searchPostsByPos, getMountainInfo } from "../../apis";
 
 const geolocationOptions = {
   //timeout: 5000, // 최대 대기 시간
@@ -109,21 +109,8 @@ const Maps = () => {
 
   const handleMyLocBtnClick = () => setIsMyLocBtnClicked((prev) => !prev);
 
-  const getMountainInfo = async (marker) => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: `http://localhost:8000/mountains/kakao/${marker.id}`,
-        headers: { contentType: "application/json" },
-      });
-      return response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const handleMarkerClick = async (marker) => {
-    const mntnInfo = await getMountainInfo(marker);
+    const mntnInfo = await getMountainInfo(marker.id);
 
     setSelectedMarker({
       ...marker,
@@ -185,7 +172,6 @@ const Maps = () => {
 
     return [mountainList, bounds];
   };
-  console.log("selected", selectedMarker);
 
   const searchPlaces = (keyword, options) => {
     return new Promise((resolve, reject) =>
@@ -210,22 +196,15 @@ const Maps = () => {
     const { Ma: swLat, La: swLng } = map.getBounds().getSouthWest();
     const { Ma: neLat, La: neLng } = map.getBounds().getNorthEast();
 
-    try {
-      const response = await axios({
-        method: "get",
-        url: `http://localhost:8000/mountains/search/pos`,
-        headers: { contentType: "application/json" },
-        params: {
-          swLat,
-          swLng,
-          neLat,
-          neLng,
-        },
-      });
-      setNearbyPostList(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    const postList = await searchPostsByPos({
+      params: {
+        swLat,
+        swLng,
+        neLat,
+        neLng,
+      },
+    });
+    return postList;
   };
 
   const isSelectedMarker = (mntn) => selectedMarker?.id === mntn.id;
@@ -233,7 +212,9 @@ const Maps = () => {
   const displayNearbyMntnAndPosts = async (searchOptions) => {
     const [mountainList] = await searchPlaces("산", searchOptions);
     setNearbyMountainList(mountainList);
-    await getNearbyPosts();
+
+    const postList = await getNearbyPosts();
+    setNearbyPostList(postList);
   };
 
   useEffect(() => {
