@@ -4,6 +4,8 @@ import * as al from "@/pages/LoginPage/styles.js";
 import Button from "../../components/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { usernameState } from "@/store/userState";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -11,7 +13,7 @@ function LoginPage() {
     email: "",
     password: "",
   });
-
+  const [username, setUsername] = useRecoilState(usernameState);
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -31,6 +33,8 @@ function LoginPage() {
       localStorage.setItem("access_token", response.data["access_token"]);
       localStorage.setItem("userId", userid);
       localStorage.setItem("userRole", response.data.roles);
+      localStorage.setItem("username", response.data.username);
+      setUsername(response.data.username);
       //console.log(userid);
       navigate("/challenge");
     }

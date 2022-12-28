@@ -5,7 +5,6 @@ export const CardContainer = styled.div`
   height: 150px;
   border: 1px solid gray;
   border-radius: 10px;
-  margin-left: 2rem;
 `;
 
 export const CardInfoContainer = styled.div`

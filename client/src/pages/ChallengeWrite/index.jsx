@@ -15,7 +15,7 @@ function ChallengeWritePage() {
     name: "",
     startDate: new Date(), // 직점 참가하는 챌린지 시작 날짜
     finishDate: new Date(), // 직접 참가하는 챌린지 종료 날짜
-    logo: "로고 url",
+    logo: "https://res.cloudinary.com/dvcffh3la/image/upload/v1672208924/sky-gb9262c70e_640_dvqjq9.png",
     dueDate: new Date(), // 챌린지 참여할 수 있는 신청 마지막 날짜 => 말씀하신 dueDate()
     MaximumPeople: 0,
     mountain: "북한산",
@@ -54,26 +54,18 @@ function ChallengeWritePage() {
     if (form.mountain === "북한산") {
       mcode = "129392932";
     }
-    const url = `https://api.cloudinary.com/v1_1/dvcffh3la/image/upload/`;
-    const formData = new FormData();
-    formData.append("api_key", 932114331387218);
-    formData.append("upload_preset", "aah1a0oh");
-    formData.append("file", form.image);
-    const configOfUpload = {
-      header: { "Content-Type": "multipart/form-data" },
-    };
-    const { data } = await axios.post(url, formData, configOfUpload);
-    console.log(data);
+
     const challForm = JSON.stringify({
       conditions: form.conditions,
       name: form.name,
       startDate: form.startDate,
       finishDate: form.finishDate,
       dueDate: form.dueDate,
-      logo: data.url,
+      logo: form.logo,
       MaximumPeople: Number(form.MaximumPeople),
       mountain: mcode,
       content: form.content,
+      hashtag: form.hashtag,
       region: form.region,
       level: form.level,
       point: 3,
@@ -90,6 +82,7 @@ function ChallengeWritePage() {
       .catch((err) => console.log(err));
     navigate("/challenge");
   };
+
   const onChangeImage = (e) => {
     const reader = new FileReader();
     //console.log(e.target.files[0]);
@@ -99,16 +92,27 @@ function ChallengeWritePage() {
       return;
     }
 
-    reader.onloadend = () => {
+    reader.onloadend = async () => {
       const resultImage = reader.result;
       //setImage(resultImage);
+      const url = `https://api.cloudinary.com/v1_1/dvcffh3la/image/upload/`;
+      const formData = new FormData();
+      formData.append("api_key", 932114331387218);
+      formData.append("upload_preset", "aah1a0oh");
+      formData.append("file", resultImage);
+      const configOfUpload = {
+        header: { "Content-Type": "multipart/form-data" },
+      };
+      const { data } = await axios.post(url, formData, configOfUpload);
+      console.log(data.url);
       setForm((current) => {
         let newForm = { ...current };
-        newForm["image"] = resultImage;
+        newForm["logo"] = data.url;
         return newForm;
       });
     };
   };
+
   const onHashtagKey = (e) => {
     const printHashwrap = document.querySelector(".HashtagWrap");
     const printInner = document.createElement("div");

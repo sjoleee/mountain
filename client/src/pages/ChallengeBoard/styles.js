@@ -16,7 +16,10 @@ export const CBContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  border: 1px solid black;
+  border: 1px solid #bebebe;
+  border-radius: 5px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 `;
 
 export const CBFirst = styled.div`
@@ -66,7 +69,6 @@ export const CBBasicContainer = styled.div`
 export const CBImageContainer = styled.div`
   width: 40%;
   height: 100%;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
 `;
@@ -80,7 +82,6 @@ export const CBImage = styled.img`
 export const CBInfoContainer = styled.div`
   width: 60%;
   height: 100%;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -90,6 +91,7 @@ export const CBInfoLine = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
+  border-bottom: 1px solid #bdbdbd;
 `;
 
 export const CBInfotitle = styled.div`
