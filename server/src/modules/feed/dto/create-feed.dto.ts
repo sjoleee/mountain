@@ -36,16 +36,16 @@ export class CreateFeedDto {
   content: string;
 
   @ApiPropertyOptional({
-    example: '23.232323',
+    example: 23.232323,
     description: '위도(선택)',
   })
   @IsOptional()
-  lat?: string;
+  lat?: number;
 
   @ApiPropertyOptional({
-    example: '36.232323',
+    example: 36.232323,
     description: '경도(선택)',
   })
   @IsOptional()
-  lng?: string;
+  lng?: number;
 }

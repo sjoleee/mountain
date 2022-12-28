@@ -73,18 +73,6 @@ export class Mountains extends defaultSchema {
     required: true,
   })
   mntipic: Array<string>;
-
-  @ApiProperty({
-    example: '[198232183,123213213,123213213]',
-    description: '등반한 사람 목록',
-    required: true,
-  })
-  @Prop({
-    type: Array<Types.ObjectId>,
-    required: true,
-    default: [],
-  })
-  completedList: Array<Types.ObjectId>;
 }
 
 export const MountainsSchema = SchemaFactory.createForClass(Mountains);

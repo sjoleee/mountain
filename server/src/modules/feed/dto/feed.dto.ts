@@ -65,8 +65,8 @@ export class FeedDto extends defaultDto {
   comments?: Comments[];
 
   @IsOptional()
-  lat?: string;
+  lat?: number;
 
   @IsOptional()
-  lng?: string;
+  lng?: number;
 }

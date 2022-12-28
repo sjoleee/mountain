@@ -67,10 +67,13 @@ export class Challenges extends defaultSchema {
   peopleList: Array<Types.ObjectId>;
 
   @Prop({
-    required: true,
+    type: Types.ObjectId,
+    required: false,
+    ref: 'mountains',
+    default: [],
   })
   @IsNotEmpty()
-  mountain: string;
+  mountain: Types.ObjectId;
 
   @Prop({
     required: true,

@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsNumber } from 'class-validator';
 import { IsNotEmpty, IsString } from 'class-validator';
-import { SchemaOptions } from 'mongoose';
+import { SchemaOptions, ObjectId, Types } from 'mongoose';
 import { Gender } from 'src/common/enums/gender.enum';
 import { Region } from 'src/common/enums/region.enum';
 import { Role } from 'src/common/enums/role.enum';
@@ -115,9 +115,11 @@ export class Users extends defaultSchema {
   @ApiProperty({
     example: '반갑습니다',
     description: '자기소개',
-    required: true,
   })
-  @Prop()
+  @Prop({
+    required: false,
+    default: '',
+  })
   @IsString()
   intro: string;
 
@@ -153,9 +155,13 @@ export class Users extends defaultSchema {
     description: '챌린지 완료 리스트',
     required: false,
   })
-  @Prop()
-  @IsString()
-  completedList: Array<Completed>;
+  @Prop({
+    type: Array<Types.ObjectId>,
+    required: true,
+    ref: 'challenges',
+    default: [],
+  })
+  completedList: Array<Types.ObjectId>;
 
   @ApiProperty({
     example: '[뱃지1,뱃지2]',
@@ -171,9 +177,14 @@ export class Users extends defaultSchema {
     description: '완료한 산 리스트',
     required: false,
   })
-  @Prop()
-  @IsString()
-  mountainList: Array<string>;
+  @Prop({
+    type: Array<Types.ObjectId>,
+    required: true,
+    ref: 'mountains',
+    default: [],
+  })
+  @IsNotEmpty()
+  mountainList: Array<Types.ObjectId>;
 
   @ApiProperty({
     example: 'user',

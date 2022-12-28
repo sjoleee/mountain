@@ -50,9 +50,10 @@ export class UpdateChallengeDto {
   @ApiProperty({
     example: '129392932',
     description: '산 아이디(일단 string 산module구현시 수정',
+    required: false,
   })
   @IsOptional()
-  mountain?: string;
+  mountain?: Types.ObjectId;
 
   @ApiProperty({
     example: '[1231223123,818123213]',

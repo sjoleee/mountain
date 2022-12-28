@@ -52,12 +52,4 @@ export class CreateMountainDto {
   })
   @IsOptional()
   mntipic: Array<string>;
-
-  @ApiProperty({
-    example: '[198232183,123213213,123213213]',
-    description: '등반한 사람 목록',
-    required: false,
-  })
-  @IsOptional()
-  completedList?: Array<Types.ObjectId>;
 }

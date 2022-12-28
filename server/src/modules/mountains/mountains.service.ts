@@ -1,3 +1,5 @@
+import { UsersRepository } from 'src/modules/users/users.repository';
+import { FeedRepository } from './../feed/feed.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
 import { CreateMountainDto } from './dto/create-mountain.dto';
@@ -8,7 +10,11 @@ import { Types } from 'mongoose';
 
 @Injectable()
 export class MountainsService {
-  constructor(private readonly mountainsRepository: MountainsRepository) {}
+  constructor(
+    private readonly mountainsRepository: MountainsRepository,
+    private readonly feedRepository: FeedRepository,
+    private readonly usersRepository: UsersRepository,
+  ) {}
 
   async create(
     createMountainDto: CreateMountainDto,
@@ -63,5 +69,43 @@ export class MountainsService {
       });
     }
     return { status: 200, message: 'success' };
+  }
+
+  async getByKakaoId(id: string) {
+    //1. 산정보
+    const mountainFilter = { mntiid: id };
+    const mountain = await this.mountainsRepository.findOne(mountainFilter);
+    if (!mountain) {
+      throw new NotFoundException({
+        status: 404,
+        message: '해당 산을 찾을 수 없습니다',
+      });
+    }
+    //2. 산갔다온 유저정보
+    const userFilter = { mountainList: [new Types.ObjectId(mountain._id)] };
+    const users = await this.usersRepository.findByFilter(userFilter);
+
+    //3. 해시태그된 피드
+    const feedFilter = {};
+    feedFilter['tag'] = { $in: mountain.mntiname };
+    const feedSort = { likes: 'desc' };
+    const feedPageOption = { order: 'desc', page: 10, take: 20 };
+    const feeds = await this.feedRepository.findPageKakao(
+      feedFilter,
+      feedSort,
+      feedPageOption,
+    );
+    return { mountain, users, feeds };
+  }
+
+  async getByPos({ swLat, swLng, neLat, neLng }) {
+    console.log(typeof swLat);
+    const posFilter = {};
+    posFilter['lat'] = { $gte: swLat, $lte: neLat };
+    posFilter['lng'] = { $gte: swLng, $lte: neLng };
+
+    const posSort = { likes: 'desc' };
+    const feeds = await this.feedRepository.findByFilter(posFilter, posSort);
+    return feeds;
   }
 }
