@@ -32,17 +32,39 @@ export const SideBarBox = styled.div`
   flex-direction: column;
 `;
 
+export const InfoSection = styled.section`
+  margin: 0px 20px;
+`;
+
+export const InfoBox = styled.div`
+  overflow: scroll;
+  word-break: keep-all;
+  height: 150px;
+  line-height: 1.6;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 export const ProfileSection = styled.section`
   margin: 0px 20px;
   flex-basis: 30%;
 `;
 
-export const ProfileList = styled.div``;
+export const ProfileList = styled.div`
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 export const Profile = styled.div`
   width: 60px;
   height: 60px;
   overflow: hidden;
+  margin-right: 3px;
   border: 1px solid #b1a1a169;
   border-radius: 30px;
   display: inline-block;
@@ -61,7 +83,12 @@ export const PostList = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  height: 
   gap: 2px;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const PostBox = styled.div`
@@ -73,3 +100,5 @@ export const PostBox = styled.div`
     height: 100%;
   }
 `;
+
+export const EmptyContent = styled.div``;

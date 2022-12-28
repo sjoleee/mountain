@@ -25,7 +25,7 @@ const SearchList = ({
             <SearchItem
               key={mntn.id}
               mntn={mntn}
-              onClick={handleSearchItemClick}
+              handleSearchItemClick={handleSearchItemClick}
             />
           ))}
         </S.SearchListBox>

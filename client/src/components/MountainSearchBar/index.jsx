@@ -3,7 +3,7 @@ import { useState } from "react";
 import * as S from "@components/MountainSearchBar/styles";
 import searchIcon from "@assets/search_Icon.png";
 
-const MountainSearchBar = ({ handleSearchSubmit }) => {
+const MountainSearchBar = ({ handleSearchSubmit, style }) => {
   const [query, setQuery] = useState("");
 
   const handleQuerySubmit = () => {
@@ -12,7 +12,7 @@ const MountainSearchBar = ({ handleSearchSubmit }) => {
   };
 
   return (
-    <S.SearchInputBox>
+    <S.SearchInputBox style={style}>
       <input
         className="input-search-mntn"
         type="text"

@@ -81,6 +81,11 @@ const clusterStyleProps = [
   },
 ];
 
+const searchOptions = {
+  category_group_code: TOUR_SPOT_CODE,
+  size: MAX_MARKERS_NUM_DISPLAY_SCREEN,
+};
+
 const Maps = () => {
   const [map, setMap] = useState(null);
   const searchMapRef = useRef(new kakao.maps.services.Places());
@@ -104,29 +109,41 @@ const Maps = () => {
 
   const handleMyLocBtnClick = () => setIsMyLocBtnClicked((prev) => !prev);
 
-  const setSelectedMarkerAndFocus = (marker) => {
-    axios.get(`/mountains/${marker.id}`).then(({ data }) => {
-      setSelectedMarker({
-        ...marker,
-        ...data,
+  const getMountainInfo = async (marker) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: `http://localhost:8000/mountains/kakao/${marker.id}`,
+        headers: { contentType: "application/json" },
       });
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      const { lat, lng } = marker.position;
-      map.setCenter(new kakao.maps.LatLng(lat, lng + 0.02));
+  const handleMarkerClick = async (marker) => {
+    const mntnInfo = await getMountainInfo(marker);
+
+    setSelectedMarker({
+      ...marker,
+      ...mntnInfo?.mountain,
+      posts: mntnInfo?.posts || [],
+      users: mntnInfo?.users || [],
     });
+
+    const { lat, lng } = marker.position;
+    map.setCenter(new kakao.maps.LatLng(lat, lng + 0.02));
   };
 
-  const handleMarkerClick = (marker) => {
-    setSelectedMarkerAndFocus(marker);
-  };
-  const handleSearchItemClick = (item) => {
-    setSelectedMarkerAndFocus(item);
-  };
-
-  const handleSearchSubmit = async (searchInput) => {
-    const response = await searchPlaces(searchInput);
-    setSearchedMountainList(response);
+  const handleSearchSubmit = async (searchInput, searchOptions) => {
+    const [mountainList, bounds] = await searchPlaces(
+      searchInput,
+      searchOptions
+    );
+    setSearchedMountainList(mountainList);
     setIsSearchListOverlayOpen(true);
+    map.setBounds(bounds);
   };
 
   const handleSearchResultClose = () => {
@@ -138,7 +155,13 @@ const Maps = () => {
     setSelectedMarker();
   };
 
-  const displayMountainMarkers = (places) => {
+  const displayMountainMarkers = (places, options) => {
+    let bounds;
+
+    if (!options.bounds) {
+      bounds = new kakao.maps.LatLngBounds();
+    }
+
     const mountainList = [];
     for (let {
       id,
@@ -156,17 +179,15 @@ const Maps = () => {
           lng: Number(x),
         },
       });
+      !options.bounds &&
+        bounds.extend(new kakao.maps.LatLng(Number(y), Number(x)));
     }
-    return mountainList;
-  };
 
-  const searchOptions = {
-    category_group_code: TOUR_SPOT_CODE,
-    size: MAX_MARKERS_NUM_DISPLAY_SCREEN,
-    bounds: map?.getBounds(),
+    return [mountainList, bounds];
   };
+  console.log("selected", selectedMarker);
 
-  const searchPlaces = (keyword) => {
+  const searchPlaces = (keyword, options) => {
     return new Promise((resolve, reject) =>
       searchMapRef.current.keywordSearch(
         keyword,
@@ -178,34 +199,47 @@ const Maps = () => {
           }
           reject(status);
         },
-        searchOptions
+        options
       )
     )
-      .then((res) => displayMountainMarkers(res))
-      .catch((err) => console.log(err));
+      .then((res) => displayMountainMarkers(res, options))
+      .catch((error) => console.log(error));
   };
 
-  const getNearbyPosts = () => {
+  const getNearbyPosts = async () => {
     const { Ma: swLat, La: swLng } = map.getBounds().getSouthWest();
     const { Ma: neLat, La: neLng } = map.getBounds().getNorthEast();
 
-    axios
-      .get(`/map/posts`, { params: { swLat, swLng, neLat, neLng } })
-      .then((response) => setNearbyPostList(response.data));
+    try {
+      const response = await axios({
+        method: "get",
+        url: `http://localhost:8000/mountains/search/pos`,
+        headers: { contentType: "application/json" },
+        params: {
+          swLat,
+          swLng,
+          neLat,
+          neLng,
+        },
+      });
+      setNearbyPostList(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const isSelectedMarker = (mntn) => selectedMarker?.id === mntn.id;
 
+  const displayNearbyMntnAndPosts = async (searchOptions) => {
+    const [mountainList] = await searchPlaces("산", searchOptions);
+    setNearbyMountainList(mountainList);
+    await getNearbyPosts();
+  };
+
   useEffect(() => {
     if (!map) return;
 
-    const displayNearbyMntnMarker = async () => {
-      const response = await searchPlaces("산");
-      setNearbyMountainList(response);
-    };
-
-    displayNearbyMntnMarker();
-    getNearbyPosts();
+    displayNearbyMntnAndPosts({ ...searchOptions, bounds: map.getBounds() });
   }, [map, level, isDragEnd]);
 
   return (
@@ -270,29 +304,43 @@ const Maps = () => {
 
       {/* marker info overlay */}
       {selectedMarker && (
-        <CustomOverlayMap
-          position={selectedMarker.position}
-          zIndex={100}
-          yAnchor={1.95}
-          xAnchor={0.45}
-        >
-          <InfoCard
-            selectedMountain={selectedMarker}
-            handleInfoCardClose={handleInfoCardClose}
-          />
-        </CustomOverlayMap>
+        <>
+          <CustomOverlayMap
+            position={selectedMarker.position}
+            zIndex={100}
+            yAnchor={1.95}
+            xAnchor={0.45}
+          >
+            <InfoCard
+              selectedMountain={selectedMarker}
+              handleInfoCardClose={handleInfoCardClose}
+            />
+          </CustomOverlayMap>
+          <SideBar selectedMountain={selectedMarker} />
+        </>
       )}
 
       {/* search result */}
       <SearchList
         isOpen={isSearchListOverlayOpen}
         mntnList={searchedMountainList}
-        handleSearchItemClick={handleSearchItemClick}
+        handleSearchItemClick={handleMarkerClick}
         handleSearchResultClose={handleSearchResultClose}
       />
 
-      <SideBar selectedMountain={selectedMarker} />
-      <MountainSearchBar handleSearchSubmit={handleSearchSubmit} />
+      <MountainSearchBar
+        handleSearchSubmit={(searchInput) =>
+          handleSearchSubmit(searchInput, searchOptions)
+        }
+        style={{
+          top: "20px",
+          left: "10px",
+          width: "200px",
+          height: "40px",
+          borderRadius: "20px",
+          backgroundColor: "white",
+        }}
+      />
       <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
       <MyLocationButton handleMyLocBtnClick={handleMyLocBtnClick} />
     </KakaoMap>
