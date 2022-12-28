@@ -5,11 +5,11 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import axios from "axios";
 
 const FeedInfo = ({
-  id,
+  _id,
   profileImg,
   author,
   content,
-  comment,
+  comments,
   tag,
   likes,
   feedImg,
@@ -18,29 +18,50 @@ const FeedInfo = ({
   const idRef = useRef();
   const inputRef = useRef();
   const [toggle, setToggle] = useState(true);
+  const [likesCount, setLikesCount] = useState(likes.length);
+  const header = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  };
 
   const handleLikes = () => {
+    if (likesCount > 0 && !toggle) {
+      setLikesCount(likesCount - 1);
+    } else {
+      setLikesCount(likesCount + 1);
+    }
     setToggle(!toggle);
 
-    // axios.put(`/feeds/${id}/like`);
+    axios.put(`http://localhost:8000/feeds/${_id}/like`, {}, header);
   };
 
   const handleCommentSubmit = (feedId) => (e) => {
     e.preventDefault();
     const commentText = inputRef.current.value;
     const content = { contents: commentText };
-    setFeedEach((prev) => {
-      return {
-        ...prev,
-        comment: [
-          ...prev.comment,
-          { username: "테스트유저입니다.", ...content },
-        ],
-      };
-    });
+    axios
+      .post(`http://localhost:8000/comments/${feedId}`, content, header)
+      .then((res) => {
+        setFeedEach((prev) => {
+          console.log(res, prev);
+          return {
+            ...prev,
+            comments: [...prev.comments, res.data],
+          };
+        });
+      });
     inputRef.current.value = "";
-    // axios.post(`/comments/${feedId}`, content);
   };
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const isLiked = likes.includes(userId);
+    if (isLiked) {
+      setToggle(false);
+    }
+  }, []);
 
   return (
     <>
@@ -50,30 +71,30 @@ const FeedInfo = ({
       <S.FeedInfoContainer>
         <S.FeedInfoTopContainer>
           <S.UserProfileContainer>
-            <S.UserProfileImg src={profileImg} alt="유저 프로필이미지" />
-            <S.UserName>{author}</S.UserName>
+            <S.UserProfileImg src={author.profileImg} alt="유저 프로필이미지" />
+            <S.UserName>{author.username}</S.UserName>
           </S.UserProfileContainer>
           <S.ContentWrapper>
             <S.FeedContent>{content}</S.FeedContent>
           </S.ContentWrapper>
           <S.TagsDisplay>
-            {tag?.map((tagEach) => (
-              <S.TagSpan>#{tagEach.tag}</S.TagSpan>
+            {tag?.map((tagEach, i) => (
+              <S.TagSpan key={i}>#{tagEach}</S.TagSpan>
             ))}
           </S.TagsDisplay>
         </S.FeedInfoTopContainer>
         <S.FeedCommentContainer>
           <S.FeedCommentSubject>
-            {comment?.map(({ username, contents }, i) => (
+            {comments?.map(({ author, contents }, i) => (
               <S.UserWrapper key={i}>
-                <S.UserIdSpan>{username}</S.UserIdSpan>
+                <S.UserIdSpan>{author.username}</S.UserIdSpan>
                 <p>{contents}</p>
               </S.UserWrapper>
             ))}
           </S.FeedCommentSubject>
         </S.FeedCommentContainer>
         <S.CommentInputWrapper>
-          <S.CommentInputForm onSubmit={handleCommentSubmit(id)}>
+          <S.CommentInputForm onSubmit={handleCommentSubmit(_id)}>
             <S.CommentInput placeholder="댓글을 입력해주세요" ref={inputRef} />
             <S.CommentInputBtn>댓글달기</S.CommentInputBtn>
           </S.CommentInputForm>
@@ -82,7 +103,7 @@ const FeedInfo = ({
           <S.LikesBtn onClick={handleLikes}>
             {!toggle ? <AiFillHeart /> : <AiOutlineHeart />}
           </S.LikesBtn>
-          <S.LikesCount>{likes?.length}</S.LikesCount>
+          <S.LikesCount>{likesCount}</S.LikesCount>
         </S.LikesWrapper>
       </S.FeedInfoContainer>
     </>

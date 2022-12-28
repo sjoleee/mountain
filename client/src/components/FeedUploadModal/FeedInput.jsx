@@ -34,7 +34,6 @@ const FeedInput = ({ onSubmit }) => {
         />
       </S.TextBoxContainer>
       <S.TagContainer>
-        {/* <S.TagInput name="tags" placeholder="태그를 입력하세요" /> */}
         <FeedTags formData={formData} setFormData={setFormData} />
       </S.TagContainer>
       <S.BtnContainer>

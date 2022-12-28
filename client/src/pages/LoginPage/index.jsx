@@ -24,7 +24,7 @@ function LoginPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(form);
-    const response = await axios.post("http://localhost:8000/auth/login", form);
+    const response = await axios.post("/api/auth/login", form);
     console.log(response);
     if (response.status === 201) {
       const userid = response.data.id;

@@ -9,6 +9,7 @@ import ChallengeBoardPage from "@/pages/ChallengeBoard";
 import ChallengeUpdate from "@/pages/ChallengeUpdate";
 import FeedList from "@/pages/FeedPage";
 import AdminPage from "@/pages/AdminPage";
+import UserPage from "@pages/UserPage";
 import { useState } from "react";
 
 function App() {
@@ -20,7 +21,7 @@ function App() {
         <Route path="/map" element={<MapPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/user" />
+        <Route path="/user" element={<UserPage />} />
         <Route path="/feeds" element={<FeedList />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/challenge">

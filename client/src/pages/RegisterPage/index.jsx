@@ -39,7 +39,7 @@ function RegisterPage() {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(registerform);
-    const response = await axios.post("http://localhost:8000/users", {
+    const response = await axios.post("/api/users", {
       email: registerform.email,
       username: registerform.username,
       password: registerform.password,

@@ -16,6 +16,8 @@ const FeedPage = () => {
   const [modalOn, setModalOn] = useRecoilState(ModalOn);
   const [loading, setLoading] = useState(true);
   const [cardOpen, setCardOpen] = useState(false);
+  const [hasNext, setHasNext] = useState(false);
+  const [pageCount, setPageCount] = useState(2);
   const navigate = useNavigate();
 
   const handleModal = () => {
@@ -24,13 +26,19 @@ const FeedPage = () => {
 
   const ref = useIntersect(async (entry, observer) => {
     observer.unobserve(entry.target);
-    if (!loading) {
+    if (!loading && hasNext) {
       setLoading(true);
       console.log("fetch");
-      axios.get("/feed-data").then((res) => {
-        setFeeds([...feeds, ...res.data]);
-        setLoading(false);
-      });
+      axios
+        .get(
+          `http://localhost:8000/feeds?pos=false&like=false&order=desc&page=${pageCount}&take=10`
+        )
+        .then((res) => {
+          setFeeds([...feeds, ...res.data]);
+          setHasNext(res.meta.hasNextPage);
+          setLoading(false);
+          setPageCount(pageCount + 1);
+        });
     }
   });
 
@@ -41,25 +49,26 @@ const FeedPage = () => {
   };
 
   const getData = () => {
-    axios.get("/feed-data").then((res) => {
-      setFeeds([...res.data]);
-      console.log(res.data);
+    axios
+      .get(
+        "http://localhost:8000/feeds?pos=false&like=false&order=desc&page=1&take=10"
+      )
+      .then((res) => {
+        setFeeds([...res.data.data]);
+        setHasNext(res.meta.hasNextPage);
+      });
+  };
+
+  const getFeedDataById = (id) => {
+    axios.get(`http://localhost:8000/feeds/${id}`).then((res) => {
+      setFeedEach(res.data);
+      setCardOpen(true);
     });
   };
 
   const handleCardOpen = (id) => {
     navigate(`/feeds?feed-id=${id}`);
-    axios.get(`/feed-data?feed-id=${id}`).then((res) => {
-      setFeedEach(res.data);
-      setCardOpen(true);
-    });
-  };
-
-  const getFeedDataById = (id) => {
-    axios.get(`/feed-data?feed-id=${id}`).then((res) => {
-      setFeedEach(res.data);
-      setCardOpen(true);
-    });
+    getFeedDataById(id);
   };
 
   useEffect(() => {
@@ -111,8 +120,8 @@ const FeedPage = () => {
         <S.FeedContainer>
           {feeds.map((feed, i) => (
             <Feed
-              key={feed.id}
-              id={feed.id}
+              key={feed._id}
+              id={feed._id}
               {...feed}
               onLoad={i === feeds.length - 1 ? handleLoad : null}
               onClick={handleCardOpen}

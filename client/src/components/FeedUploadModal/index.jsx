@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 import ImageUpload from "./ImageUpload";
 import FeedInput from "./feedInput";
-import { RecoilRoot } from "recoil";
 import useGeolocation from "@/hooks/useGeolocation";
+import PacmanLoader from "react-spinners/PacmanLoader ";
 
 import * as S from "./styles";
 import Upload from "@/assets/upload.svg";
@@ -13,7 +13,6 @@ export const Portal = ({ children }) => {
   const $modal = document.getElementById("modal");
   return ReactDOM.createPortal(children, $modal);
 };
-let tmpId = 24;
 
 const FeedModal = ({ onClick, getData, setFeeds }) => {
   const { isLoading, error, currentPosition, getPosition } = useGeolocation(
@@ -24,6 +23,7 @@ const FeedModal = ({ onClick, getData, setFeeds }) => {
     },
     (coor) => console.log(coor)
   );
+  const [loadingState, setLoadingState] = useState(false);
   const [isImg, setIsImg] = useState(false);
   const [imgURL, setImgURL] = useState({
     file: {},
@@ -43,58 +43,66 @@ const FeedModal = ({ onClick, getData, setFeeds }) => {
         type: imageFile[0].type,
       });
       setIsImg(true);
-      // let formData = new FormData();
-      // formData.append("api_key", "618146626818528");
-      // formData.append("upload_preset", "hoh2g1dm");
-      // formData.append("timestamp", (Date.now() / 1000) | 0);
-      // formData.append("file", imageFile[0]);
-
-      // const config = {
-      //   header: { "Content-Type": "multipart/form-data" },
-      // };
-
-      // axios
-      //   .post(
-      //     "https://api.cloudinary.com/v1_1/ji/image/upload",
-      //     formData,
-      //     config
-      //   )
-      //   .then((res) => {
-      //     setImgURL(res.data.url);
-      //     console.log(res.data.url);
-      //   });
     }
   };
 
   const handleSubmit = (feedData) => (e) => {
+    setLoadingState(true);
     const { title, content } = feedData;
     if (imgURL.thumbnail.trim().length === 0)
       return alert("이미지를 올려주세요.");
     if (title.trim().length === 0) return alert("제목을 입력해주세요");
     if (content.trim().length === 0) return alert("내용을 입력해주세요");
 
-    const { lat, lng } = currentPosition;
-    const feedForm = {
-      ...feedData,
-      feedImg: imgURL.thumbnail,
-      comments: [],
-      lat,
-      lng,
-      id: tmpId,
+    let formData = new FormData();
+    formData.append("api_key", "618146626818528");
+    formData.append("upload_preset", "hoh2g1dm");
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+    formData.append("file", imgURL.file);
+
+    const config = {
+      header: { "Content-Type": "multipart/form-data" },
     };
-    tmpId += 1;
 
-    axios.post("/feed-data", feedForm).then(() => {
-      getData();
-    });
+    axios
+      .post("https://api.cloudinary.com/v1_1/ji/image/upload", formData, config)
+      .then((res) => {
+        setImgURL({
+          ...imgURL,
+          thumbnail: res.data.url,
+        });
+        const { lat, lng } = currentPosition;
+        const feedForm = {
+          ...feedData,
+          feedImg: res.data.url,
+          lat,
+          lng,
+        };
 
-    onClick();
+        axios
+          .post("http://localhost:8000/feeds", feedForm, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            },
+          })
+          .then(() => {
+            setLoadingState(false);
+            getData();
+            onClick();
+          });
+      });
   };
 
   return (
     <S.ModalContainer>
       <S.CloseContainer onClick={onClick} />
       <S.ModalCard>
+        {loadingState && (
+          <S.LoadingDisplay>
+            <PacmanLoader color="#20C997" />
+          </S.LoadingDisplay>
+        )}
         <ImageUpload
           onChange={handleImgUpload}
           isImg={isImg}

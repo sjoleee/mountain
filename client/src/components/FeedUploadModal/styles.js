@@ -31,6 +31,7 @@ export const ModalCard = styled.div`
   background-color: white;
   z-index: 15;
   overflow: hidden;
+  position: relative;
 `;
 
 export const ImgContainer = styled.div`
@@ -161,4 +162,14 @@ export const ExitBtn = styled.button`
   top: 20px;
   right: 20px;
   cursor: pointer;
+`;
+
+export const LoadingDisplay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.7);
+  z-index: 15;
+  display: grid;
+  place-items: center;
 `;

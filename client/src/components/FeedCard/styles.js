@@ -121,6 +121,7 @@ export const UserProfileImg = styled.img`
   height: 100%;
   width: 50px;
   margin-right: 15px;
+  border-radius: 30px;
 `;
 
 export const UserName = styled.p`
