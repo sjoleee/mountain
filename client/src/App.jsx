@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-// import MainPage from "@pages/MainPage";
+import ProtectRoute from "@components/ProtectRoute";
+import NavBar from "@components/common/NavBar";
+import MainPage from "@pages/MainPage";
 import MapPage from "@pages/MapPage";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
@@ -16,20 +18,23 @@ function App() {
   const [queryClient] = useState(() => new QueryClient());
   return (
     <QueryClientProvider client={queryClient}>
+      <NavBar />
       <Routes>
-        {/* <Route path="/" element={<MainPage />} /> */}
+        <Route element={<ProtectRoute />}>
+          <Route path="/user" />
+          <Route path="/feeds" element={<FeedList />} />
+          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/challenge">
+            <Route index element={<ChallengePage />} />
+            <Route path=":challengeId" element={<ChallengeBoardPage />} />
+            <Route path=":challengeId/update" element={<ChallengeUpdate />} />
+          </Route>
+          <Route path="/challenge_write" element={<ChallengeWritePage />} />
+        </Route>
+        <Route path="/" element={<MainPage />} />
         <Route path="/map" element={<MapPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/user" />
-        <Route path="/feeds" element={<FeedList />} />
-        <Route path="/admin" element={<AdminPage />} />
-        <Route path="/challenge">
-          <Route index element={<ChallengePage />} />
-          <Route path=":challengeId" element={<ChallengeBoardPage />} />
-          <Route path=":challengeId/update" element={<ChallengeUpdate />} />
-        </Route>
-        <Route path="/challenge_write" element={<ChallengeWritePage />} />
       </Routes>
     </QueryClientProvider>
   );

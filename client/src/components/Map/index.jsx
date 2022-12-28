@@ -24,6 +24,8 @@ import {
   MAX_MARKERS_NUM_DISPLAY_SCREEN,
 } from "@constants/map";
 import { searchPostsByPos, getMountainInfo } from "../../apis";
+import { isLoginState } from "../../store/userState";
+import { useRecoilValue } from "recoil";
 
 const geolocationOptions = {
   //timeout: 5000, // 최대 대기 시간
@@ -106,6 +108,8 @@ const Maps = () => {
     successCallback: ({ lat, lng }) =>
       map?.setCenter(new kakao.maps.LatLng(lat, lng)),
   });
+
+  const isLogin = useRecoilValue(isLoginState);
 
   const handleMyLocBtnClick = () => setIsMyLocBtnClicked((prev) => !prev);
 
@@ -297,7 +301,7 @@ const Maps = () => {
               handleInfoCardClose={handleInfoCardClose}
             />
           </CustomOverlayMap>
-          <SideBar selectedMountain={selectedMarker} />
+          {isLogin && <SideBar selectedMountain={selectedMarker} />}
         </>
       )}
 

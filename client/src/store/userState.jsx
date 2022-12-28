@@ -5,4 +5,9 @@ const userIdState = atom({
   default: "",
 });
 
-export { userIdState };
+const isLoginState = atom({
+  key: "isLoginState",
+  default: localStorage.getItem("access_token") !== null,
+});
+
+export { userIdState, isLoginState };
