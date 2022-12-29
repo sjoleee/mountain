@@ -133,7 +133,7 @@ export class UsersService {
     await this.advancement(userId);
     return result;
   }
-  async addMountain(userId, mountainId) {
+  async addMountain(userId, mountain) {
     const user = await this.usersRepository.findOneUserById(userId);
     if (!user) {
       throw new NotFoundException({
@@ -141,6 +141,8 @@ export class UsersService {
         message: '유저를 찾을 수 없습니다',
       });
     }
+    const mountainId = mountain._id;
+    console.log('mountainId', mountainId);
     const isMountain = user.mountainList.some((list) =>
       list.equals(mountainId),
     );
@@ -151,7 +153,7 @@ export class UsersService {
     }
   }
 
-  async addBadge(userId, mountainId) {
+  async addBadge(userId, mountain) {
     const user = await this.usersRepository.findOneUserById(userId);
     if (!user) {
       throw new NotFoundException({
@@ -159,6 +161,7 @@ export class UsersService {
         message: '유저를 찾을 수 없습니다',
       });
     }
+    const mountainId = mountain._id;
     const filter = { mountain: mountainId };
     const badge = await this.badgesRepository.findOne(filter);
     if (!badge) {
