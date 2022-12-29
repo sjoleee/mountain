@@ -16,7 +16,13 @@ const Challenge = ({ data }) => {
     const diffMin = Math.floor((diff / (1000 * 60)) % 60);
     const diffSec = Math.floor((diff / 1000) % 60);
 
-    const diffText = `${diffDay}일  ${diffHour} : ${diffMin} : ${diffSec}`;
+    let diffText = ``;
+    if (diffDay <= 0 && diffHour <= 0 && diffMin <= 0 && diffSec <= 0) {
+      diffText = `모집종료`;
+    } else {
+      diffText = `${diffDay}일  ${diffHour} : ${diffMin} : ${diffSec}`;
+    }
+
     setTime(diffText);
   }, 1000);
 

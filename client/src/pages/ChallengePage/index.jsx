@@ -177,33 +177,38 @@ function ChallengePage() {
         if (flevel) {
           afterUrl += `&level=${flevel}`;
         }
-      } else if (flevel) {
+      }
+      if (flevel) {
         afterUrl += `&level=${flevel}`;
         if (ftier) {
           afterUrl += `&tier=${ftier}`;
         }
       }
-    } else if (ftier) {
+    }
+    if (ftier) {
       afterUrl += `tier=${ftier}`;
       if (fregion) {
         afterUrl += `&tier=${fregion}`;
         if (flevel) {
           afterUrl += `&level=${flevel}`;
         }
-      } else if (flevel) {
+      }
+      if (flevel) {
         afterUrl += `&level=${flevel}`;
         if (fregion) {
           afterUrl += `&tier=${fregion}`;
         }
       }
-    } else if (flevel) {
-      afterUrl += `level=${level}`;
+    }
+    if (flevel) {
+      afterUrl += `level=${flevel}`;
       if (fregion) {
         afterUrl += `&tier=${fregion}`;
         if (ftier) {
           afterUrl += `&level=${ftier}`;
         }
-      } else if (ftier) {
+      }
+      if (ftier) {
         afterUrl += `&level=${ftier}`;
         if (fregion) {
           afterUrl += `&tier=${fregion}`;
@@ -211,7 +216,7 @@ function ChallengePage() {
       }
     }
     url += afterUrl + `&order=desc&page=1&take=20`;
-
+    console.log(url);
     await axios
       .get(url)
       .then((response) => {
