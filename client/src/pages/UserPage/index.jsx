@@ -227,7 +227,9 @@ const UserProfile = () => {
             })}
           </S.UserFeedInfoContainer>
           <S.UserBtnContainer>
-            <Button delete>탈퇴하기</Button>
+            <Button delete onClick={handleWithdrawal}>
+              탈퇴하기
+            </Button>
           </S.UserBtnContainer>
         </S.UserBottomInfoContainer>
       </S.BottomWrapper>
