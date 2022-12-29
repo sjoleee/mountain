@@ -29,6 +29,7 @@ export class ChallengesService {
       ...createChallengeDto,
       organizer: new Types.ObjectId(currentUser._id),
       point: levelToPoint(createChallengeDto.level),
+      mountain: new Types.ObjectId(createChallengeDto.mountain),
     };
     const newChallenge = await this.challengesRepository.create(challengeDto);
     if (!newChallenge) {

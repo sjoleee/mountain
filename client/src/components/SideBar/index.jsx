@@ -2,7 +2,7 @@ import React from "react";
 import * as S from "@components/SideBar/styles";
 
 const SideBar = ({
-  selectedMountain: { mntidetails, mntiname, users, posts },
+  selectedMountain: { mntidetails, mntiname, users, feeds },
 }) => {
   return (
     <S.SideBarLayout>
@@ -36,10 +36,10 @@ const SideBar = ({
         <S.PostSection>
           <h3>#{mntiname}</h3>
           <S.PostList>
-            {posts?.length !== 0 ? (
-              posts?.map((post) => (
-                <S.PostBox key={post._id}>
-                  <img src={post.feedImg} />
+            {feeds?.length !== 0 ? (
+              feeds?.map((feed) => (
+                <S.PostBox key={feed._id}>
+                  <img src={feed.feedImg} />
                 </S.PostBox>
               ))
             ) : (

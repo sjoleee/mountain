@@ -54,7 +54,7 @@ function ChallengeBoardPage() {
         setForm(data);
         setWlist(data.waitingList);
         setPlist(data.peopleList);
-        if (data.peopleList.length >= data.MaximumPeople) {
+        if (data.peopleList.length >= data.MaximumPeople - 1) {
           //true이면 신청 버튼 안보이게
           setIsSign(true);
         }

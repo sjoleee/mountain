@@ -7,7 +7,12 @@ export const SearchInputBox = styled.div`
   position: fixed;
   z-index: 40;
 
-  ${(props) => props.style}
+  top: 60px;
+  left: 10px;
+  width: 200px;
+  height: 40px;
+  borderradius: 20px;
+  backgroundcolor: white;
 
   .input-search-mntn {
     position: absolute;

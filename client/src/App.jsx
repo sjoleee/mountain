@@ -16,6 +16,7 @@ import RankingPage from "@pages/RankingPage";
 import { useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserPage from "@/pages/UserPage";
+import "./App.css";
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
