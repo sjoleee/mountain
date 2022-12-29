@@ -16,6 +16,7 @@ const AdminPost = ({
   createdAt,
   validateTab,
   approved,
+  approval,
 }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
@@ -54,6 +55,7 @@ const AdminPost = ({
           subText={
             isDeleteModalOpen ? "정녕 삭제하시렵니까?" : "정녕 승인하시렵니까?"
           }
+          link={approval ? `/feeds?feed-id=${approval}` : null}
           buttonText={isDeleteModalOpen ? "삭제하기" : "승인하기"}
           buttonOnClick={() => {
             mutate(
@@ -92,10 +94,11 @@ const AdminPost = ({
         {validateTab.isChallenges ? (
           <S.Button
             onClick={onApproveClick}
-            disabled={approved}
+            disabled={approved || !approval}
             isApproved={approved}
+            isApproval={!!approval}
           >
-            {approved ? "승인완료" : "승인"}
+            {approved ? "승인완료" : approval ? "승인요청" : "미요청"}
           </S.Button>
         ) : null}
 

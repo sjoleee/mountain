@@ -1,4 +1,4 @@
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { ResponseStatusDto } from './../../common/dto/response-status';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BadgesRepository } from './badges.repository';
@@ -28,6 +28,12 @@ export class BadgesService {
 
   async findOne(id: string): Promise<ResponseBadgeDto> {
     const filter = { _id: new Types.ObjectId(id) };
+    const badge = await this.badgesRepository.findOne(filter);
+    return new ResponseBadgeDto(badge);
+  }
+
+  async findOneByMountain(id: string): Promise<ResponseBadgeDto> {
+    const filter = { mountain: new Types.ObjectId(id) };
     const badge = await this.badgesRepository.findOne(filter);
     return new ResponseBadgeDto(badge);
   }

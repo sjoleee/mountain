@@ -1,3 +1,4 @@
+import { CommentsRepository } from './comments.repository';
 import { FeedModule } from './../feed/feed.module';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -15,7 +16,7 @@ import { UsersModule } from '../users/users.module';
     UsersModule,
   ],
   controllers: [CommentsController],
-  providers: [CommentsService],
-  exports: [CommentsService],
+  providers: [CommentsService, CommentsRepository],
+  exports: [CommentsService, CommentsRepository],
 })
 export class CommentsModule {}

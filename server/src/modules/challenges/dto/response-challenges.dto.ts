@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 import { Level } from 'src/common/enums/level.enum';
@@ -152,7 +152,7 @@ export class ResponseChallengeDto {
   approval?: Types.ObjectId;
 
   @IsOptional()
-  approved: boolean;
+  approved?: boolean;
 
   @ApiProperty({
     example: '["태그1","태그2"]',
@@ -160,7 +160,7 @@ export class ResponseChallengeDto {
     required: false,
   })
   @IsOptional()
-  tag: Array<string>;
+  hashtag: Array<string>;
 
   constructor(challenge: ResponseChallengeDto) {
     this._id = challenge._id;
@@ -183,6 +183,6 @@ export class ResponseChallengeDto {
     this.mountain = challenge.mountain;
     this.approval = challenge.approval;
     this.approved = challenge.approved;
-    this.tag = challenge.tag;
+    this.hashtag = challenge.hashtag;
   }
 }

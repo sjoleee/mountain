@@ -5,15 +5,19 @@ import Button from "../../components/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { usernameState } from "@/store/userState";
+import { postUserLogin } from "@/apis";
+import { usernameState, isLoginState } from "../../store/userState";
+import { useSetRecoilState } from "recoil";
 
 function LoginPage() {
+  const setIsLogin = useSetRecoilState(isLoginState);
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [username, setUsername] = useRecoilState(usernameState);
+  const setUsername = useSetRecoilState(usernameState);
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -25,9 +29,7 @@ function LoginPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-    const response = await axios.post("/api/auth/login", form);
-    console.log(response);
+    const response = await postUserLogin(form);
     if (response.status === 201) {
       const userid = response.data.id;
       localStorage.setItem("access_token", response.data["access_token"]);
@@ -36,7 +38,8 @@ function LoginPage() {
       localStorage.setItem("username", response.data.username);
       setUsername(response.data.username);
       //console.log(userid);
-      navigate("/challenge");
+      setIsLogin(true);
+      navigate("/");
     }
   };
 

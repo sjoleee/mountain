@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Types } from 'mongoose';
 
@@ -22,7 +23,7 @@ export class CreateBadgeDto {
   title: string;
 
   @ApiProperty({
-    example: '북한산을 갖다온 자에게 주는 뱃지입니다',
+    example: '북한산을 갔다온 자에게 주는 뱃지입니다',
     description: '뱃지 설명',
     required: true,
   })
@@ -35,5 +36,6 @@ export class CreateBadgeDto {
     required: true,
   })
   @IsNotEmpty()
+  @Transform(() => new Types.ObjectId())
   mountain: Types.ObjectId;
 }

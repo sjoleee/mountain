@@ -3,14 +3,19 @@ import styled from "styled-components";
 export const CardContainer = styled.div`
   width: 200px;
   height: 150px;
-  border: 1px solid gray;
+  border: 1px solid #bebebe;
   border-radius: 10px;
+
+  & + & {
+    margin-left: 1rem;
+  }
 `;
 
 export const CardInfoContainer = styled.div`
   width: 100%;
   height: 70px;
-  border: 1px solid black;
+  border-top: 1px solid #bebebe;
+  border-bottom: 1px solid #bebebe;
   margin-top: 17px;
   display: flex;
 `;
@@ -37,7 +42,6 @@ export const CardImage = styled.img`
 export const CardUser = styled.div`
   width: 100%;
   height: 20px;
-  border: 1px solid black;
   margin-top: 5px;
   display: flex;
   align-items: center;
@@ -46,14 +50,12 @@ export const CardUser = styled.div`
 export const Cardtier = styled.div`
   width: 15px;
   height: 15px;
-  border: 1px solid black;
   margin-left: 10px;
 `;
 
 export const Cardname = styled.div`
   width: 65%;
   height: 15px;
-  border: 1px solid black;
   margin-left: 10px;
   font-family: "Pretendard";
   font-size: 1.1rem;
@@ -65,10 +67,11 @@ export const Cardname = styled.div`
   text-overflow: ellipsis;
 `;
 export const CardBadge = styled.div`
-  width: 100%;
+  width: 90%;
   height: 20px;
-  border: 1px solid black;
+  border: 1px solid #bebebe;
   margin-top: 5px;
+  padding-left: 5px;
 `;
 
 export const CardIntro = styled.div`

@@ -2,19 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Ch from "./styles";
 import Button from "../../components/common/Button.jsx";
-import rank1 from "@/assets/ranking/ranking1.png";
-import rank2 from "@/assets/ranking/ranking2.png";
-import rank3 from "@/assets/ranking/ranking3.png";
-import rank4 from "@/assets/ranking/ranking4.png";
-import rank5 from "@/assets/ranking/ranking5.png";
-import rank6 from "@/assets/ranking/ranking6.png";
+import bronze from "@/assets/ranking/ranking1.png";
+import silver from "@/assets/ranking/ranking2.png";
+import diamond from "@/assets/ranking/ranking3.png";
+import platinum from "@/assets/ranking/ranking4.png";
+import gold from "@/assets/ranking/ranking5.png";
+import umm from "@/assets/ranking/ranking6.png";
 import level1 from "@/assets/level/level1.png";
 import level2 from "@/assets/level/level2.png";
 import level3 from "@/assets/level/level3.png";
 import Challenge from "@/components/challenge";
 import selectImg from "@/assets/challenge/select.png";
 import axios from "axios";
-// import { userIdState } from "../../store/userState";
+import { getChallengeList } from "@/apis";
 
 function ChallengePage() {
   const navigate = useNavigate();
@@ -168,7 +168,7 @@ function ChallengePage() {
   };
 
   const onFilterClick = async (e) => {
-    let url = `http://localhost:8000/challenges?`;
+    let url = `http://kdt-sw3-team03.elicecoding.com:5000/challenges?`;
     let afterUrl = "";
     if (fregion) {
       afterUrl += `region=${fregion}`;
@@ -222,8 +222,7 @@ function ChallengePage() {
   useEffect(() => {
     setListLoad(false);
     let nowTime = new Date();
-    axios
-      .get("http://localhost:8000/challenges?order=desc&page=1&take=20")
+    const response = getChallengeList()
       .then((response) => {
         return response.data;
       })
@@ -364,13 +363,13 @@ function ChallengePage() {
                 >
                   <Ch.TierImg>
                     <img
-                      src={rank1}
+                      src={bronze}
                       name="bronze"
                       value="브론즈"
                       onClick={onTierClick}
                     />
                   </Ch.TierImg>
-                  <Ch.TierName>랭크1</Ch.TierName>
+                  <Ch.TierName>브론즈</Ch.TierName>
                 </Ch.TierContentContainer>
               </Ch.TierContent>
               <Ch.TierContent>
@@ -379,13 +378,13 @@ function ChallengePage() {
                 >
                   <Ch.TierImg>
                     <img
-                      src={rank2}
+                      src={silver}
                       name="silver"
                       value="실버"
                       onClick={onTierClick}
                     />
                   </Ch.TierImg>
-                  <Ch.TierName>랭크2</Ch.TierName>
+                  <Ch.TierName>실버</Ch.TierName>
                 </Ch.TierContentContainer>
               </Ch.TierContent>
               <Ch.TierContent>
@@ -394,13 +393,13 @@ function ChallengePage() {
                 >
                   <Ch.TierImg>
                     <img
-                      src={rank3}
+                      src={gold}
                       name="gold"
                       value="골드"
                       onClick={onTierClick}
                     />
                   </Ch.TierImg>
-                  <Ch.TierName>랭크3</Ch.TierName>
+                  <Ch.TierName>골드</Ch.TierName>
                 </Ch.TierContentContainer>
               </Ch.TierContent>
               <Ch.TierContent>
@@ -409,13 +408,13 @@ function ChallengePage() {
                 >
                   <Ch.TierImg>
                     <img
-                      src={rank4}
+                      src={platinum}
                       name="platinum"
                       value="플레티넘"
                       onClick={onTierClick}
                     />
                   </Ch.TierImg>
-                  <Ch.TierName>랭크4</Ch.TierName>
+                  <Ch.TierName>플래</Ch.TierName>
                 </Ch.TierContentContainer>
               </Ch.TierContent>
               <Ch.TierContent>
@@ -424,13 +423,13 @@ function ChallengePage() {
                 >
                   <Ch.TierImg>
                     <img
-                      src={rank5}
+                      src={diamond}
                       name="diamond"
                       value="다이아몬드"
                       onClick={onTierClick}
                     />
                   </Ch.TierImg>
-                  <Ch.TierName>랭크5</Ch.TierName>
+                  <Ch.TierName>다이아</Ch.TierName>
                 </Ch.TierContentContainer>
               </Ch.TierContent>
               <Ch.TierContent>
@@ -439,13 +438,13 @@ function ChallengePage() {
                 >
                   <Ch.TierImg>
                     <img
-                      src={rank6}
+                      src={umm}
                       name="umm"
                       value="엄홍길"
                       onClick={onTierClick}
                     />
                   </Ch.TierImg>
-                  <Ch.TierName>랭크6</Ch.TierName>
+                  <Ch.TierName>엄홍길</Ch.TierName>
                 </Ch.TierContentContainer>
               </Ch.TierContent>
             </Ch.FilterTierContents>

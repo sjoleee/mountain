@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, Max, Min } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import { PickType } from '@nestjs/swagger';
 import { UsersDto } from 'src/modules/users/dto/users.dto';
 

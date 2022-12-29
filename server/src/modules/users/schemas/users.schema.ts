@@ -9,11 +9,6 @@ import { Role } from 'src/common/enums/role.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
-type Completed = {
-  cName: string;
-  cDif: string;
-};
-
 const options: SchemaOptions = {
   collection: 'users',
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
@@ -168,9 +163,14 @@ export class Users extends defaultSchema {
     description: '뱃지 리스트',
     required: false,
   })
-  @Prop()
-  @IsString()
-  badgeList: Array<string>;
+  @Prop({
+    type: Array<Types.ObjectId>,
+    required: true,
+    ref: 'badges',
+    default: [],
+  })
+  @IsNotEmpty()
+  badgeList: Array<Types.ObjectId>;
 
   @ApiProperty({
     example: '[산1,산2]',

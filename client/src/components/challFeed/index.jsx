@@ -4,7 +4,7 @@ import cancel from "@/assets/challenge/cancel.png";
 import axios from "axios";
 import Button from "../common/Button";
 
-const ChallFeed = ({ onExitSubmission }) => {
+const ChallFeed = ({ id, onExitSubmission }) => {
   const [feedform, setFeedForm] = useState({
     title: "",
     content: "",
@@ -95,13 +95,20 @@ const ChallFeed = ({ onExitSubmission }) => {
     console.log(dataForm);
 
     await axios
-      .post(`http://localhost:8000/feeds/challenges/${userId}`, dataForm, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      })
+      .post(
+        `http://kdt-sw3-team03.elicecoding.com:5000/feeds/challenges/${id}`,
+        dataForm,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
+        if (response.status === 201) {
+          onExitSubmission();
+        }
       });
   };
   useEffect(() => {

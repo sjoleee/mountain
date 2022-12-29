@@ -1,18 +1,23 @@
+import { Badges } from './../badges/schemas/badges.schema';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { Challenges } from './schemas/challenges.schema';
 import { ChallengeDto } from './dto/challenges.dto';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { FilterAdminChallengesOptionsDto } from './dto/filter-admin-challenges-options.dto';
 import { Users } from '../users/schemas/users.schema';
+import { Mountains } from '../mountains/schemas/mountains.schema';
 
 @Injectable()
 export class ChallengesRepository {
   constructor(
     @InjectModel(Users.name) private readonly userModel: Model<Users>,
+    @InjectModel(Badges.name) private readonly badgesModel: Model<Badges>,
+    @InjectModel(Mountains.name)
+    private readonly mountainsModel: Model<Mountains>,
     @InjectModel(Challenges.name)
     private readonly challengesModel: Model<Challenges>,
   ) {}
@@ -27,18 +32,46 @@ export class ChallengesRepository {
     return challenges;
   }
   async findAllByFilter(filter: any) {
-    const challenges = await this.challengesModel.find(filter);
+    const challenges = await this.challengesModel.find(filter).populate({
+      path: 'mountain',
+      model: this.mountainsModel,
+    });
     return challenges;
   }
   async findOneById(id: string): Promise<ChallengeDto | null> {
     const challenge = await this.challengesModel
       .findOne({ _id: id })
-      .populate('organizer', '', this.userModel)
-      .populate('waitingList', '', this.userModel)
-      .populate('peopleList', '', this.userModel);
+      .populate({
+        path: 'organizer',
+        model: this.userModel,
+        populate: {
+          path: 'badgeList',
+          model: this.badgesModel,
+        },
+      })
+      .populate({
+        path: 'waitingList',
+        model: this.userModel,
+        populate: {
+          path: 'badgeList',
+          model: this.badgesModel,
+        },
+      })
+      .populate({
+        path: 'peopleList',
+        model: this.userModel,
+        populate: {
+          path: 'badgeList',
+          model: this.badgesModel,
+        },
+      })
+      .populate({
+        path: 'mountain',
+        model: this.mountainsModel,
+      });
     return challenge;
   }
-  async updateById(id: string | Types.ObjectId, body: UpdateChallengeDto) {
+  async updateById(id: string, body: UpdateChallengeDto) {
     const result = await this.challengesModel
       .findOneAndUpdate({ _id: id }, body)
       .exec();
@@ -66,10 +99,9 @@ export class ChallengesRepository {
     filter: FilterAdminChallengesOptionsDto,
     pageOptionsDto: PageOptionsDto,
   ) {
-    console.log(filter);
     return await this.challengesModel
       .find(filter)
-      .sort({ createdAt: pageOptionsDto.order })
+      .sort({ dueDate: -1 })
       .skip(pageOptionsDto.skip)
       .limit(pageOptionsDto.take);
   }
@@ -79,5 +111,9 @@ export class ChallengesRepository {
       .findOneAndUpdate({ _id: id }, body)
       .exec();
     return result;
+  }
+
+  async deleteAll(filter) {
+    return await this.challengesModel.deleteMany(filter);
   }
 }

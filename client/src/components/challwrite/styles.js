@@ -36,6 +36,14 @@ export const CwInputContinaer = styled.div`
   padding-left: 2rem;
   align-items: center;
 `;
+export const CwInputContinaer2 = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  align-items: center;
+`;
 export const CwFormLabel = styled.label`
   font-family: "Pretendard";
   width: 200px;
@@ -54,7 +62,7 @@ export const CwFormStyledInput = styled.input`
   color: rgba(0, 0, 0, 80%);
   border: 1.5px solid rgba(96, 96, 96, 50%);
   border-radius: 5px;
-  width: 100%;
+  width: 96%;
   height: 30px;
   outline: none;
   box-shadow: none;
@@ -150,4 +158,22 @@ export const CwFormSelect = styled.select`
   &:focus {
     background: white;
   }
+`;
+
+export const mountainName = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2px;
+  overflow: auto;
+`;
+
+export const mountainNameli = styled.li`
+  width: 100%;
+  height: 20px;
+  font-family: "Pretendard";
+  font-size: 1.4rem;
+  font-weight: 150;
+  margin-top: 2px;
 `;

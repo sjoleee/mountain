@@ -44,9 +44,10 @@ export const CBTitleContainer = styled.div`
 export const CBLabel = styled.label`
   font-family: "Pretendard";
   width: 300px;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: semibold;
   padding-left: 1rem;
+  margin-top: 1rem;
 `;
 
 export const miniCBLabel = styled.label`
@@ -120,7 +121,6 @@ export const CBInfocontent = styled.div`
 export const CBInfocontent2 = styled.div`
   width: 60%;
   height: 100%;
-
   display: flex;
   align-items: center;
   font-family: "Pretendard";
@@ -131,7 +131,6 @@ export const CBInfocontent2 = styled.div`
 export const CBLeaderContainer = styled.div`
   width: 100%;
   height: 200px;
-  border: 1px solid black;
   margin-bottom: 1rem;
   font-family: "Pretendard";
   font-size: 1.2rem;
@@ -143,7 +142,6 @@ export const CBLeaderContainer = styled.div`
 export const CBMemberContainer = styled.div`
   width: 100%;
   height: 200px;
-  border: 1px solid black;
   font-family: "Pretendard";
   font-size: 1.2rem;
   font-weight: 500;
@@ -154,9 +152,13 @@ export const CBMemberContainer = styled.div`
 export const CBMemberTitle = styled.div`
   width: 100%;
   height: 30px;
-  border: 1px solid black;
+  border: 2px solid #bebebe;
   display: flex;
   align-items: center;
+
+  & > div {
+    margin-left: 2rem;
+  }
 `;
 
 export const CBMembersub = styled.span`
@@ -166,9 +168,9 @@ export const CBMembersub = styled.span`
 export const CBMember = styled.div`
   width: 100%;
   height: 170px;
-  border: 1px solid black;
   display: flex;
   align-items: center;
+  margin-left: 1rem;
 `;
 
 export const LevelContainer = styled.div`
@@ -186,8 +188,9 @@ export const CBLevelspan = styled.span`
 export const CBtaContainer = styled.div`
   width: 100%;
   height: auto;
-  border: 1px solid black;
+  border: 1px solid #bebebe;
 `;
+
 export const CBTextArea = styled.textarea`
   background: #f2f2f2;
   font-family: "Pretendard";
@@ -195,8 +198,7 @@ export const CBTextArea = styled.textarea`
   font-weight: 150;
   font-display: swap;
   color: rgba(0, 0, 0, 80%);
-  border: 1.5px solid rgba(96, 96, 96, 50%);
-  border-radius: 5px;
+  border: none;
   width: 93%;
   height: 130px;
   outline: none;
@@ -210,7 +212,7 @@ export const CBTextArea = styled.textarea`
 export const CBfeedContainer = styled.div`
   width: 100%;
   height: 200px;
-  border: 1px solid black;
+  border: 1px solid #bebebe;
 `;
 
 export const CBMargin = styled.div`
@@ -221,13 +223,15 @@ export const CBMargin = styled.div`
 export const ButtonContainer = styled.div`
   position: absolute;
   left: 89%;
-  top: 12%;
+  top: 23%;
   width: 90px;
   height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-itmes: center;
+  background: white;
+  padding-left: 1rem;
 `;
 
 export const BackImg = styled.img`
@@ -244,4 +248,10 @@ export const BackImg = styled.img`
   &:active {
     top: 18px;
   }
+`;
+
+export const ChallengeFeedImg = styled.img`
+  width: "200px";
+  height: "200px";
+  cursor: pointer;
 `;

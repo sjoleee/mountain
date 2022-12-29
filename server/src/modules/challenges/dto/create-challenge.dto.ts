@@ -1,6 +1,6 @@
 import { Level } from './../../../common/enums/level.enum';
 import { Region } from './../../../common/enums/region.enum';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,
@@ -66,7 +66,8 @@ export class CreateChallengeDto {
   @ApiProperty({
     example: '10',
     description: '최대 인원',
-    required: false,
+    required: true,
+    default: 0,
   })
   @IsNotEmpty()
   @IsNumber()
@@ -76,6 +77,7 @@ export class CreateChallengeDto {
     example: '63a2edcb4c969ab0705775f8',
     description: '산 아이디(일단 string 산module구현시 수정',
     required: true,
+    default: null,
   })
   @IsNotEmpty()
   @IsMongoId()
@@ -105,7 +107,7 @@ export class CreateChallengeDto {
     required: true,
     default: Level.LOW,
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(Level)
   level: Level;
 
@@ -118,4 +120,12 @@ export class CreateChallengeDto {
   @IsOptional()
   @IsEnum(Tier)
   conditions?: Tier;
+
+  @ApiProperty({
+    example: '["태그1","태그2"]',
+    description: '챌린지 태그',
+    required: false,
+  })
+  @IsOptional()
+  hashtag: Array<string>;
 }

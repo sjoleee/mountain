@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as cp from "./styles";
 import Button from "@/components/common/Button";
-import CmCard from "../../components/challengeMember";
+import CmCard from "@/components/challengeMember";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { waitingListState } from "@/store/waitingList";
@@ -29,8 +29,10 @@ function ChallengeBoardPage() {
   const user = localStorage.getItem("userId");
   const [wlist, setWlist] = useRecoilState(waitingListState);
   const [plist, setPlist] = useRecoilState(peopleListState);
+  const [cfeed, setCfeed] = useState("");
+  const [cfeedUrl, setCfeedUrl] = useState("");
+  const [cfeedId, setCfeedId] = useState("");
   const navigate = useNavigate();
-
   useEffect(() => {
     // async function axiosForm() {
     //   const response = await axios.get(
@@ -40,7 +42,9 @@ function ChallengeBoardPage() {
     // }
     // axiosForm();
     axios
-      .get(`http://localhost:8000/challenges/${challengeId}`)
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${challengeId}`
+      )
       .then((response) => {
         console.log(response);
         return response.data;
@@ -60,6 +64,7 @@ function ChallengeBoardPage() {
             setIsSign(true);
           }
         });
+        setCfeed(data.approval);
         return data.organizer;
       })
       .then((organizer) => {
@@ -83,7 +88,7 @@ function ChallengeBoardPage() {
     console.log(localStorage.getItem("access_token"));
     await axios
       .put(
-        `http://localhost:8000/challenges/${challengeId}/apply`,
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${challengeId}/apply`,
         {},
         {
           headers: {
@@ -102,7 +107,7 @@ function ChallengeBoardPage() {
   const onBackClick = () => {
     setWlist([]);
     setPlist([]);
-    navigate(-1);
+    navigate("/challenge");
   };
 
   const onUpdateClick = () => {
@@ -115,6 +120,25 @@ function ChallengeBoardPage() {
   const onExitSubmission = () => {
     setIsMission(false);
   };
+  const onFeedClick = () => {
+    navigate(`/feeds?feed-id=${cfeedId}`);
+  };
+  const hashTagStr = (arr) => {
+    let Str = "";
+    arr.forEach((value) => {
+      Str += "#" + value;
+    });
+    return Str;
+  };
+  useEffect(() => {
+    axios
+      .get(`http://kdt-sw3-team03.elicecoding.com:5000/feeds/${cfeed}`)
+      .then((response) => {
+        console.log("응답:", response);
+        setCfeedUrl(response.data.feedImg);
+        setCfeedId(response.data["_id"]);
+      });
+  }, [cfeed]);
   return (
     <>
       <cp.BoardContainer>
@@ -131,7 +155,7 @@ function ChallengeBoardPage() {
               <cp.CBInfoContainer>
                 <cp.CBInfoLine>
                   <cp.CBInfotitle>
-                    <cp.CBInfoh3>모집 기간</cp.CBInfoh3>
+                    <cp.CBInfoh3>시작 기간</cp.CBInfoh3>
                   </cp.CBInfotitle>
                   <cp.CBInfocontent>
                     {String(form.startDate).substring(0, 10)}
@@ -215,7 +239,9 @@ function ChallengeBoardPage() {
                 <cp.CBInfotitle>
                   <cp.CBLevelspan>태그</cp.CBLevelspan>
                 </cp.CBInfotitle>
-                <cp.CBInfocontent2>#북한산</cp.CBInfocontent2>
+                <cp.CBInfocontent2>
+                  {form.hashtag && hashTagStr(form.hashtag)}
+                </cp.CBInfocontent2>
               </cp.CBInfoLine>
             </cp.LevelContainer>
             <cp.CBMargin />
@@ -229,9 +255,25 @@ function ChallengeBoardPage() {
               ></cp.CBTextArea>
             </cp.CBtaContainer>
             <cp.CBTitleContainer>
-              <cp.CBLabel>피드 (해당 챌린지)</cp.CBLabel>
+              <cp.CBLabel>챌린지 인증 피드</cp.CBLabel>
             </cp.CBTitleContainer>
-            <cp.CBfeedContainer></cp.CBfeedContainer>
+            <cp.CBfeedContainer>
+              <div
+                style={{
+                  width: "200px",
+                  height: "200px",
+                  border: "1px solid black",
+                }}
+              >
+                {cfeedUrl && (
+                  <cp.ChallengeFeedImg
+                    style={{ width: "200px", height: "200px" }}
+                    src={cfeedUrl}
+                    onClick={onFeedClick}
+                  />
+                )}
+              </div>
+            </cp.CBfeedContainer>
           </cp.CBSecond>
         </cp.CBContainer>
       </cp.BoardContainer>
@@ -240,7 +282,10 @@ function ChallengeBoardPage() {
         <ChallModal id={form["_id"]} onCloseParty={onCloseParty}></ChallModal>
       ) : null}
       {isMission ? (
-        <ChallFeed onExitSubmission={onExitSubmission}></ChallFeed>
+        <ChallFeed
+          id={form["_id"]}
+          onExitSubmission={onExitSubmission}
+        ></ChallFeed>
       ) : null}
     </>
   );

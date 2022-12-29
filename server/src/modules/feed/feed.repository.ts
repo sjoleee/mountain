@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Comments } from '../comments/schemas/comments.schema';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './schemas/feed.schema';
@@ -42,7 +42,18 @@ export class FeedRepository {
   async findOneById(id: string) {
     const feed = await this.feedModel
       .findOne({ _id: id })
-      .populate('comments', '', this.commentsModel);
+      .populate({
+        path: 'author',
+        model: this.userModel,
+      })
+      .populate({
+        path: 'comments',
+        model: this.commentsModel,
+        populate: {
+          path: 'author',
+          model: this.userModel,
+        },
+      });
     return feed;
   }
 
@@ -87,6 +98,7 @@ export class FeedRepository {
     const result = await this.feedModel.findOneAndUpdate(filter, body).exec();
     return result;
   }
+
   async delete(filter: any) {
     const result = await this.feedModel.findOneAndDelete(filter).exec();
     return result;
@@ -94,5 +106,9 @@ export class FeedRepository {
 
   async findByFilter(filter: any, sort: any) {
     return await this.feedModel.find(filter).sort(sort);
+  }
+
+  async deleteAll(filter) {
+    return await this.feedModel.deleteMany(filter);
   }
 }

@@ -1,17 +1,10 @@
 import { ChallengeDto } from './dto/challenges.dto';
-import { ResponseChallengeDto } from './dto/response-challenges.dto';
-import {
-  ApiBearerAuth,
-  ApiOperation,
-  ApiQuery,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import {
   Controller,
   Delete,
   Get,
   Param,
-  Patch,
   Put,
   Query,
   UseGuards,

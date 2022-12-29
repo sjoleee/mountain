@@ -14,6 +14,8 @@ const option: SchemaOptions = {
 export class Challenges extends defaultSchema {
   @Prop({
     required: true,
+    default:
+      'https://images-ext-2.discordapp.net/external/PzTNWy0XETCDO2Ppl3rZGuiVJaUocIEFTPNxfuhyaVA/https/res.cloudinary.com/dvcffh3la/image/upload/v1672208924/sky-gb9262c70e_640_dvqjq9.png',
   })
   @IsNotEmpty()
   @IsString()
@@ -124,15 +126,16 @@ export class Challenges extends defaultSchema {
   approval?: Types.ObjectId;
 
   @Prop({
-    required: false,
+    required: true,
+    default: false,
   })
   @IsOptional()
-  approved: boolean;
+  approved?: boolean;
 
   @Prop({
     required: false,
   })
   @IsOptional()
-  tag: Array<string>;
+  hashtag: Array<string>;
 }
 export const ChallengesSchema = SchemaFactory.createForClass(Challenges);
