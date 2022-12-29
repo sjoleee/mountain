@@ -6,6 +6,7 @@ import getTierImg from "@/utils/getTierImg";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "@/components/FeedUploadModal/ImageUpload";
 import Upload from "@/assets/upload.svg";
+import useGeolocation from "@/hooks/useGeolocation";
 
 const UserProfile = () => {
   const { isLoading, error, currentPosition, getPosition } = useGeolocation({
