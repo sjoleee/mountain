@@ -177,38 +177,33 @@ function ChallengePage() {
         if (flevel) {
           afterUrl += `&level=${flevel}`;
         }
-      }
-      if (flevel) {
+      } else if (flevel) {
         afterUrl += `&level=${flevel}`;
         if (ftier) {
           afterUrl += `&tier=${ftier}`;
         }
       }
-    }
-    if (ftier) {
+    } else if (ftier) {
       afterUrl += `tier=${ftier}`;
       if (fregion) {
         afterUrl += `&tier=${fregion}`;
         if (flevel) {
           afterUrl += `&level=${flevel}`;
         }
-      }
-      if (flevel) {
+      } else if (flevel) {
         afterUrl += `&level=${flevel}`;
         if (fregion) {
           afterUrl += `&tier=${fregion}`;
         }
       }
-    }
-    if (flevel) {
+    } else if (flevel) {
       afterUrl += `level=${flevel}`;
       if (fregion) {
         afterUrl += `&tier=${fregion}`;
         if (ftier) {
           afterUrl += `&level=${ftier}`;
         }
-      }
-      if (ftier) {
+      } else if (ftier) {
         afterUrl += `&level=${ftier}`;
         if (fregion) {
           afterUrl += `&tier=${fregion}`;
