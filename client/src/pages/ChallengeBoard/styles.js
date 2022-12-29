@@ -44,9 +44,10 @@ export const CBTitleContainer = styled.div`
 export const CBLabel = styled.label`
   font-family: "Pretendard";
   width: 300px;
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: semibold;
   padding-left: 1rem;
+  margin-top: 1rem;
 `;
 
 export const miniCBLabel = styled.label`
@@ -154,6 +155,10 @@ export const CBMemberTitle = styled.div`
   border: 2px solid #bebebe;
   display: flex;
   align-items: center;
+
+  & > div {
+    margin-left: 2rem;
+  }
 `;
 
 export const CBMembersub = styled.span`
@@ -165,6 +170,7 @@ export const CBMember = styled.div`
   height: 170px;
   display: flex;
   align-items: center;
+  margin-left: 1rem;
 `;
 
 export const LevelContainer = styled.div`
@@ -217,7 +223,7 @@ export const CBMargin = styled.div`
 export const ButtonContainer = styled.div`
   position: absolute;
   left: 89%;
-  top: 12%;
+  top: 23%;
   width: 90px;
   height: 180px;
   display: flex;
@@ -242,4 +248,10 @@ export const BackImg = styled.img`
   &:active {
     top: 18px;
   }
+`;
+
+export const ChallengeFeedImg = styled.img`
+  width: "200px";
+  height: "200px";
+  cursor: pointer;
 `;

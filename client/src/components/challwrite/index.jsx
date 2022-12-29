@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as Cwf from "./styles";
 import Button from "../common/Button";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function ChallnegeWriteForm({
   form,
@@ -13,9 +14,11 @@ function ChallnegeWriteForm({
   onHashtagKey,
   onChangeImage,
   isUpdate,
+  mname,
 }) {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(mname);
   const [sm, setSm] = useState([]);
+  const navigate = useNavigate();
   const onSearchChange = (e) => {
     setSearch(e.target.value);
     console.log(search);
@@ -32,6 +35,56 @@ function ChallnegeWriteForm({
     onMountainSearch(value);
     setSearch(e.target.getAttribute("name"));
   };
+
+  const onUpdateClick = async (e) => {
+    e.preventDefault();
+    //console.log(form);
+    //console.log(localStorage.getItem("access_token"));
+    let lpoint = 0;
+    if (form.level === "상") {
+      lpoint = 5;
+    } else if (form.level === "중") {
+      lpoint = 3;
+    } else if (form.level === "하") {
+      lpoint = 1;
+    }
+    const challForm = {
+      conditions: form.conditions,
+      name: form.name,
+      startDate: new Date(form.startDate),
+      finishDate: new Date(form.finishDate),
+      dueDate: new Date(form.dueDate),
+      logo: form.logo,
+      MaximumPeople: Number(form.MaximumPeople),
+      mountain: form.mountain._id,
+      content: form.content,
+      region: form.region,
+      level: form.level,
+      point: lpoint,
+    };
+    console.log(challForm);
+    console.log(`http://localhost:8000/challenges/${form._id}`);
+    // await axios
+    //   .post("http://localhost:8000/challenges", challForm, {
+    //     headers: {
+    //       "Content-Type": `application/json`,
+    //       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    //     },
+    //   })
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.log(err));
+    // navigate("/challenge");
+    axios
+      .put(`http://localhost:8000/challenges/${form._id}`, challForm)
+      .then((response) => {
+        console.log(response);
+        if (response.status === 200) {
+          navigate(`/challenge/${form._id}`);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <Cwf.CwriteForm>
       <Cwf.CwriteFirst>
@@ -117,7 +170,7 @@ function ChallnegeWriteForm({
               className="searchMountain"
               value={search}
               onChange={onSearchChange}
-            />
+            ></Cwf.CwFormStyledInput>
             <Cwf.mountainName>
               <ul style={{ listStyle: "none", paddingLeft: "0px" }}>
                 {sm.map((value) => {
@@ -247,12 +300,20 @@ function ChallnegeWriteForm({
             <Cwf.CwFormLabel />
           </Cwf.CwLabelContainer>
           <Cwf.CwInputContinaer>
-            <Cwf.HashtagList className="HashtagWrap" />
+            {form.hashtag ? (
+              <Cwf.HashtagList className="HashtagWrap">
+                {form.hashtag}
+              </Cwf.HashtagList>
+            ) : (
+              <Cwf.HashtagList className="HashtagWrap" />
+            )}
           </Cwf.CwInputContinaer>
         </Cwf.CwBasicContainer>
         <Cwf.submitPosition>
           {isUpdate ? (
-            <Button type="button">수정하기</Button>
+            <Button type="button" onClick={onUpdateClick}>
+              수정하기
+            </Button>
           ) : (
             <Button type="button" onClick={onSubmitClick}>
               등록하기
