@@ -45,7 +45,17 @@ function CmCard({ data }) {
               </cm.Cardtier>
               <cm.Cardname>{data.username}</cm.Cardname>
             </cm.CardUser>
-            <cm.CardBadge>{data.badgeList}</cm.CardBadge>
+            <cm.CardBadge>
+              {data.badgeList &&
+                data.badgeList.map((value) => {
+                  return (
+                    <img
+                      style={{ width: "23px", height: "23px" }}
+                      src={value.img}
+                    ></img>
+                  );
+                })}
+            </cm.CardBadge>
           </cm.CardInfoContent>
         </cm.CardInfoContainer>
         <cm.CardIntro>

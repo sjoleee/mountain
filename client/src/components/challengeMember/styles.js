@@ -69,9 +69,10 @@ export const Cardname = styled.div`
 export const CardBadge = styled.div`
   width: 90%;
   height: 20px;
-  border: 1px solid #bebebe;
   margin-top: 5px;
-  padding-left: 5px;
+  padding-left: 10px;
+  display: flex;
+  transform: translateY(5px);
 `;
 
 export const CardIntro = styled.div`
