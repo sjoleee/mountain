@@ -10,9 +10,9 @@ import ChallengePage from "@/pages/ChallengePage";
 import ChallengeWritePage from "@/pages/ChallengeWrite";
 import ChallengeBoardPage from "@/pages/ChallengeBoard";
 import ChallengeUpdate from "@/pages/ChallengeUpdate";
-import UserPage from "@/pages/UserPage";
 import FeedList from "@/pages/FeedPage";
 import AdminPage from "@/pages/AdminPage";
+import UserPage from "@pages/UserPage";
 import { useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -23,7 +23,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path="/user" element={<UserPage />} />
+          <Route path="/user" />
           <Route path="/feeds" element={<FeedList />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminPage />} />
@@ -39,6 +39,15 @@ function App() {
         <Route path="/map" element={<MapPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/user" element={<UserPage />} />
+        <Route path="/feeds" element={<FeedList />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/challenge">
+          <Route index element={<ChallengePage />} />
+          <Route path=":challengeId" element={<ChallengeBoardPage />} />
+          <Route path=":challengeId/update" element={<ChallengeUpdate />} />
+        </Route>
+        <Route path="/challenge_write" element={<ChallengeWritePage />} />
       </Routes>
     </QueryClientProvider>
   );
