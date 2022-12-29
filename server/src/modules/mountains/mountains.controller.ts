@@ -29,9 +29,12 @@ export class MountainsController {
   }
 
   @ApiOperation({ summary: '산 전부 보기' })
+  @ApiQuery({ name: 'search', required: false })
   @Get()
-  async findAll(): Promise<ResponseMountainsDto[]> {
-    return await this.mountainsService.findAll();
+  async findAll(
+    @Query('search') search: string,
+  ): Promise<ResponseMountainsDto[]> {
+    return await this.mountainsService.findAll(search);
   }
 
   @ApiOperation({ summary: '산 아이디로 보기' })

@@ -11,7 +11,6 @@ export class MountainsRepository {
   constructor(
     @InjectModel(Mountains.name)
     private readonly mountainsModel: Model<Mountains>,
-    @InjectModel(Users.name) private readonly userModel: Model<Users>,
   ) {}
 
   async create(createMountainDto: CreateMountainDto) {

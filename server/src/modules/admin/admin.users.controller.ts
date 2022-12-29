@@ -1,32 +1,31 @@
-import { RolesGuard } from './../../common/guard/roles.guard';
-import { UsersDto } from 'src/modules/users/dto/users.dto';
-import { ResponseStatusDto } from './../../common/dto/response-status';
 import {
   Controller,
-  Get,
-  Body,
-  Patch,
-  Param,
   Delete,
-  Post,
-  UseGuards,
+  Get,
+  Param,
   Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger/dist';
-import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { UsersService } from './services/users.service';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Roles } from 'src/common/decorators/roles.decorator';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PageDto } from 'src/common/dto/page.dto';
-import { FilterAdminUsersOptionsDto } from './dto/filter-admin-users-options.dto';
+import { ResponseStatusDto } from 'src/common/dto/response-status';
 import { Role } from 'src/common/enums/role.enum';
-import { Roles } from 'src/common/decorators/roles.decorator';
+import { RolesGuard } from 'src/common/guard/roles.guard';
+import { AccountService } from '../account/account.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { FilterAdminUsersOptionsDto } from '../users/dto/filter-admin-users-options.dto';
+import { UsersDto } from '../users/dto/users.dto';
+import { UsersService } from '../users/services/users.service';
 
 @ApiTags('admin')
 @Controller('admin/users')
-export class AdminUsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class AdminController {
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly accountService: AccountService,
+  ) {}
 
   @ApiOperation({ summary: '유저 전부 가져오기-admin' })
   @ApiBearerAuth('access-token')
@@ -46,6 +45,6 @@ export class AdminUsersController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':id')
   remove(@Param('id') id: string): Promise<ResponseStatusDto> {
-    return this.usersService.deleteOneById(id);
+    return this.accountService.deleteById(id);
   }
 }

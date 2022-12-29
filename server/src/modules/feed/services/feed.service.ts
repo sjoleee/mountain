@@ -55,7 +55,9 @@ export class FeedService {
     const body = {
       approval: newFeed._id,
     };
-    await this.challengesRepository.updateById(id, body);
+
+    const result = await this.challengesRepository.updateById(id, body);
+    console.log(result);
     return { status: 201, message: 'success' };
   }
   async findAll() {

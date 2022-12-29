@@ -42,7 +42,18 @@ export class FeedRepository {
   async findOneById(id: string) {
     const feed = await this.feedModel
       .findOne({ _id: id })
-      .populate('comments', '', this.commentsModel);
+      .populate({
+        path: 'author',
+        model: this.userModel,
+      })
+      .populate({
+        path: 'comments',
+        model: this.commentsModel,
+        populate: {
+          path: 'author',
+          model: this.userModel,
+        },
+      });
     return feed;
   }
 
@@ -94,5 +105,9 @@ export class FeedRepository {
 
   async findByFilter(filter: any, sort: any) {
     return await this.feedModel.find(filter).sort(sort);
+  }
+
+  async deleteAll(filter) {
+    return await this.feedModel.deleteMany(filter);
   }
 }

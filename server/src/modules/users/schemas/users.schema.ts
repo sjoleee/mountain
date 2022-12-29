@@ -168,9 +168,14 @@ export class Users extends defaultSchema {
     description: '뱃지 리스트',
     required: false,
   })
-  @Prop()
-  @IsString()
-  badgeList: Array<string>;
+  @Prop({
+    type: Array<Types.ObjectId>,
+    required: true,
+    ref: 'badges',
+    default: [],
+  })
+  @IsNotEmpty()
+  badgeList: Array<Types.ObjectId>;
 
   @ApiProperty({
     example: '[산1,산2]',
