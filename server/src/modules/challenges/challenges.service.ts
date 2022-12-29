@@ -182,6 +182,7 @@ export class ChallengesService {
       });
     }
     const isMember = challenge.waitingList.some((list) => list.equals(userId));
+
     if (isMember) {
       challenge.waitingList = challenge.waitingList.filter(
         (user) => !user.equals(userId),
