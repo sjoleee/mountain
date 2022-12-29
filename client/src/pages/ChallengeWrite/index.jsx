@@ -32,7 +32,7 @@ function ChallengeWritePage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/mountains")
+      .get("http://kdt-sw3-team03.elicecoding.com:5000/mountains")
       .then((response) => {
         return response.data;
       })
@@ -76,7 +76,7 @@ function ChallengeWritePage() {
     } else if (form.level === "하") {
       lpoint = 1;
     }
-
+    console.log("제작 눌렀을떄", form);
     const challForm = {
       conditions: form.conditions,
       name: form.name,
@@ -92,14 +92,18 @@ function ChallengeWritePage() {
       point: lpoint,
       logo: form.logo,
     };
-    console.log(challForm);
+    console.log("챌린지 제작", challForm);
     await axios
-      .post("http://localhost:8000/challenges", challForm, {
-        headers: {
-          "Content-Type": `application/json`,
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      })
+      .post(
+        "http://kdt-sw3-team03.elicecoding.com:5000/challenges",
+        challForm,
+        {
+          headers: {
+            "Content-Type": `application/json`,
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         if (response.status === 201) {

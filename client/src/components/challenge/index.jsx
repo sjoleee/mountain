@@ -37,7 +37,7 @@ const Challenge = ({ data }) => {
         <Card.CardInfoWrap>
           <Card.CardSubInfoWrap>
             <div>{data.region}</div>
-            <div>/{data.conditions} 이상</div>
+            <div>/{data.conditions}</div>
           </Card.CardSubInfoWrap>
           <div>난이도: {data.level}</div>
         </Card.CardInfoWrap>

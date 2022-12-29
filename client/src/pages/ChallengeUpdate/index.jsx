@@ -125,7 +125,9 @@ function ChallengeUpdate() {
   };
   useEffect(() => {
     axios
-      .get(`http://localhost:8000/challenges/${challengeId}`)
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${challengeId}`
+      )
       .then((response) => {
         console.log(response);
         return response.data;

@@ -23,7 +23,9 @@ function ChallnegeWriteForm({
     setSearch(e.target.value);
     console.log(search);
     axios
-      .get(`http://localhost:8000/mountains?search=${e.target.value}`)
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/mountains?search=${e.target.value}`
+      )
       .then((response) => {
         return response.data;
       })
@@ -63,7 +65,6 @@ function ChallnegeWriteForm({
       point: lpoint,
     };
     console.log(challForm);
-    console.log(`http://localhost:8000/challenges/${form._id}`);
     // await axios
     //   .post("http://localhost:8000/challenges", challForm, {
     //     headers: {
@@ -75,7 +76,10 @@ function ChallnegeWriteForm({
     //   .catch((err) => console.log(err));
     // navigate("/challenge");
     axios
-      .put(`http://localhost:8000/challenges/${form._id}`, challForm)
+      .put(
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${form._id}`,
+        challForm
+      )
       .then((response) => {
         console.log(response);
         if (response.status === 200) {

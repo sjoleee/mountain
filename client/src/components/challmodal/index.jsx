@@ -18,7 +18,7 @@ function ChallModal({ onCloseParty, id }) {
     console.log(windex);
     await axios
       .put(
-        `http://localhost:8000/challenges/${id}/users/${wlist[windex]["_id"]}/refuse`,
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${id}/users/${wlist[windex]["_id"]}/refuse`,
         {},
         {
           headers: {
@@ -41,7 +41,7 @@ function ChallModal({ onCloseParty, id }) {
     console.log(windex);
     await axios
       .put(
-        `http://localhost:8000/challenges/${id}/users/${wlist[windex]["_id"]}/accept`,
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${id}/users/${wlist[windex]["_id"]}/accept`,
         {},
         {
           headers: {

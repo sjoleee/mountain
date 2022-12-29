@@ -42,7 +42,9 @@ function ChallengeBoardPage() {
     // }
     // axiosForm();
     axios
-      .get(`http://localhost:8000/challenges/${challengeId}`)
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${challengeId}`
+      )
       .then((response) => {
         console.log(response);
         return response.data;
@@ -86,7 +88,7 @@ function ChallengeBoardPage() {
     console.log(localStorage.getItem("access_token"));
     await axios
       .put(
-        `http://localhost:8000/challenges/${challengeId}/apply`,
+        `http://kdt-sw3-team03.elicecoding.com:5000/challenges/${challengeId}/apply`,
         {},
         {
           headers: {
@@ -129,11 +131,13 @@ function ChallengeBoardPage() {
     return Str;
   };
   useEffect(() => {
-    axios.get(`http://localhost:8000/feeds/${cfeed}`).then((response) => {
-      console.log("응답:", response);
-      setCfeedUrl(response.data.feedImg);
-      setCfeedId(response.data["_id"]);
-    });
+    axios
+      .get(`http://kdt-sw3-team03.elicecoding.com:5000/feeds/${cfeed}`)
+      .then((response) => {
+        console.log("응답:", response);
+        setCfeedUrl(response.data.feedImg);
+        setCfeedId(response.data["_id"]);
+      });
   }, [cfeed]);
   return (
     <>

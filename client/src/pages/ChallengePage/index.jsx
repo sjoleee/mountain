@@ -168,7 +168,7 @@ function ChallengePage() {
   };
 
   const onFilterClick = async (e) => {
-    let url = `http://localhost:8000/challenges?`;
+    let url = `http://kdt-sw3-team03.elicecoding.com:5000/challenges?`;
     let afterUrl = "";
     if (fregion) {
       afterUrl += `region=${fregion}`;

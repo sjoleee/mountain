@@ -31,7 +31,6 @@ function LoginPage() {
     e.preventDefault();
 
     const response = await postUserLogin(form);
-    //const response = await axios.post("http://localhost:8000/auth/login", form);
     if (response.status === 201) {
       const userid = response.data.id;
       localStorage.setItem("access_token", response.data["access_token"]);
