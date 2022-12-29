@@ -1,3 +1,4 @@
+import { Badges } from './../badges/schemas/badges.schema';
 import { Injectable, Type } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
@@ -11,6 +12,7 @@ import { Users } from './schemas/users.schema';
 export class UsersRepository {
   constructor(
     @InjectModel(Users.name) private readonly usersModel: Model<Users>,
+    @InjectModel(Badges.name) private readonly badgesModel: Model<Badges>,
   ) {}
 
   async create(user: any) {
@@ -19,7 +21,10 @@ export class UsersRepository {
   }
 
   async findAll({ filter = {}, sort = {} }) {
-    const users = await this.usersModel.find(filter).sort(sort);
+    const users = await this.usersModel
+      .find(filter)
+      .sort(sort)
+      .populate({ path: 'badgeList', model: this.badgesModel });
     return users;
   }
   async findByFilter(filter: any) {
