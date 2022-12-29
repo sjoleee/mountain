@@ -8,5 +8,5 @@ export const RankinPageLayout = styled.div`
 
 export const RankerList = styled.div`
   display: flex;
-  margin-top: 100px;
+  margin-top: 180px;
 `;

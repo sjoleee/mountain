@@ -11,8 +11,8 @@ export const SearchInputBox = styled.div`
   left: 10px;
   width: 200px;
   height: 40px;
-  borderradius: 20px;
-  backgroundcolor: white;
+  border-radius: 20px;
+  background-color: white;
 
   .input-search-mntn {
     position: absolute;
@@ -20,6 +20,7 @@ export const SearchInputBox = styled.div`
     border: none;
     background-color: transparent;
   }
+
   .input-search-mntn:focus {
     outline: none;
   }

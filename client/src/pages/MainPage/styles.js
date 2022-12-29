@@ -19,5 +19,4 @@ export const VideoPlayer = styled.video`
   top: 50;
   left: 0;
   width: 100%;
-  height: 100vh;
 `;

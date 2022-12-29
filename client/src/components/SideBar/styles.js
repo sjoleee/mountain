@@ -54,6 +54,7 @@ export const ProfileSection = styled.section`
 
 export const ProfileList = styled.div`
   overflow: scroll;
+  height: 175px;
 
   &::-webkit-scrollbar {
     display: none;
@@ -83,7 +84,7 @@ export const PostList = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 
+  height: 270px;
   gap: 2px;
   overflow: scroll;
   &::-webkit-scrollbar {
