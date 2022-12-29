@@ -1,35 +1,38 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { isLoginState } from "../../../store/userState";
 import { useRecoilValue } from "recoil";
+import * as S from "@components/common/NavBar/styles";
 
 const NavBar = () => {
   const isLogin = useRecoilValue(isLoginState);
 
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/feeds">Feed</Link>
-        </li>
-        <li>
-          <Link to="/map">Map</Link>
-        </li>
-        <li>
-          <Link to="/challenge">Challenge</Link>
-        </li>
-        <li>
-          <Link to="/ranking">Ranking</Link>
-        </li>
-        <li>
+    <S.NavBarLayout>
+      <S.NavBarList>
+        <S.NavBarItem>
+          <S.StyledNavLink to="/">Home</S.StyledNavLink>
+        </S.NavBarItem>
+        <S.NavBarItem>
+          <S.StyledNavLink to="/feeds">Feed</S.StyledNavLink>
+        </S.NavBarItem>
+        <S.NavBarItem>
+          <S.StyledNavLink to="/map">Map</S.StyledNavLink>
+        </S.NavBarItem>
+        <S.NavBarItem>
+          <S.StyledNavLink to="/challenge">Challenge</S.StyledNavLink>
+        </S.NavBarItem>
+        <S.NavBarItem>
+          <S.StyledNavLink to="/ranking">Ranking</S.StyledNavLink>
+        </S.NavBarItem>
+        <S.NavBarItem>
           {isLogin ? (
-            <Link to="/mypage">Mypage</Link>
+            <S.StyledNavLink to="/mypage">Mypage</S.StyledNavLink>
           ) : (
-            <Link to="/login">Login</Link>
+            <S.StyledNavLink to="/login">Login</S.StyledNavLink>
           )}
-        </li>
-      </ul>
-    </nav>
+        </S.NavBarItem>
+      </S.NavBarList>
+    </S.NavBarLayout>
   );
 };
 
