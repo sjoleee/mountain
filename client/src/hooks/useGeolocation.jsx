@@ -9,7 +9,7 @@ const useGeolocation = ({
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [currentPosition, setCurrentPosition] = useState(DEFAULT_POSITION);
+  const [currentPosition, setCurrentPosition] = useState({ lat: 0, lng: 0 });
 
   const getPosition = () => {
     navigator.geolocation.getCurrentPosition(

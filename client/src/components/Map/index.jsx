@@ -122,7 +122,7 @@ const Maps = () => {
     setSelectedMarker({
       ...marker,
       ...mntnInfo?.mountain,
-      posts: mntnInfo?.posts || [],
+      feeds: mntnInfo?.feeds || [],
       users: mntnInfo?.users || [],
     });
 
@@ -328,14 +328,6 @@ const Maps = () => {
           handleSearchSubmit(searchInput, searchOptions)
         }
         searchCallback={displayMountainMarkers}
-        style={{
-          top: "60px",
-          left: "10px",
-          width: "200px",
-          height: "40px",
-          borderRadius: "20px",
-          backgroundColor: "white",
-        }}
       />
       <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
       <MyLocationButton handleMyLocBtnClick={handleMyLocBtnClick} />

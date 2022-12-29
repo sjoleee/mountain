@@ -46,3 +46,14 @@ export const BadgeBox = styled.div`
     height: 100%;
   }
 `;
+
+export const TierBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 3px;
+
+  img {
+    width: 40px;
+    height: 40px;
+  }
+`;
