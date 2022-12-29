@@ -40,7 +40,6 @@ const FeedPage = () => {
   const ref = useIntersect((entry, observer) => {
     observer.unobserve(entry.target);
     if (!loading && hasNext) {
-      if (feeds.length < 25) return;
       if (author && hasNext) {
         return axios
           .get(

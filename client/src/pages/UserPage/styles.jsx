@@ -114,14 +114,14 @@ export const FeedImgContainer = styled.div`
   width: 180px;
   height: 150px;
   background-color: black;
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
   margin-bottom: 6px;
 `;
 
 export const FeedImg = styled.img`
-  width: 100%;
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
 `;
 
 export const FeedTitle = styled.p`

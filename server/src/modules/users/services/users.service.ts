@@ -142,12 +142,11 @@ export class UsersService {
       });
     }
     const mountainId = mountain._id;
-    console.log('mountainId', mountainId);
     const isMountain = user.mountainList.some((list) =>
       list.equals(mountainId),
     );
     if (!isMountain) {
-      user.mountainList.push(mountainId);
+      user.mountainList.push(new Types.ObjectId(mountainId));
       await this.usersRepository.updateById(userId, user);
       return { status: 200, message: '추가되었습니다' };
     }
