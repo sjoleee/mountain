@@ -84,7 +84,7 @@ function ChallengeWritePage() {
       finishDate: form.finishDate,
       dueDate: form.dueDate,
       MaximumPeople: Number(form.MaximumPeople),
-      mountain: form.mountain._id,
+      mountain: form.mountain,
       content: form.content,
       hashtag: form.hashtag,
       region: form.region,

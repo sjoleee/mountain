@@ -277,7 +277,7 @@ function ChallnegeWriteForm({
             <Button
               level1
               name="level"
-              value="gk"
+              value="하"
               onClick={onClick}
               type="button"
             >

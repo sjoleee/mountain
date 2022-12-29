@@ -41,7 +41,7 @@ export const SearchBarContainer = styled.div`
   align-items: center;
   height: 60px;
   position: fixed;
-  top: 0;
+  top: 50px;
   background-color: rgba(255, 255, 255, 0.55);
   /* background-color: rgba(0, 190, 255, 0.7); */
   width: 100%;

@@ -545,9 +545,6 @@ function ChallengePage() {
       <Ch.addButton onClick={onPageButton}>
         <Ch.addLogoSpan>+</Ch.addLogoSpan>
       </Ch.addButton>
-      {localStorage.getItem("userId") !== "" ? (
-        <Ch.logoutButton onClick={onLogoutButton}>로그아웃</Ch.logoutButton>
-      ) : null}
     </Ch.ChallengePageBox>
   );
 }

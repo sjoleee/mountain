@@ -26,10 +26,11 @@ import {
 import { searchPostsByPos, getMountainInfo } from "../../apis";
 import { isLoginState } from "../../store/userState";
 import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 const geolocationOptions = {
   //timeout: 5000, // 최대 대기 시간
-  //maximumAge: 30000, // 캐시 지속 시간
+  maximumAge: 30000, // 캐시 지속 시간
 };
 
 const mapSize = {
@@ -105,9 +106,11 @@ const Maps = () => {
     map,
     geolocationOptions,
     isMyLocBtnClicked,
-    successCallback: ({ lat, lng }) =>
-      map?.setCenter(new kakao.maps.LatLng(lat, lng)),
+    successCallback: ({ lat, lng }) => {
+      map?.setCenter(new kakao.maps.LatLng(lat, lng));
+    },
   });
+  const navigate = useNavigate();
 
   const isLogin = useRecoilValue(isLoginState);
 
@@ -132,6 +135,7 @@ const Maps = () => {
       searchInput,
       searchOptions
     );
+
     setSearchedMountainList(mountainList);
     setIsSearchListOverlayOpen(true);
     map.setBounds(bounds);
@@ -173,7 +177,6 @@ const Maps = () => {
       !options.bounds &&
         bounds.extend(new kakao.maps.LatLng(Number(y), Number(x)));
     }
-
     return [mountainList, bounds];
   };
 
@@ -214,8 +217,12 @@ const Maps = () => {
   const isSelectedMarker = (mntn) => selectedMarker?.id === mntn.id;
 
   const displayNearbyMntnAndPosts = async (searchOptions) => {
-    const [mountainList] = await searchPlaces("산", searchOptions);
-    setNearbyMountainList(mountainList);
+    try {
+      const [mountainList, _] = await searchPlaces("산", searchOptions);
+      setNearbyMountainList(mountainList);
+    } catch (error) {
+      console.log(error);
+    }
 
     const postList = await getNearbyPosts();
     setNearbyPostList(postList);
@@ -273,15 +280,18 @@ const Maps = () => {
         minLevel={6}
         styles={clusterStyleProps}
       >
-        {nearbyPostList?.map(({ id, img, position }) => (
+        {nearbyPostList?.map(({ _id, feedImg, lat, lng }) => (
           <CustomOverlayMap
-            key={id}
-            position={position}
+            key={_id}
+            position={{ lat, lng }}
             xAnchor={0.3}
             yAnchor={0.91}
           >
             <S.PostImgBox>
-              <img src={img} />
+              <img
+                src={feedImg}
+                onClick={() => navigate(`/feeds?feed-id=${_id}`)}
+              />
             </S.PostImgBox>
           </CustomOverlayMap>
         ))}
@@ -317,8 +327,9 @@ const Maps = () => {
         handleSearchSubmit={(searchInput) =>
           handleSearchSubmit(searchInput, searchOptions)
         }
+        searchCallback={displayMountainMarkers}
         style={{
-          top: "20px",
+          top: "60px",
           left: "10px",
           width: "200px",
           height: "40px",
