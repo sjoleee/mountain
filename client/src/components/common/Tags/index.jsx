@@ -1,37 +1,33 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import * as S from "./styles";
 
 const Tags = ({ formData, setFormData, readOnly = false }) => {
-  const id = useRef(1);
-
   const handleKeyPress = (e) => {
     if (formData.tag.length === 7) {
       e.target.innerText = "";
       return alert("태그를 더이상 입력할 수 없습니다.");
     }
     if (e.key === "Enter") {
-      console.log("sadf");
       setFormData({
         ...formData,
-        tag: [...formData.tag, { id: id.current, tag: e.target.innerText }],
+        tag: [...formData.tag, e.target.innerText],
       });
-      id.current += 1;
       e.target.innerText = "";
     }
   };
 
-  const handleClick = (id) => (e) => {
+  const handleClick = (index) => (e) => {
     setFormData({
       ...formData,
-      tag: formData.tag.filter((tag) => tag.id !== id),
+      tag: formData.tag.filter((tag, i) => i !== index),
     });
   };
 
   return (
     <S.TagsContainer>
       <S.TagsDisplay>
-        {formData.tag.map(({ id, tag }) => (
-          <S.TagSpan key={id} onClick={handleClick(id)}>
+        {formData.tag.map((tag, i) => (
+          <S.TagSpan key={i} onClick={handleClick(i)}>
             #{tag}
           </S.TagSpan>
         ))}

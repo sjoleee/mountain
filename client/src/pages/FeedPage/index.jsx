@@ -16,21 +16,47 @@ const FeedPage = () => {
   const [modalOn, setModalOn] = useRecoilState(ModalOn);
   const [loading, setLoading] = useState(true);
   const [cardOpen, setCardOpen] = useState(false);
+  const [hasNext, setHasNext] = useState(false);
+  const [modifyMode, setModifyMode] = useState(false);
+  const [pageCount, setPageCount] = useState(2);
+  const takePage = useRef(25);
   const navigate = useNavigate();
+  const feedId = searchParams.get("feed-id");
+  const author = searchParams.get("author");
 
   const handleModal = () => {
     setModalOn(!modalOn);
+    setModifyMode(false);
   };
 
-  const ref = useIntersect(async (entry, observer) => {
+  const ref = useIntersect((entry, observer) => {
     observer.unobserve(entry.target);
-    if (!loading) {
+    if (!loading && hasNext) {
+      if (feeds.length < 25) return;
+      if (author && hasNext) {
+        return axios
+          .get(
+            `http://kdt-sw3-team03.elicecoding.com:5000/feeds?author=${author}&page=${pageCount}&take=25`
+          )
+          .then((res) => {
+            setFeeds([...feeds, ...res.data.data]);
+            setHasNext(res.data.meta.hasNextPage);
+            setPageCount(pageCount + 1);
+            setLoading(false);
+          });
+      }
       setLoading(true);
       console.log("fetch");
-      axios.get("/feed-data").then((res) => {
-        setFeeds([...feeds, ...res.data]);
-        setLoading(false);
-      });
+      axios
+        .get(
+          `http://kdt-sw3-team03.elicecoding.com:5000/feeds?page=${pageCount}&take=${takePage.current}`
+        )
+        .then((res) => {
+          setFeeds([...feeds, ...res.data.data]);
+          setHasNext(res.data.meta.hasNextPage);
+          setPageCount(pageCount + 1);
+          setLoading(false);
+        });
     }
   });
 
@@ -41,32 +67,65 @@ const FeedPage = () => {
   };
 
   const getData = () => {
-    axios.get("/feed-data").then((res) => {
-      setFeeds([...res.data]);
-      console.log(res.data);
-    });
+    axios
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/feeds?pos=false&like=false&order=desc&page=1&take=${takePage.current}`
+      )
+      .then((res) => {
+        setFeeds(res.data.data);
+        setHasNext(res.data.meta.hasNextPage);
+      });
+  };
+
+  const getFeedDataById = (id) => {
+    axios
+      .get(`http://kdt-sw3-team03.elicecoding.com:5000/feeds/${id}`)
+      .then((res) => {
+        setFeedEach(res.data);
+        setCardOpen(true);
+      });
+  };
+
+  const getFeedDataByAuthor = (author) => {
+    axios
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/feeds?author=${author}&take=25`
+      )
+      .then((res) => {
+        setFeeds(res.data.data);
+        setHasNext(res.data.meta.hasNextPage);
+      });
   };
 
   const handleCardOpen = (id) => {
     navigate(`/feeds?feed-id=${id}`);
-    axios.get(`/feed-data?feed-id=${id}`).then((res) => {
-      setFeedEach(res.data);
-      setCardOpen(true);
-    });
+    getFeedDataById(id);
   };
 
-  const getFeedDataById = (id) => {
-    axios.get(`/feed-data?feed-id=${id}`).then((res) => {
-      setFeedEach(res.data);
-      setCardOpen(true);
-    });
+  const handleSearch = ({ target }) => {
+    console.log(target.value);
+    // 디바운싱 적용해서 검색기능 적용할 것
+  };
+
+  const handleDelete = () => {
+    setCardOpen(false);
+    getData();
+  };
+
+  const handleModify = () => {
+    setCardOpen(false);
+    setModifyMode(true);
+    setModalOn(true);
   };
 
   useEffect(() => {
     getData();
-    const feedId = searchParams.get("feed-id");
-    if (feedId) {
+
+    if (feedId && !modifyMode) {
       getFeedDataById(feedId);
+    }
+    if (author && !modifyMode) {
+      getFeedDataByAuthor(author);
     }
   }, []);
 
@@ -79,18 +138,26 @@ const FeedPage = () => {
             onClick={handleModal}
             getData={getData}
             setFeeds={setFeeds}
+            modifyMode={modifyMode}
+            feedEach={modifyMode ? feedEach : null}
+            setModifyMode={setModifyMode}
           />
         )}
         {cardOpen && (
           <S.CardDetailContainer>
             <S.CloseContainer
               onClick={() => {
-                navigate("/feeds");
+                navigate(-1);
                 setCardOpen(false);
               }}
             />
             <S.CardDetail>
-              <FeedInfo {...feedEach} setFeedEach={setFeedEach} />
+              <FeedInfo
+                {...feedEach}
+                setFeedEach={setFeedEach}
+                refresh={handleDelete}
+                handleModify={handleModify}
+              />
             </S.CardDetail>
           </S.CardDetailContainer>
         )}
@@ -104,15 +171,19 @@ const FeedPage = () => {
           </S.PostButton>
         </S.PostButtonContainer>
         <S.SearchInputWrapper>
-          <S.SearchInput type="text" placeholder="검색어를 입력해주세요." />
+          <S.SearchInput
+            type="text"
+            placeholder="검색어를 입력해주세요."
+            onChange={handleSearch}
+          />
         </S.SearchInputWrapper>
       </S.SearchBarContainer>
       <S.PageLayout>
         <S.FeedContainer>
           {feeds.map((feed, i) => (
             <Feed
-              key={feed.id}
-              id={feed.id}
+              key={feed._id}
+              id={feed._id}
               {...feed}
               onLoad={i === feeds.length - 1 ? handleLoad : null}
               onClick={handleCardOpen}

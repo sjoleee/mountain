@@ -118,14 +118,15 @@ export const UserProfileContainer = styled.div`
 `;
 
 export const UserProfileImg = styled.img`
-  height: 100%;
-  width: 50px;
-  margin-right: 15px;
+  height: 30px;
+  width: 30px;
+  margin-right: 10px;
+  border-radius: 30px;
 `;
 
 export const UserName = styled.p`
   height: 100%;
-  font-size: 15px;
+  font-size: 14px;
   display: flex;
   align-items: center;
   flex: 1;
@@ -190,11 +191,14 @@ export const UserIdSpan = styled.span`
 
 export const CommentInputWrapper = styled.div`
   height: 30px;
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export const CommentInputForm = styled.form`
   display: flex;
   height: 100%;
+  width: 85%;
   border-radius: 30px;
   overflow: hidden;
   border: 1px solid rgba(82, 82, 82, 0.217);
@@ -226,8 +230,8 @@ export const LikesWrapper = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
-  top: 30px;
-  right: 30px;
+  left: 5px;
+  bottom: 15px;
 `;
 
 export const LikesBtn = styled.button`
@@ -245,4 +249,36 @@ export const LikesBtn = styled.button`
 
 export const LikesCount = styled.span`
   color: red;
+`;
+
+export const MoreBtnWrapper = styled.div`
+  position: absolute;
+  font-size: 25px;
+  right: 20px;
+  top: 40px;
+  cursor: pointer;
+`;
+
+export const BtnsWrapper = styled.div`
+  display: flex;
+  position: absolute;
+`;
+
+export const DropdownWrapper = styled.ul`
+  display: grid;
+  place-items: center;
+  flex-direction: column;
+  position: absolute;
+  list-style: none;
+  height: 50px;
+  /* background-color: white */
+  padding-left: 0;
+  margin: 0;
+`;
+
+export const ButtonWrapper = styled.li`
+  display: grid;
+  place-items: center;
+  width: 90px;
+  height: 30px;
 `;

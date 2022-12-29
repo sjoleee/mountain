@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ModalContainer = styled.div`
   position: fixed;
@@ -31,6 +31,16 @@ export const ModalCard = styled.div`
   background-color: white;
   z-index: 15;
   overflow: hidden;
+  position: relative;
+`;
+
+const BorderNone = css`
+  ${(props) =>
+    props.borderNone &&
+    css`
+      border-top-left-radius: none; !important
+      border-bottom-left-radius: none; !important
+    `}
 `;
 
 export const ImgContainer = styled.div`
@@ -43,6 +53,8 @@ export const ImgContainer = styled.div`
   background-color: black;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
+
+  ${BorderNone}
 `;
 
 export const EmptyImg = styled.div`
@@ -161,4 +173,14 @@ export const ExitBtn = styled.button`
   top: 20px;
   right: 20px;
   cursor: pointer;
+`;
+
+export const LoadingDisplay = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(128, 128, 128, 0.7);
+  z-index: 15;
+  display: grid;
+  place-items: center;
 `;

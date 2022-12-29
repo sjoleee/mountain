@@ -29,7 +29,6 @@ function LoginPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     const response = await postUserLogin(form);
     if (response.status === 201) {
       const userid = response.data.id;

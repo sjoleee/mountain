@@ -1,8 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FeedTags from "../common/Tags";
 import * as S from "./styles";
 
-const FeedInput = ({ onSubmit }) => {
+const FeedInput = ({ onSubmit, feedEach, modifyMode }) => {
+  const titleRef = useRef();
+  const contentRef = useRef();
   const [formData, setFormData] = useState({
     title: "",
     content: "",
@@ -16,6 +18,18 @@ const FeedInput = ({ onSubmit }) => {
     }));
   };
 
+  useEffect(() => {
+    if (modifyMode) {
+      titleRef.current.value = feedEach.title;
+      contentRef.current.value = feedEach.content;
+      setFormData({
+        title: feedEach.title,
+        content: feedEach.content,
+        tag: feedEach.tag,
+      });
+    }
+  }, []);
+
   return (
     <>
       <S.TitleInputContainer>
@@ -23,6 +37,7 @@ const FeedInput = ({ onSubmit }) => {
           name="title"
           type="text"
           placeholder="제목을 입력하세요"
+          ref={titleRef}
           onChange={handleChange}
         />
       </S.TitleInputContainer>
@@ -30,11 +45,11 @@ const FeedInput = ({ onSubmit }) => {
         <S.TextBox
           name="content"
           placeholder="내용을 입력해주세요."
+          ref={contentRef}
           onChange={handleChange}
         />
       </S.TextBoxContainer>
       <S.TagContainer>
-        {/* <S.TagInput name="tags" placeholder="태그를 입력하세요" /> */}
         <FeedTags formData={formData} setFormData={setFormData} />
       </S.TagContainer>
       <S.BtnContainer>
