@@ -30,6 +30,7 @@ export const ProfileBox = styled.div`
   width: 250px;
   height: 250px;
   display: flex;
+
   img {
     width: 100%;
     height: 100%;
