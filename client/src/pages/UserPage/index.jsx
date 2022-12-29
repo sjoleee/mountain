@@ -161,7 +161,7 @@ const UserProfile = () => {
               수정하기
             </Button>
           ) : (
-            <Button onClick={() => setMode(false)} fullWidth="false">
+            <Button onClick={handleSubmit} fullWidth="false">
               수정 완료하기
             </Button>
           )}
