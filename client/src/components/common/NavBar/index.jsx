@@ -26,7 +26,7 @@ const NavBar = () => {
         </S.NavBarItem>
         <S.NavBarItem>
           {isLogin ? (
-            <S.StyledNavLink to="/mypage">Mypage</S.StyledNavLink>
+            <S.StyledNavLink to="/user">Mypage</S.StyledNavLink>
           ) : (
             <S.StyledNavLink to="/login">Login</S.StyledNavLink>
           )}
