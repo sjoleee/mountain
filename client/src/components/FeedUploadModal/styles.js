@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const ModalContainer = styled.div`
   position: fixed;
@@ -34,6 +34,15 @@ export const ModalCard = styled.div`
   position: relative;
 `;
 
+const BorderNone = css`
+  ${(props) =>
+    props.borderNone &&
+    css`
+      border-top-left-radius: none; !important
+      border-bottom-left-radius: none; !important
+    `}
+`;
+
 export const ImgContainer = styled.div`
   height: 100%;
   width: 56%;
@@ -44,6 +53,8 @@ export const ImgContainer = styled.div`
   background-color: black;
   border-top-left-radius: 20px;
   border-bottom-left-radius: 20px;
+
+  ${BorderNone}
 `;
 
 export const EmptyImg = styled.div`

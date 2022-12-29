@@ -42,7 +42,11 @@ const FeedInfo = ({
     }
     setToggle(!toggle);
 
-    axios.put(`http://localhost:8000/feeds/${_id}/like`, {}, header);
+    axios.put(
+      `http://kdt-sw3-team03.elicecoding.com:5000/feeds/${_id}/like`,
+      {},
+      header
+    );
   };
 
   const handleCommentSubmit = (feedId) => (e) => {
@@ -50,20 +54,28 @@ const FeedInfo = ({
     const commentText = inputRef.current.value;
     const content = { contents: commentText };
     axios
-      .post(`http://localhost:8000/comments/${feedId}`, content, header)
+      .post(
+        `http://kdt-sw3-team03.elicecoding.com:5000/comments/${feedId}`,
+        content,
+        header
+      )
       .then((res) => {
-        axios.get(`http://localhost:8000/feeds/${feedId}`).then((res) => {
-          setFeedEach(res.data);
-        });
+        axios
+          .get(`http://kdt-sw3-team03.elicecoding.com:5000/feeds/${feedId}`)
+          .then((res) => {
+            setFeedEach(res.data);
+          });
       });
     inputRef.current.value = "";
   };
 
   const handleDeleteFeed = () => {
-    axios.delete(`http://localhost:8000/feeds/${_id}`).then(() => {
-      navigate("/feeds", { replace: true });
-      refresh();
-    });
+    axios
+      .delete(`http://kdt-sw3-team03.elicecoding.com:5000/feeds/${_id}`)
+      .then(() => {
+        navigate("/feeds", { replace: true });
+        refresh();
+      });
   };
 
   const handleModifyFeed = () => {

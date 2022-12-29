@@ -21,6 +21,8 @@ const FeedPage = () => {
   const [pageCount, setPageCount] = useState(2);
   const takePage = useRef(25);
   const navigate = useNavigate();
+  const feedId = searchParams.get("feed-id");
+  const author = searchParams.get("author");
 
   const handleModal = () => {
     setModalOn(!modalOn);
@@ -31,11 +33,23 @@ const FeedPage = () => {
     observer.unobserve(entry.target);
     if (!loading && hasNext) {
       if (feeds.length < 25) return;
+      if (author && hasNext) {
+        return axios
+          .get(
+            `http://kdt-sw3-team03.elicecoding.com:5000/feeds?author=${author}&page=${pageCount}&take=25`
+          )
+          .then((res) => {
+            setFeeds([...feeds, ...res.data.data]);
+            setHasNext(res.data.meta.hasNextPage);
+            setPageCount(pageCount + 1);
+            setLoading(false);
+          });
+      }
       setLoading(true);
       console.log("fetch");
       axios
         .get(
-          `http://localhost:8000/feeds?page=${pageCount}&take=${takePage.current}`
+          `http://kdt-sw3-team03.elicecoding.com:5000/feeds?page=${pageCount}&take=${takePage.current}`
         )
         .then((res) => {
           setFeeds([...feeds, ...res.data.data]);
@@ -55,7 +69,7 @@ const FeedPage = () => {
   const getData = () => {
     axios
       .get(
-        `http://localhost:8000/feeds?pos=false&like=false&order=desc&page=1&take=${takePage.current}`
+        `http://kdt-sw3-team03.elicecoding.com:5000/feeds?pos=false&like=false&order=desc&page=1&take=${takePage.current}`
       )
       .then((res) => {
         setFeeds(res.data.data);
@@ -64,10 +78,23 @@ const FeedPage = () => {
   };
 
   const getFeedDataById = (id) => {
-    axios.get(`http://localhost:8000/feeds/${id}`).then((res) => {
-      setFeedEach(res.data);
-      setCardOpen(true);
-    });
+    axios
+      .get(`http://kdt-sw3-team03.elicecoding.com:5000/feeds/${id}`)
+      .then((res) => {
+        setFeedEach(res.data);
+        setCardOpen(true);
+      });
+  };
+
+  const getFeedDataByAuthor = (author) => {
+    axios
+      .get(
+        `http://kdt-sw3-team03.elicecoding.com:5000/feeds?author=${author}&take=25`
+      )
+      .then((res) => {
+        setFeeds(res.data.data);
+        setHasNext(res.data.meta.hasNextPage);
+      });
   };
 
   const handleCardOpen = (id) => {
@@ -93,9 +120,12 @@ const FeedPage = () => {
 
   useEffect(() => {
     getData();
-    const feedId = searchParams.get("feed-id");
+
     if (feedId && !modifyMode) {
       getFeedDataById(feedId);
+    }
+    if (author && !modifyMode) {
+      getFeedDataByAuthor(author);
     }
   }, []);
 
@@ -117,7 +147,7 @@ const FeedPage = () => {
           <S.CardDetailContainer>
             <S.CloseContainer
               onClick={() => {
-                navigate("/feeds");
+                navigate(-1);
                 setCardOpen(false);
               }}
             />

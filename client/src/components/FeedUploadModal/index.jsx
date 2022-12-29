@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import ImageUpload from "./ImageUpload";
-import FeedInput from "./feedInput";
+import FeedInput from "./FeedInput";
 import useGeolocation from "@/hooks/useGeolocation";
 import PacmanLoader from "react-spinners/PacmanLoader ";
 
@@ -30,7 +30,6 @@ const FeedModal = ({ onClick, getData, setFeeds, modifyMode, feedEach }) => {
     thumbnail: "",
     type: "",
   });
-  const [isOwner, setIsOwner] = useState(false); // 피드 수정시 필요
 
   const handleImgUpload = ({ target }) => {
     const imageFile = target.files;
@@ -85,7 +84,11 @@ const FeedModal = ({ onClick, getData, setFeeds, modifyMode, feedEach }) => {
         };
         if (modifyMode) {
           axios
-            .patch(`http://localhost:8000/feeds`, feedForm, header)
+            .put(
+              `http://kdt-sw3-team03.elicecoding.com:5000/feeds`,
+              feedForm,
+              header
+            )
             .then(() => {
               setLoadingState(false);
               getData();
@@ -94,11 +97,17 @@ const FeedModal = ({ onClick, getData, setFeeds, modifyMode, feedEach }) => {
           return;
         }
 
-        axios.post("http://localhost:8000/feeds", feedForm, header).then(() => {
-          setLoadingState(false);
-          getData();
-          onClick();
-        });
+        axios
+          .post(
+            "http://kdt-sw3-team03.elicecoding.com:5000/feeds",
+            feedForm,
+            header
+          )
+          .then(() => {
+            setLoadingState(false);
+            getData();
+            onClick();
+          });
       });
   };
 
