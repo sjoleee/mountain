@@ -6,6 +6,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { usernameState } from "@/store/userState";
+import { postUserLogin } from "@/apis";
 
 function LoginPage() {
   const navigate = useNavigate();
@@ -25,9 +26,9 @@ function LoginPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-    const response = await axios.post("http://localhost:8000/auth/login", form);
-    console.log(response);
+
+    const response = await postUserLogin(form);
+    //const response = await axios.post("http://localhost:8000/auth/login", form);
     if (response.status === 201) {
       const userid = response.data.id;
       localStorage.setItem("access_token", response.data["access_token"]);

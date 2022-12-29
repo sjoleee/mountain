@@ -14,7 +14,7 @@ function CmCard({ data }) {
               <cm.Cardtier></cm.Cardtier>
               <cm.Cardname>{data.username}</cm.Cardname>
             </cm.CardUser>
-            <cm.CardBadge></cm.CardBadge>
+            <cm.CardBadge>{data.badgeList}</cm.CardBadge>
           </cm.CardInfoContent>
         </cm.CardInfoContainer>
         <cm.CardIntro>

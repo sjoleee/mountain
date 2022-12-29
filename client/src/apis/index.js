@@ -49,3 +49,41 @@ export const putChallangeData = async (id) => {
     console.dir(error);
   }
 };
+
+export const postUserLogin = async (form) => {
+  try {
+    const response = await axios.post("http://localhost:8000/auth/login", form);
+    return response;
+  } catch (error) {
+    console.dir(error);
+  }
+};
+
+export const postUserRegister = async (registerform) => {
+  try {
+    const response = await axios.post("http://localhost:8000/users", {
+      email: registerform.email,
+      username: registerform.username,
+      password: registerform.password,
+      phoneNumber: registerform.phoneNumber,
+      region: registerform.region,
+      gender: registerform.gender,
+      age: Number(registerform.age),
+      profileImg: registerform.profileImg,
+    });
+    return response;
+  } catch (error) {
+    console.dir(error);
+  }
+};
+
+export const getChallengeList = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8000/challenges?order=desc&page=1&take=20"
+    );
+    return response;
+  } catch (error) {
+    console.dir(error);
+  }
+};

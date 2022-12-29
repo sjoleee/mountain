@@ -4,6 +4,7 @@ import hikeLogo from "@/assets/hike_shoes.png";
 import Button from "../../components/common/Button";
 import axios from "axios";
 import * as ar from "@/pages/RegisterPage/styles.js";
+import { postUserRegister } from "@/apis";
 
 function RegisterPage() {
   const [registerform, registerSetForm] = useState({
@@ -38,41 +39,23 @@ function RegisterPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(registerform);
-    const response = await axios.post("http://localhost:8000/users", {
-      email: registerform.email,
-      username: registerform.username,
-      password: registerform.password,
-      phoneNumber: registerform.phoneNumber,
-      region: registerform.region,
-      gender: registerform.gender,
-      age: Number(registerform.age),
-      profileImg: registerform.profileImg,
-    });
-    console.log(response);
+    const response = await postUserRegister(registerform);
+    // const response = await axios.post("http://localhost:8000/users", {
+    //   email: registerform.email,
+    //   username: registerform.username,
+    //   password: registerform.password,
+    //   phoneNumber: registerform.phoneNumber,
+    //   region: registerform.region,
+    //   gender: registerform.gender,
+    //   age: Number(registerform.age),
+    //   profileImg: registerform.profileImg,
+    // });
     if (response.status === 201) {
       navigate("/login");
     } else {
       alert("회원가입에 실패했습니다.");
       return;
     }
-    // axios
-    //   .post("http://localhost:8000/users", {
-    //     email: registerform.email,
-    //     username: registerform.username,
-    //     password: registerform.password,
-    //     phoneNumber: registerform.phoneNumber,
-    //     region: registerform.region,
-    //     gender: registerform.gender,
-    //     age: Number(registerform.age),
-    //     profileImg: registerform.profileImg,
-    //   })
-    //   .then((response) => {
-    //     if (response.data.status === 201) {
-    //       navigate("/login");
-    //     }
-    //     console.log(response.data);
-    //   });
   };
 
   const onChangeEmail = (e) => {

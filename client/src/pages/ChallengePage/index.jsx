@@ -14,7 +14,7 @@ import level3 from "@/assets/level/level3.png";
 import Challenge from "@/components/challenge";
 import selectImg from "@/assets/challenge/select.png";
 import axios from "axios";
-// import { userIdState } from "../../store/userState";
+import { getChallengeList } from "@/apis";
 
 function ChallengePage() {
   const navigate = useNavigate();
@@ -222,8 +222,7 @@ function ChallengePage() {
   useEffect(() => {
     setListLoad(false);
     let nowTime = new Date();
-    axios
-      .get("http://localhost:8000/challenges?order=desc&page=1&take=20")
+    const response = getChallengeList()
       .then((response) => {
         return response.data;
       })

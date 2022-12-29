@@ -1,16 +1,37 @@
 import React, { useState } from "react";
 import * as Cwf from "./styles";
 import Button from "../common/Button";
+import axios from "axios";
 
 function ChallnegeWriteForm({
   form,
+  mlist,
   onChange,
+  onMountainSearch,
   onClick,
   onSubmitClick,
   onHashtagKey,
   onChangeImage,
   isUpdate,
 }) {
+  const [search, setSearch] = useState("");
+  const [sm, setSm] = useState([]);
+  const onSearchChange = (e) => {
+    setSearch(e.target.value);
+    console.log(search);
+    axios
+      .get(`http://localhost:8000/mountains?search=${e.target.value}`)
+      .then((response) => {
+        return response.data;
+      })
+      .then((data) => setSm(data));
+  };
+  const onSearchClick = (e) => {
+    const value = e.target.getAttribute("value");
+    console.log(value);
+    onMountainSearch(value);
+    setSearch(e.target.getAttribute("name"));
+  };
   return (
     <Cwf.CwriteForm>
       <Cwf.CwriteFirst>
@@ -89,16 +110,33 @@ function ChallnegeWriteForm({
           <Cwf.CwLabelContainer>
             <Cwf.CwFormLabel>활동 산</Cwf.CwFormLabel>
           </Cwf.CwLabelContainer>
-          <Cwf.CwInputContinaer>
-            <Cwf.CwFormSelect
-              name="mountain"
-              value={form.mountain}
-              onChange={onChange}
-            >
-              <option>북한산</option>
-            </Cwf.CwFormSelect>
-          </Cwf.CwInputContinaer>
+          <Cwf.CwInputContinaer2>
+            <Cwf.CwFormStyledInput
+              type="text"
+              name="search"
+              className="searchMountain"
+              value={search}
+              onChange={onSearchChange}
+            />
+            <Cwf.mountainName>
+              <ul style={{ listStyle: "none", paddingLeft: "0px" }}>
+                {sm.map((value) => {
+                  const { mntiname, _id } = value;
+                  return (
+                    <Cwf.mountainNameli
+                      name={mntiname}
+                      value={String(_id)}
+                      onClick={onSearchClick}
+                    >
+                      {mntiname}
+                    </Cwf.mountainNameli>
+                  );
+                })}
+              </ul>
+            </Cwf.mountainName>
+          </Cwf.CwInputContinaer2>
         </Cwf.CwBasicContainer>
+
         <Cwf.CwBasicContainer>
           <Cwf.CwLabelContainer>
             <Cwf.CwFormLabel>소개 글</Cwf.CwFormLabel>
@@ -150,7 +188,7 @@ function ChallnegeWriteForm({
               <option>브론즈</option>
               <option>실버</option>
               <option>골드</option>
-              <option>플레티넘</option>
+              <option>플래티넘</option>
               <option>다이아몬드</option>
               <option>엄홍길</option>
             </Cwf.CwFormSelect>
