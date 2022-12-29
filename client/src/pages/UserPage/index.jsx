@@ -175,7 +175,7 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.region}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput />
+                    <S.InfoInput defaultValue={userInfo.region} />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi>
@@ -183,7 +183,7 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.age}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput />
+                    <S.InfoInput defaultValue={userInfo.age} />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi>
@@ -195,7 +195,7 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.phoneNumber}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput />
+                    <S.InfoInput defaultValue={userInfo.phoneNumber} />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi style={{ flexDirection: "column" }}>
