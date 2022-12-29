@@ -1,6 +1,5 @@
 import { FeedDto } from './dto/feed.dto';
 import { ResponseStatusDto } from './../../common/dto/response-status';
-import { ResponseFeedDto } from './dto/response-feed.dto';
 import {
   Controller,
   Get,

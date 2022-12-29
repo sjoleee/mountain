@@ -1,4 +1,4 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { Types } from 'mongoose';
 import { Level } from 'src/common/enums/level.enum';

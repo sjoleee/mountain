@@ -1,9 +1,8 @@
 import { Region } from 'src/common/enums/region.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { Level } from 'src/common/enums/level.enum';
-import { FeedEnum } from 'src/common/enums/feedtype.enum';
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, IsArray } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
 export class FilterChallengesOptionsDto {
   @ApiPropertyOptional({

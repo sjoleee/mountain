@@ -10,7 +10,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
@@ -61,7 +60,7 @@ export class ChallengesController {
     return await this.challengesService.findOneById(id);
   }
 
-  @Patch(':id')
+  @Put(':id')
   async update(
     @Param('id') id: string,
     @Body() updateChallengeDto: UpdateChallengeDto,

@@ -3,7 +3,6 @@ import {
   Controller,
   Get,
   Body,
-  Patch,
   Param,
   Delete,
   Post,
@@ -24,6 +23,7 @@ import { UsersDto } from './dto/users.dto';
 import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { ResponseUsersDto } from './dto/response-users.dto';
+import { Put } from '@nestjs/common/decorators';
 
 @ApiTags('users')
 @Controller('users')
@@ -77,7 +77,7 @@ export class UsersController {
   }
 
   @ApiOperation({ summary: '특정 유저 수정하기' })
-  @Patch(':id')
+  @Put(':id')
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUsersDto,

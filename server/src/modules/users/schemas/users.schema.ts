@@ -9,11 +9,6 @@ import { Role } from 'src/common/enums/role.enum';
 import { Tier } from 'src/common/enums/tier.enum';
 import { defaultSchema } from 'src/common/interface/default-schema';
 
-type Completed = {
-  cName: string;
-  cDif: string;
-};
-
 const options: SchemaOptions = {
   collection: 'users',
   timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },

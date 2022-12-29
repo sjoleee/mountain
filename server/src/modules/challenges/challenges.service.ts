@@ -1,9 +1,5 @@
-import { MountainsRepository } from './../mountains/mountains.repository';
-import { Challenges } from './schemas/challenges.schema';
 import { UsersService } from './../users/services/users.service';
-import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { ObjectId, Types } from 'mongoose';
-import { ChallengeDto } from './dto/challenges.dto';
+import { Types } from 'mongoose';
 import { ChallengesRepository } from './challenges.repository';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
@@ -11,7 +7,7 @@ import { UpdateChallengeDto } from './dto/update-challenge.dto';
 import { ResponseChallengeDto } from './dto/response-challenges.dto';
 import { ResponseStatusDto } from 'src/common/dto/response-status';
 import { UsersDto } from '../users/dto/users.dto';
-import { Level, levelToPoint } from 'src/common/enums/level.enum';
+import { levelToPoint } from 'src/common/enums/level.enum';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { FilterAdminChallengesOptionsDto } from './dto/filter-admin-challenges-options.dto';
 import { PageMetaDto } from 'src/common/dto/page-meta.dto';
@@ -55,7 +51,6 @@ export class ChallengesService {
 
   async findOneById(id: string): Promise<ResponseChallengeDto> {
     const challenge = await this.challengesRepository.findOneById(id);
-    console.log(challenge);
     return new ResponseChallengeDto(challenge);
   }
 

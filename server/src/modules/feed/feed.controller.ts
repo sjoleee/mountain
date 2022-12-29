@@ -6,7 +6,6 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
@@ -19,9 +18,7 @@ import { UpdateFeedDto } from './dto/update-feed.dto';
 import { FeedService } from './services/feed.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
-import { Types } from 'mongoose';
 import { UsersDto } from '../users/dto/users.dto';
-import { FeedEnum } from 'src/common/enums/feedtype.enum';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PageDto } from 'src/common/dto/page.dto';
 import { FilterFeedOptionsDto } from './dto/filter-feed-options.dto';
@@ -94,10 +91,10 @@ export class FeedController {
     return await this.feedService.updateLike(id, currentUser);
   }
 
-  @ApiOperation({ summary: '미완성' })
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFeedDto: UpdateFeedDto) {
-    return this.feedService.update(+id, updateFeedDto);
+  @ApiOperation({ summary: 'id로 업데이트' })
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateFeedDto: UpdateFeedDto) {
+    return await this.feedService.update(id, updateFeedDto);
   }
 
   @ApiOperation({ summary: 'id로 삭제' })

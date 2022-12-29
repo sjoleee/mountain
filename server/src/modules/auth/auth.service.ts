@@ -1,7 +1,6 @@
 import { ResponseUsersDto } from './../users/dto/response-users.dto';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { ResponseLoginDto } from './dto/response-login.dto';
 @Injectable()
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
