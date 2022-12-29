@@ -4,16 +4,18 @@ import * as al from "@/pages/LoginPage/styles.js";
 import Button from "../../components/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { usernameState } from "@/store/userState";
+import { isLoginState, usernameState } from "../../store/userState";
+import { useSetRecoilState } from "recoil";
 
 function LoginPage() {
+  const setIsLogin = useSetRecoilState(isLoginState);
+
   const navigate = useNavigate();
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [username, setUsername] = useRecoilState(usernameState);
+  const setUsername = useSetRecoilState(usernameState);
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -36,7 +38,8 @@ function LoginPage() {
       localStorage.setItem("username", response.data.username);
       setUsername(response.data.username);
       //console.log(userid);
-      navigate("/challenge");
+      setIsLogin(true);
+      navigate("/");
     }
   };
 

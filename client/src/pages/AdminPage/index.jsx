@@ -41,6 +41,8 @@ const AdminPage = () => {
       setSearchParams({ tab: TAB.CHALLENGES, page: 1 });
   }, []);
 
+  console.log(data);
+
   return (
     <S.Container>
       <h1>ADMIN</h1>

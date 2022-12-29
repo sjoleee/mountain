@@ -118,4 +118,12 @@ export class CreateChallengeDto {
   @IsOptional()
   @IsEnum(Tier)
   conditions?: Tier;
+
+  @ApiProperty({
+    example: '["태그1","태그2"]',
+    description: '챌린지 태그',
+    required: false,
+  })
+  @IsOptional()
+  hashtag: Array<string>;
 }

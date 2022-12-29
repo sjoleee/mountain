@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { DEFAULT_POSITION } from "@/constants/map";
 
-const useGeolocation = ({ options, successCallback, clicked }) => {
+const useGeolocation = ({
+  map,
+  geolocationOptions,
+  successCallback,
+  isMyLocBtnClicked,
+}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(DEFAULT_POSITION);
@@ -10,7 +15,7 @@ const useGeolocation = ({ options, successCallback, clicked }) => {
     navigator.geolocation.getCurrentPosition(
       getPositionSuccess,
       getPositionError,
-      options
+      geolocationOptions
     );
   };
 
@@ -20,8 +25,8 @@ const useGeolocation = ({ options, successCallback, clicked }) => {
       lng: position.coords.longitude,
     };
     setCurrentPosition(coords);
-    successCallback(coords);
     setIsLoading(false);
+    successCallback(coords);
   };
 
   const getPositionError = (error) => {
@@ -31,7 +36,6 @@ const useGeolocation = ({ options, successCallback, clicked }) => {
 
   useEffect(() => {
     setIsLoading(true);
-
     if (!navigator.geolocation) {
       setError({
         meesage: "해당 브라우저는 Geolocation 서비스를 제공하지 않습니다.",
@@ -39,7 +43,7 @@ const useGeolocation = ({ options, successCallback, clicked }) => {
       return;
     }
     getPosition();
-  }, [clicked]);
+  }, [map, isMyLocBtnClicked]);
 
   return {
     isLoading,

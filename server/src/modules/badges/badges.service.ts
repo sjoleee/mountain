@@ -32,6 +32,12 @@ export class BadgesService {
     return new ResponseBadgeDto(badge);
   }
 
+  async findOneByMountain(id: string): Promise<ResponseBadgeDto> {
+    const filter = { mountain: new Types.ObjectId(id) };
+    const badge = await this.badgesRepository.findOne(filter);
+    return new ResponseBadgeDto(badge);
+  }
+
   async update(
     id: string,
     updateBadgeDto: UpdateBadgeDto,

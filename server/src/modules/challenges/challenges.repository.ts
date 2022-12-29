@@ -1,3 +1,4 @@
+import { Badges } from './../badges/schemas/badges.schema';
 import { CreateChallengeDto } from './dto/create-challenge.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -13,6 +14,7 @@ import { Users } from '../users/schemas/users.schema';
 export class ChallengesRepository {
   constructor(
     @InjectModel(Users.name) private readonly userModel: Model<Users>,
+    @InjectModel(Badges.name) private readonly badgesModel: Model<Badges>,
     @InjectModel(Challenges.name)
     private readonly challengesModel: Model<Challenges>,
   ) {}
@@ -33,9 +35,30 @@ export class ChallengesRepository {
   async findOneById(id: string): Promise<ChallengeDto | null> {
     const challenge = await this.challengesModel
       .findOne({ _id: id })
-      .populate('organizer', '', this.userModel)
-      .populate('waitingList', '', this.userModel)
-      .populate('peopleList', '', this.userModel);
+      .populate({
+        path: 'peopleList',
+        model: this.userModel,
+        populate: {
+          path: 'badgeList',
+          model: this.badgesModel,
+        },
+      })
+      .populate({
+        path: 'waitingList',
+        model: this.userModel,
+        populate: {
+          path: 'badgeList',
+          model: this.badgesModel,
+        },
+      })
+      .populate({
+        path: 'peopleList',
+        model: this.userModel,
+        populate: {
+          path: 'badgeList',
+          model: this.badgesModel,
+        },
+      });
     return challenge;
   }
   async updateById(id: string | Types.ObjectId, body: UpdateChallengeDto) {

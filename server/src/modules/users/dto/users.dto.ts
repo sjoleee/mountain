@@ -124,14 +124,13 @@ export class UsersDto extends defaultDto {
   })
   completedList: Array<Types.ObjectId>;
 
-  @IsOptional()
+  @IsNotEmpty()
   @ApiProperty({
     example: '[뱃지1,뱃지2]',
     description: '뱃지 리스트',
     required: false,
   })
-  @IsString()
-  badgeList: Array<string>;
+  badgeList: Array<Types.ObjectId>;
 
   @ApiProperty({
     example: '[산1,산2]',
