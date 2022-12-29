@@ -26,6 +26,7 @@ import {
 import { searchPostsByPos, getMountainInfo } from "../../apis";
 import { isLoginState } from "../../store/userState";
 import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
 
 const geolocationOptions = {
   //timeout: 5000, // 최대 대기 시간
@@ -109,6 +110,7 @@ const Maps = () => {
       map?.setCenter(new kakao.maps.LatLng(lat, lng));
     },
   });
+  const navigate = useNavigate();
 
   const isLogin = useRecoilValue(isLoginState);
 
@@ -278,15 +280,15 @@ const Maps = () => {
         minLevel={6}
         styles={clusterStyleProps}
       >
-        {nearbyPostList?.map(({ id, feedImg, lat, lng }) => (
+        {nearbyPostList?.map(({ _id, feedImg, lat, lng }) => (
           <CustomOverlayMap
-            key={id}
+            key={_id}
             position={{ lat, lng }}
             xAnchor={0.3}
             yAnchor={0.91}
           >
             <S.PostImgBox>
-              <img src={feedImg} />
+              <img src={feedImg} onClick={navigate(`/feeds?feed-id=${_id}`)} />
             </S.PostImgBox>
           </CustomOverlayMap>
         ))}

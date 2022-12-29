@@ -4,7 +4,7 @@ export const getAdminData = async (tab, page) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://localhost:8000/admin/${tab}`,
+      url: `http://kdt-sw3-team03.elicecoding.com:5000/admin/${tab}`,
       params: { order: "desc", page: page, take: 10 },
       headers: {
         contentType: "application/json",
@@ -22,7 +22,7 @@ export const deleteAdminData = async (tab, id) => {
   try {
     const response = await axios({
       method: "delete",
-      url: `http://localhost:8000/admin/${tab}/${id}`,
+      url: `http://kdt-sw3-team03.elicecoding.com:5000/admin/${tab}/${id}`,
       headers: {
         contentType: "application/json",
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -38,7 +38,7 @@ export const putChallangeData = async (id) => {
   try {
     const response = await axios({
       method: "put",
-      url: `http://localhost:8000/admin/challenges/${id}/approve`,
+      url: `http://kdt-sw3-team03.elicecoding.com:5000/admin/challenges/${id}/approve`,
       headers: {
         contentType: "application/json",
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -54,7 +54,7 @@ export const searchPostsByPos = async ({ params }) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://localhost:8000/mountains/search/pos`,
+      url: `http://kdt-sw3-team03.elicecoding.com:5000/mountains/search/pos`,
       params,
     });
 
@@ -68,7 +68,7 @@ export const getMountainInfo = async (id) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://localhost:8000/mountains/kakao/${id}`,
+      url: `http://kdt-sw3-team03.elicecoding.com:5000/mountains/kakao/${id}`,
     });
 
     return response.data;
@@ -125,7 +125,7 @@ export const getTopRankingList = async (point) => {
   try {
     const response = await axios({
       method: "get",
-      url: `http://localhost:8000/users`,
+      url: `http://kdt-sw3-team03.elicecoding.com:5000/users`,
       params: point,
     });
 
