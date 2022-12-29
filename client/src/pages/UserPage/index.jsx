@@ -9,11 +9,6 @@ import Upload from "@/assets/upload.svg";
 import useGeolocation from "@/hooks/useGeolocation";
 
 const UserProfile = () => {
-  const { isLoading, error, currentPosition, getPosition } = useGeolocation({
-    enableHighAccuracy: false,
-    maximumAge: 0,
-    timeout: Infinity,
-  });
   const regionRef = useRef();
   const ageRef = useRef();
   const phoneRef = useRef();
@@ -70,6 +65,7 @@ const UserProfile = () => {
 
   const handleSubmit = () => {
     setLoadingState(true);
+
     let formData = new FormData();
     formData.append("api_key", "618146626818528");
     formData.append("upload_preset", "hoh2g1dm");
@@ -87,23 +83,22 @@ const UserProfile = () => {
           ...imgURL,
           thumbnail: res.data.url,
         });
-        const { lat, lng } = currentPosition;
+
         const feedForm = {
+          ...userInfo,
           region: regionRef.current.value,
           age: ageRef.current.value,
-          phone: phoneRef.current.value,
+          phoneNumber: phoneRef.current.value,
           intro: introRef.current.value,
-          feedImg: res.data.url,
-          lat,
-          lng,
+          profileImg: res.data.url,
         };
         const header = {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         };
-
+        console.log(feedForm);
         axios
           .put(
             `http://kdt-sw3-team03.elicecoding.com:5000/users/${userInfo._id}`,
@@ -157,7 +152,13 @@ const UserProfile = () => {
             />
           )}
           {!mode ? (
-            <Button onClick={() => setMode(true)} fullWidth="true">
+            <Button
+              onClick={() => {
+                setIsImg(true);
+                setMode(true);
+              }}
+              fullWidth="true"
+            >
               수정하기
             </Button>
           ) : (
@@ -175,7 +176,10 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.region}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput defaultValue={userInfo.region} />
+                    <S.InfoInput
+                      defaultValue={userInfo.region}
+                      ref={regionRef}
+                    />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi>
@@ -183,7 +187,7 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.age}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput defaultValue={userInfo.age} />
+                    <S.InfoInput defaultValue={userInfo.age} ref={ageRef} />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi>
@@ -195,7 +199,10 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.phoneNumber}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput defaultValue={userInfo.phoneNumber} />
+                    <S.InfoInput
+                      defaultValue={userInfo.phoneNumber}
+                      ref={phoneRef}
+                    />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi style={{ flexDirection: "column" }}>
@@ -203,6 +210,7 @@ const UserProfile = () => {
                   <S.UserInfoIntro
                     readOnly={!mode}
                     defaultValue={userInfo.intro}
+                    ref={introRef}
                   ></S.UserInfoIntro>
                 </S.UserInfoLi>
               </S.UserInfoUl>
