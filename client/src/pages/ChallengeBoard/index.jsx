@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import * as cp from "./styles";
 import Button from "@/components/common/Button";
-import CmCard from "../../components/Cmcard";
+import CmCard from "../../components/challengeMember";
 import { useParams, useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { userIdState } from "@/store/userState";
 import { waitingListState } from "@/store/waitingList";
 import { peopleListState } from "@/store/peopleList";
 import axios from "axios";
 import ChallModal from "@/components/challmodal";
+import ChallFeed from "@/components/challFeed";
 import Back from "@/assets/challenge/previous.png";
 
 function ChallengeBoardPage() {
@@ -19,6 +19,10 @@ function ChallengeBoardPage() {
   const [isOrganizer, setIsOrganizer] = useState(false);
   // 챌린지 신청자 모달
   const [isModal, setIsModal] = useState(false);
+  // 챌린지 주최자 인증 모달 상태
+  const [isMission, setIsMission] = useState(false);
+  // 챌린지 신청자 상태
+  const [isSign, setIsSign] = useState(false);
   const [isData, setIsData] = useState(false);
   const [isWait, setIsWait] = useState(false);
   // 로그인한 유저를 확인하는 전역 상태변수
@@ -26,6 +30,7 @@ function ChallengeBoardPage() {
   const [wlist, setWlist] = useRecoilState(waitingListState);
   const [plist, setPlist] = useRecoilState(peopleListState);
   const navigate = useNavigate();
+
   useEffect(() => {
     // async function axiosForm() {
     //   const response = await axios.get(
@@ -45,6 +50,16 @@ function ChallengeBoardPage() {
         setForm(data);
         setWlist(data.waitingList);
         setPlist(data.peopleList);
+        if (data.peopleList.length >= data.MaximumPeople) {
+          //true이면 신청 버튼 안보이게
+          setIsSign(true);
+        }
+
+        data.peopleList.forEach((value) => {
+          if (value["_id"] === localStorage.getItem("userId")) {
+            setIsSign(true);
+          }
+        });
         return data.organizer;
       })
       .then((organizer) => {
@@ -57,18 +72,6 @@ function ChallengeBoardPage() {
       });
   }, []);
 
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
-  useEffect(() => {
-    console.log(plist);
-  }, [plist]);
-  useEffect(() => {
-    console.log(isOrganizer);
-  }, [isOrganizer]);
-  useEffect(() => {
-    setIsData(true);
-  }, [leader]);
   const onPartyButton = () => {
     setIsModal(true);
   };
@@ -105,7 +108,13 @@ function ChallengeBoardPage() {
   const onUpdateClick = () => {
     navigate(`/challenge/${challengeId}/update`);
   };
+  const onSubmission = () => {
+    setIsMission(true);
+  };
 
+  const onExitSubmission = () => {
+    setIsMission(false);
+  };
   return (
     <>
       <cp.BoardContainer>
@@ -165,15 +174,17 @@ function ChallengeBoardPage() {
             </cp.CBMemberContainer>
           </cp.CBFirst>
           <cp.CBSecond>
-            {isOrganizer ? (
+            {!isOrganizer ? (
+              !isSign ? (
+                <cp.ButtonContainer>
+                  <Button onClick={onSignButton}>신청</Button>
+                </cp.ButtonContainer>
+              ) : null
+            ) : (
               <cp.ButtonContainer>
                 <Button onClick={onUpdateClick}>수정</Button>
                 <Button onClick={onPartyButton}>참여</Button>
-                <Button>제출</Button>
-              </cp.ButtonContainer>
-            ) : (
-              <cp.ButtonContainer>
-                <Button onClick={onSignButton}>신청</Button>
+                <Button onClick={onSubmission}>제출</Button>
               </cp.ButtonContainer>
             )}
             <cp.CBMargin />
@@ -227,6 +238,9 @@ function ChallengeBoardPage() {
       {/* {isModal ? <ChallModal onCloseParty={onCloseParty}></ChallModal> : null} */}
       {isModal ? (
         <ChallModal id={form["_id"]} onCloseParty={onCloseParty}></ChallModal>
+      ) : null}
+      {isMission ? (
+        <ChallFeed onExitSubmission={onExitSubmission}></ChallFeed>
       ) : null}
     </>
   );

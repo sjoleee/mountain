@@ -1,6 +1,7 @@
 import { Injectable, Type } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, Types } from 'mongoose';
+import { Users } from '../users/schemas/users.schema';
 import { CreateMountainDto } from './dto/create-mountain.dto';
 import { UpdateMountainDto } from './dto/update-mountain.dto';
 import { Mountains } from './schemas/mountains.schema';
@@ -10,6 +11,7 @@ export class MountainsRepository {
   constructor(
     @InjectModel(Mountains.name)
     private readonly mountainsModel: Model<Mountains>,
+    @InjectModel(Users.name) private readonly userModel: Model<Users>,
   ) {}
 
   async create(createMountainDto: CreateMountainDto) {
@@ -31,6 +33,10 @@ export class MountainsRepository {
     return result;
   }
   async delete(filter: any) {
+    const result = await this.mountainsModel.findOneAndDelete(filter).exec();
+    return result;
+  }
+  async getByKakaoId(filter: any) {
     const result = await this.mountainsModel.findOneAndDelete(filter).exec();
     return result;
   }

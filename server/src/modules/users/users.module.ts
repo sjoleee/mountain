@@ -1,3 +1,4 @@
+import { Mountains } from './../mountains/schemas/mountains.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { Users, UsersSchema } from './schemas/users.schema';

@@ -77,7 +77,16 @@ function ChallengePage() {
         : (newTier[e.target.name] = true);
       return newTier;
     });
-    setFtier(e.target.getAttribute("value"));
+    if (ftier !== "") {
+      if (e.target.getAttribute("value") === ftier) {
+        console.log(e.target.getAttribute("value"), ftier);
+        setFtier("");
+      } else {
+        setFtier(e.target.getAttribute("value"));
+      }
+    } else {
+      setFtier(e.target.getAttribute("value"));
+    }
   };
   const onLevelClick = (e) => {
     console.log(e.target);
@@ -99,7 +108,16 @@ function ChallengePage() {
         : (newLevel[e.target.name] = true);
       return newLevel;
     });
-    setFlevel(e.target.getAttribute("value"));
+    if (flevel !== "") {
+      if (e.target.getAttribute("value") === flevel) {
+        console.log(e.target.getAttribute("value"), flevel);
+        setFlevel("");
+      } else {
+        setFlevel(e.target.getAttribute("value"));
+      }
+    } else {
+      setFlevel(e.target.getAttribute("value"));
+    }
   };
   const onRegionClick = (e) => {
     console.log(e.target.getAttribute("name"));
@@ -129,7 +147,16 @@ function ChallengePage() {
 
       return newRegion;
     });
-    setFregion(e.target.getAttribute("value"));
+    if (fregion !== "") {
+      if (e.target.getAttribute("value") === fregion) {
+        console.log(e.target.getAttribute("value"), fregion);
+        setFregion("");
+      } else {
+        setFregion(e.target.getAttribute("value"));
+      }
+    } else {
+      setFregion(e.target.getAttribute("value"));
+    }
   };
 
   const onLogoutButton = (e) => {
@@ -138,6 +165,59 @@ function ChallengePage() {
     localStorage.removeItem("userId");
     localStorage.removeItem("userRole");
     navigate("/login");
+  };
+
+  const onFilterClick = async (e) => {
+    let url = `http://localhost:8000/challenges?`;
+    let afterUrl = "";
+    if (fregion) {
+      afterUrl += `region=${fregion}`;
+      if (ftier) {
+        afterUrl += `&tier=${ftier}`;
+        if (flevel) {
+          afterUrl += `&level=${flevel}`;
+        }
+      } else if (flevel) {
+        afterUrl += `&level=${flevel}`;
+        if (ftier) {
+          afterUrl += `&tier=${ftier}`;
+        }
+      }
+    } else if (ftier) {
+      afterUrl += `tier=${ftier}`;
+      if (fregion) {
+        afterUrl += `&tier=${fregion}`;
+        if (flevel) {
+          afterUrl += `&level=${flevel}`;
+        }
+      } else if (flevel) {
+        afterUrl += `&level=${flevel}`;
+        if (fregion) {
+          afterUrl += `&tier=${fregion}`;
+        }
+      }
+    } else if (flevel) {
+      afterUrl += `level=${level}`;
+      if (fregion) {
+        afterUrl += `&tier=${fregion}`;
+        if (ftier) {
+          afterUrl += `&level=${ftier}`;
+        }
+      } else if (ftier) {
+        afterUrl += `&level=${ftier}`;
+        if (fregion) {
+          afterUrl += `&tier=${fregion}`;
+        }
+      }
+    }
+    url += afterUrl + `&order=desc&page=1&take=20`;
+
+    await axios
+      .get(url)
+      .then((response) => {
+        return response.data;
+      })
+      .then((data) => setClist(data.data));
   };
   useEffect(() => {
     setListLoad(false);
@@ -450,7 +530,7 @@ function ChallengePage() {
           </Ch.selectLevelBox>
           <Ch.selectButtonBox>
             <Ch.buttonDiv>
-              <Ch.selectButton type="button">
+              <Ch.selectButton type="button" onClick={onFilterClick}>
                 <Ch.sButtonImg src={selectImg} />
                 <Ch.sButtonlabel>Select</Ch.sButtonlabel>
               </Ch.selectButton>

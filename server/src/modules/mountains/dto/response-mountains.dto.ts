@@ -11,7 +11,6 @@ export class ResponseMountainsDto {
   mnticode: string;
   mntiid: string;
   mntipic: Array<string>;
-  completedList: Array<Types.ObjectId>;
 
   constructor(badges: ResponseMountainsDto) {
     this._id = badges._id;
@@ -23,6 +22,5 @@ export class ResponseMountainsDto {
     this.mnticode = badges.mnticode;
     this.mntiid = badges.mntiid;
     this.mntipic = badges.mntipic;
-    this.completedList = badges.completedList;
   }
 }
