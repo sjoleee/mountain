@@ -12,6 +12,7 @@ import ChallengeBoardPage from "@/pages/ChallengeBoard";
 import ChallengeUpdate from "@/pages/ChallengeUpdate";
 import FeedList from "@/pages/FeedPage";
 import AdminPage from "@/pages/AdminPage";
+import RankingPage from "@pages/RankingPage";
 import { useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -33,6 +34,7 @@ function App() {
             <Route path=":challengeId/update" element={<ChallengeUpdate />} />
           </Route>
           <Route path="/challenge_write" element={<ChallengeWritePage />} />
+          <Route path="/ranking" element={<RankingPage />} />
         </Route>
         <Route path="/" element={<MainPage />} />
         <Route path="/map" element={<MapPage />} />

@@ -55,7 +55,6 @@ export const searchPostsByPos = async ({ params }) => {
     const response = await axios({
       method: "get",
       url: `http://localhost:8000/mountains/search/pos`,
-      headers: { contentType: "application/json" },
       params,
     });
 
@@ -70,7 +69,6 @@ export const getMountainInfo = async (id) => {
     const response = await axios({
       method: "get",
       url: `http://localhost:8000/mountains/kakao/${id}`,
-      headers: { contentType: "application/json" },
     });
 
     return response.data;
@@ -112,6 +110,20 @@ export const getChallengeList = async () => {
       "http://localhost:8000/challenges?order=desc&page=1&take=20"
     );
     return response;
+  } catch (error) {
+    console.dir(error);
+  }
+};
+
+export const getTopRankingList = async (point) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://localhost:8000/users`,
+      params: point,
+    });
+
+    return response.data;
   } catch (error) {
     console.dir(error);
   }
