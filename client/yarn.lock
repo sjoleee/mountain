@@ -5057,22 +5057,16 @@ react-router@6.4.5:
   dependencies:
     "@remix-run/router" "1.0.5"
 
-<<<<<<< HEAD
 react-spinners@^0.13.7:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.7.tgz#0f423c415bfa56765ce9fb36ff604e52a92b37a9"
   integrity sha512-mRamn56bfxWbGcacif5RT3UbeJaXi2AttjtPwSmomuv2IcxjpbfETCzdTvaQpNDk0E33ENJsStsQeKAZFuJcpA==
 
-=======
->>>>>>> a2d622c7676da3b6b3c35fd2451bf6ef8832278b
 react@^18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
-<<<<<<< HEAD
-    "loose-envify" "^1.1.0"
-=======
     loose-envify "^1.1.0"
 
 read-cache@^1.0.0:
@@ -5333,7 +5327,6 @@ rollup@^3.7.0:
   integrity sha512-jN9rx3k5pfg9H9al0r0y1EYKSeiRANZRYX32SuNXAnKzh6cVyf4LZVto1KAuDnbHT03E1CpsgqDKaqQ8FZtgxw==
   optionalDependencies:
     fsevents "~2.3.2"
->>>>>>> a2d622c7676da3b6b3c35fd2451bf6ef8832278b
 
 run-async@^0.1.0:
   version "0.1.0"
