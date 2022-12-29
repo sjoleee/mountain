@@ -23,6 +23,7 @@ function ChallengeUpdate() {
     image: null,
   });
   const [isUpdate, setIsUpdate] = useState(false);
+  const [mname, setMname] = useState("");
   const navigate = useNavigate();
   const { challengeId } = useParams();
   const onChange = (e) => {
@@ -47,45 +48,32 @@ function ChallengeUpdate() {
     e.preventDefault();
     //console.log(form);
     console.log(localStorage.getItem("access_token"));
-    let mcode = "";
-    if (form.mountain === "북한산") {
-      mcode = "129392932";
-    }
-    const url = `https://api.cloudinary.com/v1_1/dvcffh3la/image/upload/`;
-    const formData = new FormData();
-    formData.append("api_key", 932114331387218);
-    formData.append("upload_preset", "aah1a0oh");
-    formData.append("file", form.image);
-    const configOfUpload = {
-      header: { "Content-Type": "multipart/form-data" },
-    };
-    const { data } = await axios.post(url, formData, configOfUpload);
-    console.log(data);
-    const challForm = JSON.stringify({
+
+    const challForm = {
       conditions: form.conditions,
       name: form.name,
       startDate: form.startDate,
       finishDate: form.finishDate,
       dueDate: form.dueDate,
-      logo: data.url,
+      logo: form.logo,
       MaximumPeople: Number(form.MaximumPeople),
-      mountain: mcode,
+      mountain: form.mountain._id,
       content: form.content,
       region: form.region,
       level: form.level,
       point: 3,
-    });
+    };
     console.log(challForm);
-    await axios
-      .post("http://localhost:8000/challenges", challForm, {
-        headers: {
-          "Content-Type": `application/json`,
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-        },
-      })
-      .then((response) => console.log(response))
-      .catch((err) => console.log(err));
-    navigate("/challenge");
+    // await axios
+    //   .post("http://localhost:8000/challenges", challForm, {
+    //     headers: {
+    //       "Content-Type": `application/json`,
+    //       Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    //     },
+    //   })
+    //   .then((response) => console.log(response))
+    //   .catch((err) => console.log(err));
+    // navigate("/challenge");
   };
   const onChangeImage = (e) => {
     const reader = new FileReader();
@@ -151,6 +139,7 @@ function ChallengeUpdate() {
         };
         console.log(newData);
         setForm(newData);
+        setMname(data.mountain.mntiname);
       });
     setIsUpdate(true);
   }, []);
@@ -166,6 +155,7 @@ function ChallengeUpdate() {
           onHashtagKey={onHashtagKey}
           onChangeImage={onChangeImage}
           isUpdate={isUpdate}
+          mname={mname}
         />
       </CU.ChallengeUpdateWrapper>
     </>

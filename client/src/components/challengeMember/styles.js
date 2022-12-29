@@ -5,6 +5,10 @@ export const CardContainer = styled.div`
   height: 150px;
   border: 1px solid #bebebe;
   border-radius: 10px;
+
+  & + & {
+    margin-left: 1rem;
+  }
 `;
 
 export const CardInfoContainer = styled.div`
@@ -46,14 +50,12 @@ export const CardUser = styled.div`
 export const Cardtier = styled.div`
   width: 15px;
   height: 15px;
-  border: 1px solid #bebebe;
   margin-left: 10px;
 `;
 
 export const Cardname = styled.div`
   width: 65%;
   height: 15px;
-  border: 1px solid #bebebe;
   margin-left: 10px;
   font-family: "Pretendard";
   font-size: 1.1rem;

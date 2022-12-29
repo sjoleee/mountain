@@ -68,6 +68,15 @@ function ChallengeWritePage() {
     //console.log(form);
     console.log(localStorage.getItem("access_token"));
 
+    let lpoint = 0;
+    if (form.level === "상") {
+      lpoint = 5;
+    } else if (form.level === "중") {
+      lpoint = 3;
+    } else if (form.level === "하") {
+      lpoint = 1;
+    }
+
     const challForm = {
       conditions: form.conditions,
       name: form.name,
@@ -75,12 +84,12 @@ function ChallengeWritePage() {
       finishDate: form.finishDate,
       dueDate: form.dueDate,
       MaximumPeople: Number(form.MaximumPeople),
-      mountain: form.mountain,
+      mountain: form.mountain._id,
       content: form.content,
       hashtag: form.hashtag,
       region: form.region,
       level: form.level,
-      point: 3,
+      point: lpoint,
       logo: form.logo,
     };
     console.log(challForm);
@@ -159,6 +168,7 @@ function ChallengeWritePage() {
   const onBackClick = () => {
     navigate(-1);
   };
+
   const onMountainSearch = (value) => {
     setForm((current) => {
       let newForm = { ...current };

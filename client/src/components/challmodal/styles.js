@@ -17,7 +17,6 @@ export const ModalContainer = styled.div`
   width: 800px;
   height: 400px;
   background: white;
-  border: 1px solid black;
   border-radius: 10px;
   font-family: "Pretendard";
   display: flex;
@@ -36,7 +35,6 @@ export const CancelImg = styled.img`
 export const TitleContainer = styled.div`
   width: 100%;
   height: 50px;
-  border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -51,7 +49,6 @@ export const MemberContainer = styled.div`
   width: 100%;
   height: 250px;
   margin-top: 50px;
-  border: 1px solid black;
   display: flex;
   justify-content: flex-start;
   flex-wrap: no-wrap;
@@ -61,7 +58,6 @@ export const MemberContainer = styled.div`
 export const CardContainer = styled.div`
   width: 200px;
   height: 200px;
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   margin-left: 2rem;

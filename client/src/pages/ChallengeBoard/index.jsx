@@ -31,6 +31,7 @@ function ChallengeBoardPage() {
   const [plist, setPlist] = useRecoilState(peopleListState);
   const [cfeed, setCfeed] = useState("");
   const [cfeedUrl, setCfeedUrl] = useState("");
+  const [cfeedId, setCfeedId] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     // async function axiosForm() {
@@ -104,7 +105,7 @@ function ChallengeBoardPage() {
   const onBackClick = () => {
     setWlist([]);
     setPlist([]);
-    navigate(-1);
+    navigate("/challenge");
   };
 
   const onUpdateClick = () => {
@@ -117,10 +118,21 @@ function ChallengeBoardPage() {
   const onExitSubmission = () => {
     setIsMission(false);
   };
+  const onFeedClick = () => {
+    navigate(`/feeds?feed-id=${cfeedId}`);
+  };
+  const hashTagStr = (arr) => {
+    let Str = "";
+    arr.forEach((value) => {
+      Str += "#" + value;
+    });
+    return Str;
+  };
   useEffect(() => {
     axios.get(`http://localhost:8000/feeds/${cfeed}`).then((response) => {
       console.log("응답:", response);
       setCfeedUrl(response.data.feedImg);
+      setCfeedId(response.data["_id"]);
     });
   }, [cfeed]);
   return (
@@ -223,7 +235,9 @@ function ChallengeBoardPage() {
                 <cp.CBInfotitle>
                   <cp.CBLevelspan>태그</cp.CBLevelspan>
                 </cp.CBInfotitle>
-                <cp.CBInfocontent2>{form.hashtag}</cp.CBInfocontent2>
+                <cp.CBInfocontent2>
+                  {form.hashtag && hashTagStr(form.hashtag)}
+                </cp.CBInfocontent2>
               </cp.CBInfoLine>
             </cp.LevelContainer>
             <cp.CBMargin />
@@ -237,7 +251,7 @@ function ChallengeBoardPage() {
               ></cp.CBTextArea>
             </cp.CBtaContainer>
             <cp.CBTitleContainer>
-              <cp.CBLabel>피드 (해당 챌린지)</cp.CBLabel>
+              <cp.CBLabel>챌린지 인증 피드</cp.CBLabel>
             </cp.CBTitleContainer>
             <cp.CBfeedContainer>
               <div
@@ -247,10 +261,13 @@ function ChallengeBoardPage() {
                   border: "1px solid black",
                 }}
               >
-                <img
-                  style={{ width: "200px", height: "200px" }}
-                  src={cfeedUrl}
-                />
+                {cfeedUrl && (
+                  <cp.ChallengeFeedImg
+                    style={{ width: "200px", height: "200px" }}
+                    src={cfeedUrl}
+                    onClick={onFeedClick}
+                  />
+                )}
               </div>
             </cp.CBfeedContainer>
           </cp.CBSecond>
