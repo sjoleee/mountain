@@ -28,6 +28,23 @@ function ChallengeWritePage() {
     image: null,
   });
   const navigate = useNavigate();
+  const [mlist, setMlist] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8000/mountains")
+      .then((response) => {
+        return response.data;
+      })
+      .then((data) => {
+        const mform = data.map((value) => {
+          const { _id, mntiname } = value;
+          return { _id, mntiname };
+        });
+        setMlist(mform);
+      });
+  }, []);
+
   const onChange = (e) => {
     const { name, value } = e.target;
     setForm((current) => {
@@ -50,26 +67,22 @@ function ChallengeWritePage() {
     e.preventDefault();
     //console.log(form);
     console.log(localStorage.getItem("access_token"));
-    let mcode = "";
-    if (form.mountain === "북한산") {
-      mcode = "129392932";
-    }
 
-    const challForm = JSON.stringify({
+    const challForm = {
       conditions: form.conditions,
       name: form.name,
       startDate: form.startDate,
       finishDate: form.finishDate,
       dueDate: form.dueDate,
-      logo: form.logo,
       MaximumPeople: Number(form.MaximumPeople),
-      mountain: mcode,
+      mountain: form.mountain,
       content: form.content,
       hashtag: form.hashtag,
       region: form.region,
       level: form.level,
       point: 3,
-    });
+      logo: form.logo,
+    };
     console.log(challForm);
     await axios
       .post("http://localhost:8000/challenges", challForm, {
@@ -78,9 +91,13 @@ function ChallengeWritePage() {
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       })
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        if (response.status === 201) {
+          navigate("/challenge");
+        }
+      })
       .catch((err) => console.log(err));
-    navigate("/challenge");
   };
 
   const onChangeImage = (e) => {
@@ -142,12 +159,21 @@ function ChallengeWritePage() {
   const onBackClick = () => {
     navigate(-1);
   };
+  const onMountainSearch = (value) => {
+    setForm((current) => {
+      let newForm = { ...current };
+      newForm["mountain"] = value;
+      return newForm;
+    });
+  };
   return (
     <CW.ChallengeWriteWrapper>
       <CW.BackImg src={Back} onClick={onBackClick}></CW.BackImg>
       <ChallnegeWriteForm
         form={form}
+        mlist={mlist}
         onChange={onChange}
+        onMountainSearch={onMountainSearch}
         onClick={onClick}
         onSubmitClick={onSubmitClick}
         onHashtagKey={onHashtagKey}

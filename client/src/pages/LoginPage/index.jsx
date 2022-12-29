@@ -4,7 +4,9 @@ import * as al from "@/pages/LoginPage/styles.js";
 import Button from "../../components/common/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { isLoginState, usernameState } from "../../store/userState";
+import { useRecoilState } from "recoil";
+import { postUserLogin } from "@/apis";
+import { usernameState, isLoginState } from "../../store/userState";
 import { useSetRecoilState } from "recoil";
 
 function LoginPage() {
@@ -27,9 +29,9 @@ function LoginPage() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-    const response = await axios.post("http://localhost:8000/auth/login", form);
-    console.log(response);
+
+    const response = await postUserLogin(form);
+    //const response = await axios.post("http://localhost:8000/auth/login", form);
     if (response.status === 201) {
       const userid = response.data.id;
       localStorage.setItem("access_token", response.data["access_token"]);
