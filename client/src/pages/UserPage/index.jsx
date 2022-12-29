@@ -8,6 +8,16 @@ import ImageUpload from "@/components/FeedUploadModal/ImageUpload";
 import Upload from "@/assets/upload.svg";
 
 const UserProfile = () => {
+  const {
+    isLoading,
+    error,
+    currentPosition,
+    getPosition,
+  } = useGeolocation({
+    enableHighAccuracy: false,
+    maximumAge: 0,
+    timeout: Infinity,
+  })
   const regionRef = useRef();
   const ageRef = useRef();
   const phoneRef = useRef();
@@ -15,6 +25,7 @@ const UserProfile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [userFeeds, setUserFeeds] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [loadingState, setLoadingState] = useState(false);
   const [mode, setMode] = useState(false);
   const [isImg, setIsImg] = useState(false);
   const [imgURL, setImgURL] = useState({
@@ -61,32 +72,54 @@ const UserProfile = () => {
     }
   };
 
-  // const handleSubmit = () => {
-  //   let formData = new FormData();
-  //   formData.append("api_key", "618146626818528");
-  //   formData.append("upload_preset", "hoh2g1dm");
-  //   formData.append("timestamp", (Date.now() / 1000) | 0);
-  //   formData.append("file", imgURL.file);
+  const handleSubmit = () => {
+    setLoadingState(true);
+    let formData = new FormData();
+    formData.append("api_key", "618146626818528");
+    formData.append("upload_preset", "hoh2g1dm");
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+    formData.append("file", imgURL.file);
 
-  //   const config = {
-  //     header: { "Content-Type": "multipart/form-data" },
-  //   };
+    const config = {
+      header: { "Content-Type": "multipart/form-data" },
+    };
 
-  //   axios
-  //     .post("https://api.cloudinary.com/v1_1/ji/image/upload", formData, config)
-  //     .then((res) => {
-  //       setImgURL({
-  //         ...imgURL,
-  //         thumbnail: res.data.url,
-  //       });
-  //       const { lat, lng } = currentPosition;
-  //       const feedForm = {
-  //         ...feedData,
-  //         feedImg: res.data.url,
-  //         lat,
-  //         lng,
-  //       })
-  // };
+    axios
+      .post("https://api.cloudinary.com/v1_1/ji/image/upload", formData, config)
+      .then((res) => {
+        setImgURL({
+          ...imgURL,
+          thumbnail: res.data.url,
+        });
+        const { lat, lng } = currentPosition;
+        const feedForm = {
+          region: regionRef.current.value,
+          age: ageRef.current.value,,
+          phone: phoneRef.current.value,
+          intro: introRef.current.value,
+          feedImg: res.data.url,
+          lat,
+          lng,
+        };
+        const header = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        };
+
+        axios
+          .put(
+            `http://kdt-sw3-team03.elicecoding.com:5000/users/${userInfo._id}`,
+            feedForm,
+            header
+          )
+          .then(() => {
+            setLoadingState(false);
+            setMode(false)
+          });
+      });
+  };
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
