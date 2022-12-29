@@ -305,9 +305,7 @@ function ChallnegeWriteForm({
           </Cwf.CwLabelContainer>
           <Cwf.CwInputContinaer>
             {form.hashtag ? (
-              <Cwf.HashtagList className="HashtagWrap">
-                {form.hashtag}
-              </Cwf.HashtagList>
+              <Cwf.HashtagList className="HashtagWrap"></Cwf.HashtagList>
             ) : (
               <Cwf.HashtagList className="HashtagWrap" />
             )}
