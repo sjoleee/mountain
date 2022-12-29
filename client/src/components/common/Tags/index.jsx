@@ -8,9 +8,10 @@ const Tags = ({ formData, setFormData, readOnly = false }) => {
       return alert("태그를 더이상 입력할 수 없습니다.");
     }
     if (e.key === "Enter") {
+      const text = e.target.innerText.trim();
       setFormData({
         ...formData,
-        tag: [...formData.tag, e.target.innerText],
+        tag: [...formData.tag, text],
       });
       e.target.innerText = "";
     }

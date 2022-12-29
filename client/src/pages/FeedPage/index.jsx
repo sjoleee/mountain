@@ -9,6 +9,14 @@ import { useRecoilState } from "recoil";
 import { ModalOn } from "@/store";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
+let timer;
+function debounce(cb, delay) {
+  if (timer) clearTimeout(timer);
+  timer = setTimeout(() => {
+    cb();
+  }, delay);
+}
+
 const FeedPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [feeds, setFeeds] = useState([]);
@@ -105,6 +113,15 @@ const FeedPage = () => {
   const handleSearch = ({ target }) => {
     console.log(target.value);
     // 디바운싱 적용해서 검색기능 적용할 것
+    debounce(() => {
+      axios
+        .get(
+          `http://kdt-sw3-team03.elicecoding.com:5000/feeds?tag=${target.value}&take=20`
+        )
+        .then((res) => {
+          setFeeds(res.data.data);
+        });
+    }, 600);
   };
 
   const handleDelete = () => {
