@@ -10,6 +10,7 @@ import ChallengePage from "@/pages/ChallengePage";
 import ChallengeWritePage from "@/pages/ChallengeWrite";
 import ChallengeBoardPage from "@/pages/ChallengeBoard";
 import ChallengeUpdate from "@/pages/ChallengeUpdate";
+import UserPage from "@/pages/UserPage";
 import FeedList from "@/pages/FeedPage";
 import AdminPage from "@/pages/AdminPage";
 import { useState } from "react";
@@ -22,7 +23,7 @@ function App() {
       <NavBar />
       <Routes>
         <Route element={<PrivateRoute />}>
-          <Route path="/user" />
+          <Route path="/user" element={<UserPage />} />
           <Route path="/feeds" element={<FeedList />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/admin" element={<AdminPage />} />
