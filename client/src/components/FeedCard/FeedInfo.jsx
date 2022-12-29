@@ -3,6 +3,8 @@ import Tags from "../common/Tags";
 import * as S from "./styles";
 import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from "react-icons/ai";
 import axios from "axios";
+import Button from "../common/Button";
+import { useNavigate, Navigate } from "react-router-dom";
 
 const FeedInfo = ({
   _id,
@@ -14,11 +16,17 @@ const FeedInfo = ({
   likes,
   feedImg,
   setFeedEach,
+  refresh,
+  handleModify,
 }) => {
   const idRef = useRef();
   const inputRef = useRef();
   const [toggle, setToggle] = useState(true);
+  const [btnToggle, setBtnToggle] = useState(false);
+  const [isAuthor, setIsAuthor] = useState(false);
   const [likesCount, setLikesCount] = useState(likes.length);
+  const navigate = useNavigate();
+
   const header = {
     headers: {
       "Content-Type": "application/json",
@@ -44,15 +52,22 @@ const FeedInfo = ({
     axios
       .post(`http://localhost:8000/comments/${feedId}`, content, header)
       .then((res) => {
-        setFeedEach((prev) => {
-          console.log(res, prev);
-          return {
-            ...prev,
-            comments: [...prev.comments, res.data],
-          };
+        axios.get(`http://localhost:8000/feeds/${feedId}`).then((res) => {
+          setFeedEach(res.data);
         });
       });
     inputRef.current.value = "";
+  };
+
+  const handleDeleteFeed = () => {
+    axios.delete(`http://localhost:8000/feeds/${_id}`).then(() => {
+      navigate("/feeds", { replace: true });
+      refresh();
+    });
+  };
+
+  const handleModifyFeed = () => {
+    handleModify();
   };
 
   useEffect(() => {
@@ -60,6 +75,9 @@ const FeedInfo = ({
     const isLiked = likes.includes(userId);
     if (isLiked) {
       setToggle(false);
+    }
+    if (author._id === userId) {
+      setIsAuthor(true);
     }
   }, []);
 
@@ -105,9 +123,35 @@ const FeedInfo = ({
           </S.LikesBtn>
           <S.LikesCount>{likesCount}</S.LikesCount>
         </S.LikesWrapper>
-        <S.MoreBtnWrapper>
-          <AiOutlineMore />
-        </S.MoreBtnWrapper>
+        {isAuthor && (
+          <S.MoreBtnWrapper>
+            <AiOutlineMore onClick={() => setBtnToggle(!btnToggle)} />
+            {btnToggle && (
+              <S.DropdownWrapper>
+                <S.ButtonWrapper>
+                  <Button
+                    style={{ fontSize: "14px", margin: 0 }}
+                    onClick={handleModifyFeed}
+                  >
+                    수정하기
+                  </Button>
+                </S.ButtonWrapper>
+                <S.ButtonWrapper>
+                  <Button
+                    delete={true}
+                    style={{
+                      fontSize: "14px",
+                      margin: 0,
+                    }}
+                    onClick={handleDeleteFeed}
+                  >
+                    삭제하기
+                  </Button>
+                </S.ButtonWrapper>
+              </S.DropdownWrapper>
+            )}
+          </S.MoreBtnWrapper>
+        )}
       </S.FeedInfoContainer>
     </>
   );

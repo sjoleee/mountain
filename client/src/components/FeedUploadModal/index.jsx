@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import axios from "axios";
 import ImageUpload from "./ImageUpload";
@@ -14,7 +14,7 @@ export const Portal = ({ children }) => {
   return ReactDOM.createPortal(children, $modal);
 };
 
-const FeedModal = ({ onClick, getData, setFeeds }) => {
+const FeedModal = ({ onClick, getData, setFeeds, modifyMode, feedEach }) => {
   const { isLoading, error, currentPosition, getPosition } = useGeolocation(
     {
       enableHighAccuracy: false,
@@ -77,21 +77,40 @@ const FeedModal = ({ onClick, getData, setFeeds }) => {
           lat,
           lng,
         };
+        const header = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        };
+        if (modifyMode) {
+          axios
+            .patch(`http://localhost:8000/feeds`, feedForm, header)
+            .then(() => {
+              setLoadingState(false);
+              getData();
+              onClick();
+            });
+          return;
+        }
 
-        axios
-          .post("http://localhost:8000/feeds", feedForm, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-            },
-          })
-          .then(() => {
-            setLoadingState(false);
-            getData();
-            onClick();
-          });
+        axios.post("http://localhost:8000/feeds", feedForm, header).then(() => {
+          setLoadingState(false);
+          getData();
+          onClick();
+        });
       });
   };
+
+  useEffect(() => {
+    if (modifyMode) {
+      setImgURL({
+        ...imgURL,
+        thumbnail: feedEach.feedImg,
+      });
+      setIsImg(true);
+    }
+  }, []);
 
   return (
     <S.ModalContainer>
@@ -109,7 +128,11 @@ const FeedModal = ({ onClick, getData, setFeeds }) => {
           imgFile={imgURL}
         />
         <S.FeedInfoContainer>
-          <FeedInput onSubmit={handleSubmit} />
+          <FeedInput
+            onSubmit={handleSubmit}
+            feedEach={feedEach}
+            modifyMode={modifyMode}
+          />
           <S.ExitBtn onClick={onClick}>X</S.ExitBtn>
         </S.FeedInfoContainer>
       </S.ModalCard>

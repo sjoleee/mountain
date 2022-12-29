@@ -17,12 +17,14 @@ const FeedPage = () => {
   const [loading, setLoading] = useState(true);
   const [cardOpen, setCardOpen] = useState(false);
   const [hasNext, setHasNext] = useState(false);
+  const [modifyMode, setModifyMode] = useState(false);
   const [pageCount, setPageCount] = useState(2);
   const takePage = useRef(25);
   const navigate = useNavigate();
 
   const handleModal = () => {
     setModalOn(!modalOn);
+    setModifyMode(false);
   };
 
   const ref = useIntersect((entry, observer) => {
@@ -78,10 +80,21 @@ const FeedPage = () => {
     // 디바운싱 적용해서 검색기능 적용할 것
   };
 
+  const handleDelete = () => {
+    setCardOpen(false);
+    getData();
+  };
+
+  const handleModify = () => {
+    setCardOpen(false);
+    setModifyMode(true);
+    setModalOn(true);
+  };
+
   useEffect(() => {
     getData();
     const feedId = searchParams.get("feed-id");
-    if (feedId) {
+    if (feedId && !modifyMode) {
       getFeedDataById(feedId);
     }
   }, []);
@@ -95,6 +108,9 @@ const FeedPage = () => {
             onClick={handleModal}
             getData={getData}
             setFeeds={setFeeds}
+            modifyMode={modifyMode}
+            feedEach={modifyMode ? feedEach : null}
+            setModifyMode={setModifyMode}
           />
         )}
         {cardOpen && (
@@ -106,7 +122,12 @@ const FeedPage = () => {
               }}
             />
             <S.CardDetail>
-              <FeedInfo {...feedEach} setFeedEach={setFeedEach} />
+              <FeedInfo
+                {...feedEach}
+                setFeedEach={setFeedEach}
+                refresh={handleDelete}
+                handleModify={handleModify}
+              />
             </S.CardDetail>
           </S.CardDetailContainer>
         )}

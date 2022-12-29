@@ -47,6 +47,17 @@ const ButtonStyle = css`
       margin-right: 1rem;
       background: #91ecd1;
     `}
+  ${(props) =>
+    props.delete &&
+    css`
+      margin-right: 1rem;
+      background: red;
+      &:hover {
+        background: white;
+        color: red;
+        border: 2px solid red;
+      }
+    `}
 `;
 
 const StyledButton = styled.button`

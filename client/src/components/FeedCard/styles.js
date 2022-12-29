@@ -263,3 +263,22 @@ export const BtnsWrapper = styled.div`
   display: flex;
   position: absolute;
 `;
+
+export const DropdownWrapper = styled.ul`
+  display: grid;
+  place-items: center;
+  flex-direction: column;
+  position: absolute;
+  list-style: none;
+  height: 50px;
+  /* background-color: white */
+  padding-left: 0;
+  margin: 0;
+`;
+
+export const ButtonWrapper = styled.li`
+  display: grid;
+  place-items: center;
+  width: 90px;
+  height: 30px;
+`;
