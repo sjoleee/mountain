@@ -12,34 +12,39 @@ import ChallengeBoardPage from "@/pages/ChallengeBoard";
 import ChallengeUpdate from "@/pages/ChallengeUpdate";
 import FeedList from "@/pages/FeedPage";
 import AdminPage from "@/pages/AdminPage";
+import RankingPage from "@pages/RankingPage";
 import { useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
+import "./App.css";
 
 function App() {
   const [queryClient] = useState(() => new QueryClient());
   return (
-    <QueryClientProvider client={queryClient}>
+    <>
       <NavBar />
-      <Routes>
-        <Route element={<PrivateRoute />}>
-          <Route path="/user" />
-          <Route path="/feeds" element={<FeedList />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/admin" element={<AdminPage />} />
+      <QueryClientProvider client={queryClient}>
+        <Routes>
+          <Route element={<PrivateRoute />}>
+            <Route path="/user" />
+            <Route path="/feeds" element={<FeedList />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/admin" element={<AdminPage />} />
+            </Route>
+            <Route path="/challenge">
+              <Route index element={<ChallengePage />} />
+              <Route path=":challengeId" element={<ChallengeBoardPage />} />
+              <Route path=":challengeId/update" element={<ChallengeUpdate />} />
+            </Route>
+            <Route path="/challenge_write" element={<ChallengeWritePage />} />
+            <Route path="/ranking" element={<RankingPage />} />
           </Route>
-          <Route path="/challenge">
-            <Route index element={<ChallengePage />} />
-            <Route path=":challengeId" element={<ChallengeBoardPage />} />
-            <Route path=":challengeId/update" element={<ChallengeUpdate />} />
-          </Route>
-          <Route path="/challenge_write" element={<ChallengeWritePage />} />
-        </Route>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/map" element={<MapPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-      </Routes>
-    </QueryClientProvider>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/map" element={<MapPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </QueryClientProvider>
+    </>
   );
 }
 export default App;

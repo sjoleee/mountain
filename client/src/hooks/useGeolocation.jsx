@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { DEFAULT_POSITION } from "@/constants/map";
 
 const useGeolocation = ({
   map,
   geolocationOptions,
-  successCallback,
+  successCallback = () => {},
   isMyLocBtnClicked,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
