@@ -30,7 +30,7 @@ import { useNavigate } from "react-router-dom";
 
 const geolocationOptions = {
   //timeout: 5000, // 최대 대기 시간
-  maximumAge: 30000, // 캐시 지속 시간
+  maximumAge: 10000, // 캐시 지속 시간
 };
 
 const mapSize = {
@@ -327,7 +327,6 @@ const Maps = () => {
         handleSearchSubmit={(searchInput) =>
           handleSearchSubmit(searchInput, searchOptions)
         }
-        searchCallback={displayMountainMarkers}
       />
       <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
       <MyLocationButton handleMyLocBtnClick={handleMyLocBtnClick} />
