@@ -8,16 +8,11 @@ import ImageUpload from "@/components/FeedUploadModal/ImageUpload";
 import Upload from "@/assets/upload.svg";
 
 const UserProfile = () => {
-  const {
-    isLoading,
-    error,
-    currentPosition,
-    getPosition,
-  } = useGeolocation({
+  const { isLoading, error, currentPosition, getPosition } = useGeolocation({
     enableHighAccuracy: false,
     maximumAge: 0,
     timeout: Infinity,
-  })
+  });
   const regionRef = useRef();
   const ageRef = useRef();
   const phoneRef = useRef();
@@ -94,7 +89,7 @@ const UserProfile = () => {
         const { lat, lng } = currentPosition;
         const feedForm = {
           region: regionRef.current.value,
-          age: ageRef.current.value,,
+          age: ageRef.current.value,
           phone: phoneRef.current.value,
           intro: introRef.current.value,
           feedImg: res.data.url,
@@ -116,7 +111,7 @@ const UserProfile = () => {
           )
           .then(() => {
             setLoadingState(false);
-            setMode(false)
+            setMode(false);
           });
       });
   };
