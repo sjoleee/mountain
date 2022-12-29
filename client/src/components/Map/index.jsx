@@ -288,7 +288,10 @@ const Maps = () => {
             yAnchor={0.91}
           >
             <S.PostImgBox>
-              <img src={feedImg} onClick={navigate(`/feeds?feed-id=${_id}`)} />
+              <img
+                src={feedImg}
+                onClick={() => navigate(`/feeds?feed-id=${_id}`)}
+              />
             </S.PostImgBox>
           </CustomOverlayMap>
         ))}
