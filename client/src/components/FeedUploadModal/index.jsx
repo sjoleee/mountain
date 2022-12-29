@@ -30,13 +30,12 @@ const FeedModal = ({ onClick, getData, setFeeds }) => {
     thumbnail: "",
     type: "",
   });
+  const [isOwner, setIsOwner] = useState(false); // 피드 수정시 필요
 
   const handleImgUpload = ({ target }) => {
     const imageFile = target.files;
     if (imageFile[0]) {
       const imgUrl = URL.createObjectURL(imageFile[0]);
-      console.log(imgUrl);
-      console.log(imageFile[0]);
       setImgURL({
         file: imageFile[0],
         thumbnail: imgUrl,

@@ -18,26 +18,28 @@ const FeedPage = () => {
   const [cardOpen, setCardOpen] = useState(false);
   const [hasNext, setHasNext] = useState(false);
   const [pageCount, setPageCount] = useState(2);
+  const takePage = useRef(25);
   const navigate = useNavigate();
 
   const handleModal = () => {
     setModalOn(!modalOn);
   };
 
-  const ref = useIntersect(async (entry, observer) => {
+  const ref = useIntersect((entry, observer) => {
     observer.unobserve(entry.target);
     if (!loading && hasNext) {
+      if (feeds.length < 25) return;
       setLoading(true);
       console.log("fetch");
       axios
         .get(
-          `http://localhost:8000/feeds?pos=false&like=false&order=desc&page=${pageCount}&take=10`
+          `http://localhost:8000/feeds?page=${pageCount}&take=${takePage.current}`
         )
         .then((res) => {
-          setFeeds([...feeds, ...res.data]);
-          setHasNext(res.meta.hasNextPage);
-          setLoading(false);
+          setFeeds([...feeds, ...res.data.data]);
+          setHasNext(res.data.meta.hasNextPage);
           setPageCount(pageCount + 1);
+          setLoading(false);
         });
     }
   });
@@ -51,11 +53,11 @@ const FeedPage = () => {
   const getData = () => {
     axios
       .get(
-        "http://localhost:8000/feeds?pos=false&like=false&order=desc&page=1&take=10"
+        `http://localhost:8000/feeds?pos=false&like=false&order=desc&page=1&take=${takePage.current}`
       )
       .then((res) => {
-        setFeeds([...res.data.data]);
-        setHasNext(res.meta.hasNextPage);
+        setFeeds(res.data.data);
+        setHasNext(res.data.meta.hasNextPage);
       });
   };
 
@@ -69,6 +71,11 @@ const FeedPage = () => {
   const handleCardOpen = (id) => {
     navigate(`/feeds?feed-id=${id}`);
     getFeedDataById(id);
+  };
+
+  const handleSearch = ({ target }) => {
+    console.log(target.value);
+    // 디바운싱 적용해서 검색기능 적용할 것
   };
 
   useEffect(() => {
@@ -113,7 +120,11 @@ const FeedPage = () => {
           </S.PostButton>
         </S.PostButtonContainer>
         <S.SearchInputWrapper>
-          <S.SearchInput type="text" placeholder="검색어를 입력해주세요." />
+          <S.SearchInput
+            type="text"
+            placeholder="검색어를 입력해주세요."
+            onChange={handleSearch}
+          />
         </S.SearchInputWrapper>
       </S.SearchBarContainer>
       <S.PageLayout>

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tags from "../common/Tags";
 import * as S from "./styles";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart, AiOutlineMore } from "react-icons/ai";
 import axios from "axios";
 
 const FeedInfo = ({
@@ -105,6 +105,9 @@ const FeedInfo = ({
           </S.LikesBtn>
           <S.LikesCount>{likesCount}</S.LikesCount>
         </S.LikesWrapper>
+        <S.MoreBtnWrapper>
+          <AiOutlineMore />
+        </S.MoreBtnWrapper>
       </S.FeedInfoContainer>
     </>
   );
