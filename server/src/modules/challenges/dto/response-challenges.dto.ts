@@ -152,7 +152,7 @@ export class ResponseChallengeDto {
   approval?: Types.ObjectId;
 
   @IsOptional()
-  approved: boolean;
+  approved?: boolean;
 
   @ApiProperty({
     example: '["태그1","태그2"]',

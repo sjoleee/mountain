@@ -126,10 +126,11 @@ export class Challenges extends defaultSchema {
   approval?: Types.ObjectId;
 
   @Prop({
-    required: false,
+    required: true,
+    default: false,
   })
   @IsOptional()
-  approved: boolean;
+  approved?: boolean;
 
   @Prop({
     required: false,

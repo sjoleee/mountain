@@ -6,14 +6,14 @@ import { Users, UsersSchema } from './schemas/users.schema';
 import { UsersController } from './users.controller';
 import { UsersService } from './services/users.service';
 import { UsersRepository } from './users.repository';
-import { AdminUsersController } from './admin.users.controller';
+import { AccountService } from '../account/account.service';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Users.name, schema: UsersSchema }]),
     BadgesModule,
   ],
-  controllers: [UsersController, AdminUsersController],
+  controllers: [UsersController],
   providers: [UsersService, UsersRepository],
   exports: [UsersService, UsersRepository],
 })

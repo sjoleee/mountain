@@ -43,8 +43,12 @@ export class UsersService {
     return { status: 201, message: 'success' };
   }
 
-  async findAll(): Promise<ResponseUsersDto[]> {
-    const userList = await this.usersRepository.findAll();
+  async findAll(point): Promise<ResponseUsersDto[]> {
+    const sort = {};
+    if (point) {
+      sort['point'] = -1;
+    }
+    const userList = await this.usersRepository.findAll({ sort });
     return userList.map((v) => new ResponseUsersDto(v));
   }
 

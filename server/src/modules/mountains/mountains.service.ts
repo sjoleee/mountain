@@ -29,8 +29,9 @@ export class MountainsService {
     return { status: 201, message: 'success' };
   }
 
-  async findAll(): Promise<ResponseMountainsDto[]> {
-    const filter = {};
+  async findAll(search: string): Promise<ResponseMountainsDto[]> {
+    const regex = new RegExp(search, 'gi');
+    const filter = { mntiname: { $regex: regex } };
     const mountains = await this.mountainsRepository.find(filter);
     return mountains.map((mountain) => new ResponseMountainsDto(mountain));
   }

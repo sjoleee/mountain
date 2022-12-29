@@ -36,7 +36,7 @@ export class ChallengesRepository {
     const challenge = await this.challengesModel
       .findOne({ _id: id })
       .populate({
-        path: 'peopleList',
+        path: 'organizer',
         model: this.userModel,
         populate: {
           path: 'badgeList',
@@ -61,7 +61,7 @@ export class ChallengesRepository {
       });
     return challenge;
   }
-  async updateById(id: string | Types.ObjectId, body: UpdateChallengeDto) {
+  async updateById(id: string, body: UpdateChallengeDto) {
     const result = await this.challengesModel
       .findOneAndUpdate({ _id: id }, body)
       .exec();
@@ -89,10 +89,9 @@ export class ChallengesRepository {
     filter: FilterAdminChallengesOptionsDto,
     pageOptionsDto: PageOptionsDto,
   ) {
-    console.log(filter);
     return await this.challengesModel
       .find(filter)
-      .sort({ createdAt: pageOptionsDto.order })
+      .sort({ dueDate: -1 })
       .skip(pageOptionsDto.skip)
       .limit(pageOptionsDto.take);
   }
@@ -102,5 +101,9 @@ export class ChallengesRepository {
       .findOneAndUpdate({ _id: id }, body)
       .exec();
     return result;
+  }
+
+  async deleteAll(filter) {
+    return await this.challengesModel.deleteMany(filter);
   }
 }

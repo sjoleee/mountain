@@ -154,10 +154,11 @@ export class ChallengeDto extends defaultDto {
   @ApiProperty({
     example: 'false',
     description: '챌린지가 승인됐는지 확인',
-    required: false,
+    required: true,
+    default: false,
   })
   @IsOptional()
-  approved: boolean;
+  approved?: boolean;
 
   @ApiProperty({
     example: '["태그1","태그2"]',

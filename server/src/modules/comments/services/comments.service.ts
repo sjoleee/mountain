@@ -1,3 +1,4 @@
+import { CommentsRepository } from './../comments.repository';
 import { FeedRepository } from './../../feed/feed.repository';
 import {
   BadRequestException,
@@ -13,13 +14,13 @@ import { UsersDto } from 'src/modules/users/dto/users.dto';
 @Injectable()
 export class CommentsService {
   constructor(
-    @InjectModel(Comments.name) private readonly commentsModel: Model<Comments>,
     private readonly feedRepository: FeedRepository,
+    private readonly commentsRepository: CommentsRepository,
   ) {}
 
   async getAllComments() {
     try {
-      const comments = await this.commentsModel.find();
+      const comments = await this.commentsRepository.findAll({});
       return comments;
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -40,14 +41,19 @@ export class CommentsService {
           message: '해당 feed 가 없습니다 ',
         });
       }
-      const newComment = new this.commentsModel({
+      const newCommentBody = {
         author: user._id,
         contents,
         info: targetFeed._id,
-      });
-      return await newComment.save();
+      };
+      const result = await this.commentsRepository.create(newCommentBody);
+      return result;
     } catch (error) {
       throw new BadRequestException(error.message);
     }
+  }
+
+  async deleteAll(filter) {
+    return await this.commentsRepository.deleteAll(filter);
   }
 }

@@ -8,9 +8,15 @@ import {
   Delete,
   Post,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
-import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger/dist';
+import {
+  ApiBearerAuth,
+  ApiQuery,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger/dist';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UsersService } from './services/users.service';
@@ -35,7 +41,6 @@ export class UsersController {
   async jwtLogIn(
     @CurrentUser() currentUser: UsersDto,
   ): Promise<ResponseUsersDto> {
-    console.log(currentUser);
     const user = await this.usersService.findOneByUsername(
       currentUser.username,
     );
@@ -58,9 +63,10 @@ export class UsersController {
     status: 200,
     description: '성공',
   })
+  @ApiQuery({ name: 'point', required: false })
   @Get()
-  async findAll(): Promise<ResponseUsersDto[]> {
-    const users = await this.usersService.findAll();
+  async findAll(@Query('point') point: boolean): Promise<ResponseUsersDto[]> {
+    const users = await this.usersService.findAll(point);
     return users.map((user) => new ResponseUsersDto(user));
   }
 
