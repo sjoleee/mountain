@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import * as S from "./styles";
 
@@ -8,6 +9,7 @@ const AdminModal = ({
   visible,
   text,
   subText,
+  link,
   buttonText,
   buttonOnClick,
 }) => {
@@ -33,6 +35,18 @@ const AdminModal = ({
           <S.InnerContainer>
             <S.TextContainer>{text}</S.TextContainer>
             <S.SubTextContainer>{subText}</S.SubTextContainer>
+            <S.SubTextContainer>
+              <Link
+                to="route"
+                target="_blank"
+                onClick={(event) => {
+                  event.preventDefault();
+                  window.open(link);
+                }}
+              >
+                인증 확인하기(새창)
+              </Link>
+            </S.SubTextContainer>
             <S.ButtonContainer>
               <S.LeftButton onClick={cancelOnClick}>취소</S.LeftButton>
               <S.RightButton onClick={buttonOnClick}>

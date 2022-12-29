@@ -49,3 +49,32 @@ export const putChallangeData = async (id) => {
     console.dir(error);
   }
 };
+
+export const searchPostsByPos = async ({ params }) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://localhost:8000/mountains/search/pos`,
+      headers: { contentType: "application/json" },
+      params,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.dir(error);
+  }
+};
+
+export const getMountainInfo = async (id) => {
+  try {
+    const response = await axios({
+      method: "get",
+      url: `http://localhost:8000/mountains/kakao/${id}`,
+      headers: { contentType: "application/json" },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.dir(error);
+  }
+};

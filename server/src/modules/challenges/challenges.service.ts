@@ -32,6 +32,7 @@ export class ChallengesService {
     const challengeDto = {
       ...createChallengeDto,
       organizer: new Types.ObjectId(currentUser._id),
+      peopleList: [new Types.ObjectId(currentUser._id)],
       point: levelToPoint(createChallengeDto.level),
     };
     const newChallenge = await this.challengesRepository.create(challengeDto);

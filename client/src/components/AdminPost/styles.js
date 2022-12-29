@@ -22,11 +22,12 @@ export const Cell = styled.div`
 export const Button = styled.button`
   width: 60px;
   height: 30px;
-  background-color: #20c997;
+  background-color: ${({ isApproval }) => (isApproval ? "#20c997" : "#ff0000")};
   border: hidden;
   border-radius: 4px;
   &:disabled {
-    background-color: lightGray;
+    background-color: ${({ isApproved, isApproval }) =>
+      !isApproved && !isApproval ? "#91ECD1" : "lightGray"};
   }
 `;
 
