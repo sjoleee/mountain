@@ -1,4 +1,4 @@
-import { ObjectId, Types } from 'mongoose';
+import { Types } from 'mongoose';
 import { ResponseStatusDto } from './../../common/dto/response-status';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { BadgesRepository } from './badges.repository';

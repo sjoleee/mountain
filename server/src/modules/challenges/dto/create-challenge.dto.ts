@@ -1,6 +1,6 @@
 import { Level } from './../../../common/enums/level.enum';
 import { Region } from './../../../common/enums/region.enum';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsDate,
   IsEnum,

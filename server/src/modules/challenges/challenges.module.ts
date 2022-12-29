@@ -1,3 +1,7 @@
+import {
+  Mountains,
+  MountainsSchema,
+} from './../mountains/schemas/mountains.schema';
 import { UsersModule } from './../users/users.module';
 import { Module } from '@nestjs/common';
 import { ChallengesService } from './challenges.service';
@@ -15,6 +19,7 @@ import { Badges, BadgesSchema } from '../badges/schemas/badges.schema';
       { name: Users.name, schema: UsersSchema },
       { name: Badges.name, schema: BadgesSchema },
       { name: Challenges.name, schema: ChallengesSchema },
+      { name: Mountains.name, schema: MountainsSchema },
     ]),
     UsersModule,
   ],

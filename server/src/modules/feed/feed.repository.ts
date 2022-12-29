@@ -1,5 +1,5 @@
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId, Types } from 'mongoose';
+import { Model } from 'mongoose';
 import { Comments } from '../comments/schemas/comments.schema';
 import { CreateFeedDto } from './dto/create-feed.dto';
 import { Feed } from './schemas/feed.schema';
@@ -98,6 +98,7 @@ export class FeedRepository {
     const result = await this.feedModel.findOneAndUpdate(filter, body).exec();
     return result;
   }
+
   async delete(filter: any) {
     const result = await this.feedModel.findOneAndDelete(filter).exec();
     return result;

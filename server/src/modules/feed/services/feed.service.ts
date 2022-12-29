@@ -7,7 +7,6 @@ import { UpdateFeedDto } from '../dto/update-feed.dto';
 import { PageOptionsDto } from 'src/common/dto/page-options.dto';
 import { PageMetaDto } from 'src/common/dto/page-meta.dto';
 import { FilterFeedOptionsDto } from '../dto/filter-feed-options.dto';
-import { removeEmpty } from 'src/utils/clean-object';
 import { Types } from 'mongoose';
 import { UsersDto } from 'src/modules/users/dto/users.dto';
 import { FeedEnum } from 'src/common/enums/feedtype.enum';
@@ -121,8 +120,16 @@ export class FeedService {
     return await this.feedRepository.findAllById(id);
   }
 
-  update(id: number, updateFeedDto: UpdateFeedDto) {
-    return `This action updates a #${id} feed`;
+  async update(id: string, updateFeedDto: UpdateFeedDto) {
+    const filter = { _id: id };
+    const result = await this.feedRepository.updateById(filter, updateFeedDto);
+    if (!result) {
+      throw new NotFoundException({
+        status: 404,
+        message: '업데이트에 실패했습니다',
+      });
+    }
+    return { status: 200, message: 'success' };
   }
 
   async updateLike(id: string, currentUser: UsersDto) {
