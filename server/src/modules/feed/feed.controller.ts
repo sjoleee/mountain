@@ -46,7 +46,11 @@ export class FeedController {
     return new ResponseStatusDto(result);
   }
 
-  @ApiOperation({ summary: '현재 로그인되어있는 유저가 챌린지피드작성' })
+  @ApiOperation({
+    summary: '현재 로그인되어있는 유저가 챌린지피드작성',
+    description:
+      '챌린지의 id를 넣으면 해당 id를 가진 챌린지의 approval에 feed id를 넣어 신청중인 상태를 나타냄',
+  })
   @UseGuards(JwtAuthGuard)
   @ApiBearerAuth('access-token')
   @Post('/challenges/:id')

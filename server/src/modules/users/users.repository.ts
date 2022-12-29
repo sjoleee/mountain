@@ -18,8 +18,8 @@ export class UsersRepository {
     return newUser;
   }
 
-  async findAll() {
-    const users = await this.usersModel.find({});
+  async findAll({ filter = {}, sort = {} }) {
+    const users = await this.usersModel.find(filter).sort(sort);
     return users;
   }
   async findByFilter(filter: any) {

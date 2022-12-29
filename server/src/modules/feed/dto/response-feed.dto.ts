@@ -3,6 +3,7 @@ import { PickType } from '@nestjs/swagger';
 
 export class ResponseFeedDto extends PickType(FeedDto, [
   '_id',
+  'title',
   'createdAt',
   'updatedAt',
   'type',
@@ -21,6 +22,7 @@ export class ResponseFeedDto extends PickType(FeedDto, [
     this.createdAt = feed.createdAt;
     this.updatedAt = feed.updatedAt;
     this.type = feed.type;
+    this.title = feed.title;
     this.tag = feed.tag;
     this.feedImg = feed.feedImg;
     this.author = feed.author;

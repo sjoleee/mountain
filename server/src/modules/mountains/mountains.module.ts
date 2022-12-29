@@ -12,7 +12,6 @@ import { UsersModule } from '../users/users.module';
   imports: [
     MongooseModule.forFeature([
       { name: Mountains.name, schema: MountainsSchema },
-      { name: Users.name, schema: UsersSchema },
     ]),
     FeedModule,
     UsersModule,

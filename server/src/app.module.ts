@@ -1,3 +1,4 @@
+import { AdminModule } from './modules/admin/admin.module';
 import { ChallengesModule } from './modules/challenges/challenges.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -12,8 +13,7 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { UsersModule } from './modules/users/users.module';
 import { BadgesModule } from './modules/badges/badges.module';
 import { MountainsModule } from './modules/mountains/mountains.module';
-import { RolesGuard } from './common/guard/roles.guard';
-import { APP_GUARD } from '@nestjs/core';
+import { AccountModule } from './modules/account/acoount.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -30,6 +30,8 @@ import { APP_GUARD } from '@nestjs/core';
     ChallengesModule,
     BadgesModule,
     MountainsModule,
+    AccountModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService],
