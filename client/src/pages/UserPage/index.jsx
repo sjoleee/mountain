@@ -6,6 +6,7 @@ import getTierImg from "@/utils/getTierImg";
 import { useNavigate } from "react-router-dom";
 import ImageUpload from "@/components/FeedUploadModal/ImageUpload";
 import Upload from "@/assets/upload.svg";
+import useGeolocation from "@/hooks/useGeolocation";
 
 const UserProfile = () => {
   const regionRef = useRef();
@@ -15,6 +16,7 @@ const UserProfile = () => {
   const [userInfo, setUserInfo] = useState({});
   const [userFeeds, setUserFeeds] = useState([]);
   const [userList, setUserList] = useState([]);
+  const [loadingState, setLoadingState] = useState(false);
   const [mode, setMode] = useState(false);
   const [isImg, setIsImg] = useState(false);
   const [imgURL, setImgURL] = useState({
@@ -61,32 +63,54 @@ const UserProfile = () => {
     }
   };
 
-  // const handleSubmit = () => {
-  //   let formData = new FormData();
-  //   formData.append("api_key", "618146626818528");
-  //   formData.append("upload_preset", "hoh2g1dm");
-  //   formData.append("timestamp", (Date.now() / 1000) | 0);
-  //   formData.append("file", imgURL.file);
+  const handleSubmit = () => {
+    setLoadingState(true);
 
-  //   const config = {
-  //     header: { "Content-Type": "multipart/form-data" },
-  //   };
+    let formData = new FormData();
+    formData.append("api_key", "618146626818528");
+    formData.append("upload_preset", "hoh2g1dm");
+    formData.append("timestamp", (Date.now() / 1000) | 0);
+    formData.append("file", imgURL.file);
 
-  //   axios
-  //     .post("https://api.cloudinary.com/v1_1/ji/image/upload", formData, config)
-  //     .then((res) => {
-  //       setImgURL({
-  //         ...imgURL,
-  //         thumbnail: res.data.url,
-  //       });
-  //       const { lat, lng } = currentPosition;
-  //       const feedForm = {
-  //         ...feedData,
-  //         feedImg: res.data.url,
-  //         lat,
-  //         lng,
-  //       })
-  // };
+    const config = {
+      header: { "Content-Type": "multipart/form-data" },
+    };
+
+    axios
+      .post("https://api.cloudinary.com/v1_1/ji/image/upload", formData, config)
+      .then((res) => {
+        setImgURL({
+          ...imgURL,
+          thumbnail: res.data.url,
+        });
+
+        const feedForm = {
+          ...userInfo,
+          region: regionRef.current.value,
+          age: ageRef.current.value,
+          phoneNumber: phoneRef.current.value,
+          intro: introRef.current.value,
+          profileImg: res.data.url,
+        };
+        const header = {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          },
+        };
+        console.log(feedForm);
+        axios
+          .put(
+            `http://kdt-sw3-team03.elicecoding.com:5000/users/${userInfo._id}`,
+            feedForm,
+            header
+          )
+          .then(() => {
+            setLoadingState(false);
+            setMode(false);
+          });
+      });
+  };
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
@@ -128,11 +152,17 @@ const UserProfile = () => {
             />
           )}
           {!mode ? (
-            <Button onClick={() => setMode(true)} fullWidth="true">
+            <Button
+              onClick={() => {
+                setIsImg(true);
+                setMode(true);
+              }}
+              fullWidth="true"
+            >
               수정하기
             </Button>
           ) : (
-            <Button onClick={() => setMode(false)} fullWidth="false">
+            <Button onClick={handleSubmit} fullWidth="false">
               수정 완료하기
             </Button>
           )}
@@ -146,7 +176,10 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.region}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput />
+                    <S.InfoInput
+                      defaultValue={userInfo.region}
+                      ref={regionRef}
+                    />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi>
@@ -154,7 +187,7 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.age}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput />
+                    <S.InfoInput defaultValue={userInfo.age} ref={ageRef} />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi>
@@ -166,7 +199,10 @@ const UserProfile = () => {
                   {!mode ? (
                     <S.UserInfoP>{userInfo.phoneNumber}</S.UserInfoP>
                   ) : (
-                    <S.InfoInput />
+                    <S.InfoInput
+                      defaultValue={userInfo.phoneNumber}
+                      ref={phoneRef}
+                    />
                   )}
                 </S.UserInfoLi>
                 <S.UserInfoLi style={{ flexDirection: "column" }}>
@@ -174,6 +210,7 @@ const UserProfile = () => {
                   <S.UserInfoIntro
                     readOnly={!mode}
                     defaultValue={userInfo.intro}
+                    ref={introRef}
                   ></S.UserInfoIntro>
                 </S.UserInfoLi>
               </S.UserInfoUl>

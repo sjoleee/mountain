@@ -197,7 +197,7 @@ function ChallengePage() {
         }
       }
     } else if (flevel) {
-      afterUrl += `level=${level}`;
+      afterUrl += `level=${flevel}`;
       if (fregion) {
         afterUrl += `&tier=${fregion}`;
         if (ftier) {
@@ -211,7 +211,7 @@ function ChallengePage() {
       }
     }
     url += afterUrl + `&order=desc&page=1&take=20`;
-
+    console.log(url);
     await axios
       .get(url)
       .then((response) => {
