@@ -121,7 +121,7 @@ export const FeedImgContainer = styled.div`
 
 export const FeedImg = styled.img`
   max-width: 100%;
-  max-height: 100%;
+  max-height: 95%;
 `;
 
 export const FeedTitle = styled.p`
