@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import { DEFAULT_POSITION } from "@/constants/map";
+import { useState, useEffect } from "react";
 
 const useGeolocation = ({
   map,

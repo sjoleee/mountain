@@ -6,88 +6,22 @@ import {
   MarkerClusterer,
   ZoomControl,
 } from "react-kakao-maps-sdk";
+
 import MyLocationButton from "@components/Map/MyLocationButton";
 import InfoCard from "@components/Map/InfoCard";
 import MountainSearchBar from "@components/MountainSearchBar";
 import SearchList from "@components/Map/SearchList";
 import Spinner from "../common/Spinner";
 import SideBar from "@components/SideBar";
+import * as S from "@components/Map/styles";
 
 import useGeolocation from "@hooks/useGeolocation";
-import mntnMarkerIcon from "@assets/mntn_marker.png";
-import searchedMntnMarkerIcon from "@assets/searched_mntn_marker.png";
-import myLocationIcon from "@assets/my_location.png";
-import * as S from "@components/Map/styles";
-import {
-  DEFAULT_POSITION,
-  TOUR_SPOT_CODE,
-  MAX_MARKERS_NUM_DISPLAY_SCREEN,
-} from "@constants/map";
+import * as MAP from "@constants/map";
+
 import { searchPostsByPos, getMountainInfo } from "../../apis";
 import { isLoginState } from "../../store/userState";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
-
-const geolocationOptions = {
-  //timeout: 5000, // 최대 대기 시간
-  maximumAge: 10000, // 캐시 지속 시간
-};
-
-const mapSize = {
-  width: "100vw",
-  height: "100vh",
-};
-
-const mntnMarkerIconProps = {
-  src: mntnMarkerIcon,
-  size: {
-    width: 40,
-    height: 47,
-  },
-  options: {
-    offset: {
-      x: 20,
-      y: 60,
-    },
-  },
-};
-
-const searchedMntnMarkerIconProps = {
-  src: searchedMntnMarkerIcon,
-  size: {
-    width: 40,
-    height: 47,
-  },
-  options: {
-    offset: {
-      x: 14,
-      y: 60,
-    },
-  },
-};
-
-const myLocationIconProps = {
-  src: myLocationIcon,
-  size: { width: 37, height: 40 },
-};
-
-const clusterStyleProps = [
-  {
-    background: "rgb(88 252 192 / 92%)",
-    color: "white",
-    textAlign: "center",
-    fontWeight: "bold",
-    lineHeight: "3.5rem",
-    width: "3.5rem",
-    height: "3.5rem",
-    borderRadius: "50%",
-  },
-];
-
-const searchOptions = {
-  category_group_code: TOUR_SPOT_CODE,
-  size: MAX_MARKERS_NUM_DISPLAY_SCREEN,
-};
 
 const Maps = () => {
   const [map, setMap] = useState(null);
@@ -104,7 +38,7 @@ const Maps = () => {
 
   const { isLoading, error, currentPosition } = useGeolocation({
     map,
-    geolocationOptions,
+    geolocationOptions: MAP.GET_OPTIONS,
     isMyLocBtnClicked,
     successCallback: ({ lat, lng }) => {
       map?.setCenter(new kakao.maps.LatLng(lat, lng));
@@ -231,14 +165,17 @@ const Maps = () => {
   useEffect(() => {
     if (!map) return;
 
-    displayNearbyMntnAndPosts({ ...searchOptions, bounds: map.getBounds() });
+    displayNearbyMntnAndPosts({
+      ...MAP.SEARCH_OPTIONS,
+      bounds: map.getBounds(),
+    });
   }, [map, level, isDragEnd]);
 
   return (
     <KakaoMap
       onCreate={setMap}
-      center={DEFAULT_POSITION}
-      style={mapSize}
+      center={MAP.DEFAULT_POSITION}
+      style={MAP.MAP_SIZE}
       level={level}
       isPanto={true}
       draggable={true}
@@ -249,7 +186,10 @@ const Maps = () => {
 
       {/* current position marker */}
       {!isLoading && !error?.message && (
-        <MapMarker position={currentPosition} image={myLocationIconProps} />
+        <MapMarker
+          position={currentPosition}
+          image={MAP.MY_LOCATION_ICON_PROPS}
+        />
       )}
 
       {/* mountain marker */}
@@ -259,7 +199,7 @@ const Maps = () => {
           position={mntn.position}
           zIndex={isSelectedMarker(mntn) ? 10 : 0}
           onClick={() => handleMarkerClick(mntn)}
-          image={mntnMarkerIconProps}
+          image={MAP.MNTN_MARKER_ICON_PROPS}
         />
       ))}
 
@@ -270,7 +210,7 @@ const Maps = () => {
           position={mntn.position}
           zIndex={isSelectedMarker(mntn) ? 10 : 0}
           onClick={() => handleMarkerClick(mntn)}
-          image={searchedMntnMarkerIconProps}
+          image={MAP.SEARCHED_MNTN_MARKER_ICON_PROPS}
         />
       ))}
 
@@ -278,7 +218,7 @@ const Maps = () => {
       <MarkerClusterer
         averageCenter={true}
         minLevel={6}
-        styles={clusterStyleProps}
+        styles={MAP.CLUSTER_STYLE_PROPS}
       >
         {nearbyPostList?.map(({ _id, feedImg, lat, lng }) => (
           <CustomOverlayMap
@@ -325,7 +265,7 @@ const Maps = () => {
 
       <MountainSearchBar
         handleSearchSubmit={(searchInput) =>
-          handleSearchSubmit(searchInput, searchOptions)
+          handleSearchSubmit(searchInput, MAP.SEARCH_OPTIONS)
         }
       />
       <ZoomControl position={kakao.maps.ControlPosition.TOPRIGHT} />
