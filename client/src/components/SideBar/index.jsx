@@ -1,5 +1,19 @@
 import React from "react";
 import * as S from "@components/SideBar/styles";
+import SideBarSection from "@components/SideBarSection";
+
+const ProfileListStyleProps = {
+  height: "175px",
+};
+
+const FeedListStyleProps = {
+  display: "flex",
+  flexWrap: "wrap",
+  width: "100%",
+  height: "270px",
+  gap: "2px",
+  overflow: "scroll",
+};
 
 const SideBar = ({
   selectedMountain: { mntidetails, mntiname, users, feeds },
@@ -7,46 +21,26 @@ const SideBar = ({
   return (
     <S.SideBarLayout>
       <S.SideBarBox>
-        <S.InfoSection>
-          <h3>소개글</h3>
-          <S.InfoBox>
-            {mntidetails ? (
-              <p className="desc">{mntidetails}</p>
-            ) : (
-              <S.EmptyContent>소개글이 없어요.</S.EmptyContent>
-            )}
-          </S.InfoBox>
-        </S.InfoSection>
-
-        <S.ProfileSection>
-          <h3>다녀간 대원들</h3>
-          <S.ProfileList>
-            {users?.length !== 0 ? (
-              users?.map((visitor) => (
-                <S.Profile key={visitor._id}>
-                  <img src={visitor.profileImg} />
-                </S.Profile>
-              ))
-            ) : (
-              <S.EmptyContent>유저 정보가 없어요.</S.EmptyContent>
-            )}
-          </S.ProfileList>
-        </S.ProfileSection>
-
-        <S.PostSection>
-          <h3>#{mntiname}</h3>
-          <S.PostList>
-            {feeds?.length !== 0 ? (
-              feeds?.map((feed) => (
-                <S.PostBox key={feed._id}>
-                  <img src={feed.feedImg} />
-                </S.PostBox>
-              ))
-            ) : (
-              <S.EmptyContent>게시글이 없어요.</S.EmptyContent>
-            )}
-          </S.PostList>
-        </S.PostSection>
+        <SideBarSection
+          type="info"
+          title="소개글"
+          data={mntidetails}
+          emptyContent="소개글이 없어요"
+        />
+        <SideBarSection
+          type="profile"
+          title="다녀간 대원들"
+          data={users}
+          emptyContent="유저 정보가 없어요"
+          style={ProfileListStyleProps}
+        />
+        <SideBarSection
+          type="feed"
+          title={mntiname}
+          data={feeds}
+          emptyContent="게시글이 없어요"
+          style={FeedListStyleProps}
+        />
       </S.SideBarBox>
     </S.SideBarLayout>
   );

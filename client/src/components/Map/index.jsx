@@ -2,18 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Map as KakaoMap,
   MapMarker,
-  CustomOverlayMap,
   MarkerClusterer,
   ZoomControl,
 } from "react-kakao-maps-sdk";
 
 import MyLocationButton from "@components/Map/MyLocationButton";
-import InfoCard from "@components/Map/InfoCard";
 import MountainSearchBar from "@components/MountainSearchBar";
 import SearchList from "@components/Map/SearchList";
-import Spinner from "../common/Spinner";
+import InfoOverlay from "@components/Map/InfoOverlay";
+import Spinner from "@components/common/Spinner";
 import SideBar from "@components/SideBar";
-import * as S from "@components/Map/styles";
+import Marker from "@components/Map/Marker";
+import PostMarker from "@components/Map/PostMarker";
 
 import useGeolocation from "@hooks/useGeolocation";
 import * as MAP from "@constants/map";
@@ -193,26 +193,20 @@ const Maps = () => {
       )}
 
       {/* mountain marker */}
-      {nearbyMountainList?.map((mntn) => (
-        <MapMarker
-          key={mntn.id}
-          position={mntn.position}
-          zIndex={isSelectedMarker(mntn) ? 10 : 0}
-          onClick={() => handleMarkerClick(mntn)}
-          image={MAP.MNTN_MARKER_ICON_PROPS}
-        />
-      ))}
+      <Marker
+        List={nearbyMountainList}
+        isSelectedMarker={isSelectedMarker}
+        clickHandler={handleMarkerClick}
+        image={MAP.MNTN_MARKER_ICON_PROPS}
+      />
 
       {/* search result marker */}
-      {searchedMountainList?.map((mntn) => (
-        <MapMarker
-          key={mntn.id}
-          position={mntn.position}
-          zIndex={isSelectedMarker(mntn) ? 10 : 0}
-          onClick={() => handleMarkerClick(mntn)}
-          image={MAP.SEARCHED_MNTN_MARKER_ICON_PROPS}
-        />
-      ))}
+      <Marker
+        List={searchedMountainList}
+        isSelectedMarker={isSelectedMarker}
+        clickHandler={handleMarkerClick}
+        image={MAP.SEARCHED_MNTN_MARKER_ICON_PROPS}
+      />
 
       {/* post marker */}
       <MarkerClusterer
@@ -220,37 +214,22 @@ const Maps = () => {
         minLevel={6}
         styles={MAP.CLUSTER_STYLE_PROPS}
       >
-        {nearbyPostList?.map(({ _id, feedImg, lat, lng }) => (
-          <CustomOverlayMap
-            key={_id}
-            position={{ lat, lng }}
-            xAnchor={0.3}
-            yAnchor={0.91}
-          >
-            <S.PostImgBox>
-              <img
-                src={feedImg}
-                onClick={() => navigate(`/feeds?feed-id=${_id}`)}
-              />
-            </S.PostImgBox>
-          </CustomOverlayMap>
+        {nearbyPostList.map((post) => (
+          <PostMarker
+            key={post._id}
+            post={post}
+            clickHandler={() => navigate(`/feeds?feed-id=${post._id}`)}
+          />
         ))}
       </MarkerClusterer>
 
       {/* marker info overlay */}
       {selectedMarker && (
         <>
-          <CustomOverlayMap
-            position={selectedMarker.position}
-            zIndex={100}
-            yAnchor={1.95}
-            xAnchor={0.45}
-          >
-            <InfoCard
-              selectedMountain={selectedMarker}
-              handleInfoCardClose={handleInfoCardClose}
-            />
-          </CustomOverlayMap>
+          <InfoOverlay
+            selectedMarker={selectedMarker}
+            handleInfoCardClose={handleInfoCardClose}
+          />
           {isLogin && <SideBar selectedMountain={selectedMarker} />}
         </>
       )}

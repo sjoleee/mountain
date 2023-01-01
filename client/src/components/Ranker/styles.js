@@ -21,21 +21,6 @@ export const RankerBox = styled.div`
   }
   ${(props) => props.style}
 `;
-export const ProfileBox = styled.div`
-  overflow: hidden;
-  margin-right: 3px;
-  border: 1px solid #b1a1a169;
-  border-radius: 50%;
-  display: inline-block;
-  width: 250px;
-  height: 250px;
-  display: flex;
-
-  img {
-    width: 100%;
-    height: 100%;
-  }
-`;
 
 export const BadgeBox = styled.div`
   width: 50px;

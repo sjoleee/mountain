@@ -1,6 +1,7 @@
 import React from "react";
 import * as S from "@components/Ranker/styles";
 import getTierImg from "../../utils/getTierImg";
+import Profile from "@components/common/ProfileImage";
 
 const Ranker = ({
   ranker: { profileImg, username, badgeList, tier, point },
@@ -10,9 +11,7 @@ const Ranker = ({
     <span className="point">{point}</span>
     <span>points</span>
 
-    <S.ProfileBox>
-      <img src={profileImg} />
-    </S.ProfileBox>
+    <Profile profileImg={profileImg} width="250px" height="250px" />
 
     <span className="name">{username}</span>
 
