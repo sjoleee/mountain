@@ -1,6 +1,6 @@
 import React from "react";
-import * as S from "@components/SideBar/styles";
-import SideBarSection from "@components/SideBarSection";
+import * as S from "@components/Map/SideBar/styles";
+import SideBarSection from "@components/Map/SideBarSection";
 
 const ProfileListStyleProps = {
   height: "175px",

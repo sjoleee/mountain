@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { getToken } from "../utils/localStorage";
 
 const usernameState = atom({
   key: "usernameState",
@@ -7,7 +8,7 @@ const usernameState = atom({
 
 const isLoginState = atom({
   key: "isLoginState",
-  default: localStorage.getItem("access_token") !== null,
+  default: getToken("access_token") !== null,
 });
 
 export { usernameState, isLoginState };

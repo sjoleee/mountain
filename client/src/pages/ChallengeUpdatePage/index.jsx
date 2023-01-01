@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Back from "@/assets/challenge/previous.png";
 import axios from "axios";
 
-function ChallengeUpdate() {
+function ChallengeUpdatePage() {
   const [form, setForm] = useState({
     name: "",
     startDate: new Date(), // 직점 참가하는 챌린지 시작 날짜
@@ -164,4 +164,4 @@ function ChallengeUpdate() {
   );
 }
 
-export default ChallengeUpdate;
+export default ChallengeUpdatePage;

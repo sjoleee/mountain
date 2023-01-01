@@ -1,10 +1,8 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
 import { BrowserRouter } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import Loading from "./components/common/Loading";
 
 // const prepare = async () => {
 //   if (import.meta.env.DEV) {

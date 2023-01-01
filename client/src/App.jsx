@@ -7,9 +7,9 @@ import MapPage from "@pages/MapPage";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
 import ChallengePage from "@/pages/ChallengePage";
-import ChallengeWritePage from "@/pages/ChallengeWrite";
-import ChallengeBoardPage from "@/pages/ChallengeBoard";
-import ChallengeUpdate from "@/pages/ChallengeUpdate";
+import ChallengeWritePage from "@/pages/ChallengeWritePage";
+import ChallengeBoardPage from "@/pages/ChallengeBoardPage";
+import ChallengeUpdatePage from "@/pages/ChallengeUpdatePage";
 import FeedList from "@/pages/FeedPage";
 import AdminPage from "@/pages/AdminPage";
 import RankingPage from "@pages/RankingPage";
@@ -33,7 +33,10 @@ function App() {
           <Route path="/challenge">
             <Route index element={<ChallengePage />} />
             <Route path=":challengeId" element={<ChallengeBoardPage />} />
-            <Route path=":challengeId/update" element={<ChallengeUpdate />} />
+            <Route
+              path=":challengeId/update"
+              element={<ChallengeUpdatePage />}
+            />
           </Route>
           <Route path="/challenge_write" element={<ChallengeWritePage />} />
           <Route path="/ranking" element={<RankingPage />} />

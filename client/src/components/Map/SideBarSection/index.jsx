@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from "@components/SideBarSection/styles";
+import * as S from "@components/Map/SideBarSection/styles";
 import ProfileImage from "@components/common/ProfileImage";
 import FeedImage from "@components/common/FeedImage";
 

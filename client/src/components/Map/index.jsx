@@ -11,7 +11,7 @@ import MountainSearchBar from "@components/MountainSearchBar";
 import SearchList from "@components/Map/SearchList";
 import InfoOverlay from "@components/Map/InfoOverlay";
 import Spinner from "@components/common/Spinner";
-import SideBar from "@components/SideBar";
+import SideBar from "@components/Map/SideBar";
 import Marker from "@components/Map/Marker";
 import PostMarker from "@components/Map/PostMarker";
 
