@@ -38,7 +38,7 @@ const Maps = () => {
 
   const { isLoading, error, currentPosition } = useGeolocation({
     map,
-    geolocationOptions: MAP.GET_OPTIONS,
+    geolocationOptions: MAP.GEO_OPTIONS,
     isMyLocBtnClicked,
     successCallback: ({ lat, lng }) => {
       map?.setCenter(new kakao.maps.LatLng(lat, lng));

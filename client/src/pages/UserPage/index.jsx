@@ -62,6 +62,13 @@ const UserProfile = () => {
       setIsImg(true);
     }
   };
+  const getProfileData = () => {
+    axios
+      .get("http://kdt-sw3-team03.elicecoding.com:5000/account/profile", header)
+      .then((res) => {
+        setUserInfo(res.data);
+      });
+  };
 
   const handleSubmit = () => {
     setLoadingState(true);
@@ -85,17 +92,19 @@ const UserProfile = () => {
         });
 
         const feedForm = {
-          ...userInfo,
+          // ...userInfo,
           region: regionRef.current.value,
-          age: ageRef.current.value,
+          age: Number(ageRef.current.value),
           phoneNumber: phoneRef.current.value,
           intro: introRef.current.value,
           profileImg: res.data.url,
         };
+
+        // console.log(feedForm);
         const header = {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+            Authorization: `Bearer ${localStorage.getItem("access_token")}`,
           },
         };
         console.log(feedForm);
@@ -106,6 +115,7 @@ const UserProfile = () => {
             header
           )
           .then(() => {
+            getProfileData();
             setLoadingState(false);
             setMode(false);
           });
@@ -114,13 +124,8 @@ const UserProfile = () => {
 
   useEffect(() => {
     const userId = localStorage.getItem("userId");
+    getProfileData();
 
-    axios
-      .get("http://kdt-sw3-team03.elicecoding.com:5000/account/profile", header)
-      .then((res) => {
-        console.log(res.data);
-        setUserInfo(res.data);
-      });
     axios
       .get(
         `http://kdt-sw3-team03.elicecoding.com:5000/feeds?author=${userId}&pos=false&like=false&order=desc&page=1&take=5`
